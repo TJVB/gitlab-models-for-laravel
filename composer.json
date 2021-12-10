@@ -1,0 +1,48 @@
+{
+    "name": "tjvb/gitlab-models-for-laravel",
+    "type": "library",
+    "description": "Save the GitLab data in your Laravel project",
+    "keywords": [
+        "tjvb",
+        "gitlab",
+        "laravel"
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "TJVB\\GitlabModelsForLaravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TJVB\\GitlabModelsForLaravel\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tobias van Beek",
+            "email": "t.vanbeek@tjvb.nl",
+            "homepage": "https://tjvb.nl"
+        }
+    ],
+    "require": {
+        "php": "~8.0.0 || ~8.1.0",
+        "laravel/framework": "^8.0",
+        "tjvb/gitlab-webhooks-receiver-for-laravel": "^1.1"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "funding": [
+        {
+            "type": "paypal",
+            "url": "https://paypal.me/tvbeek"
+        }
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^6.23",
+        "phpstan/phpstan": "^1.2",
+        "phpunit/phpunit": "^9.5",
+        "squizlabs/php_codesniffer": "^3.6"
+    }
+}
