@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Listeners;
@@ -18,8 +19,7 @@ class HookStoredListenerTest extends TestCase
 
         // run
         $listener = new HookStoredListener();
-
-        // verify/assert
+// verify/assert
         $this->assertInstanceOf(GitLabHookStoredListener::class, $listener);
     }
 }
