@@ -19,7 +19,8 @@ class HookStoredListenerTest extends TestCase
 
         // run
         $listener = new HookStoredListener();
-// verify/assert
+
+        // verify/assert
         $this->assertInstanceOf(GitLabHookStoredListener::class, $listener);
     }
 }

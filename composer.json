@@ -33,6 +33,13 @@
     "config": {
         "sort-packages": true
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TJVB\\GitlabModelsForLaravel\\Providers\\GitlabModelsProvider"
+            ]
+        }
+    },
     "funding": [
         {
             "type": "paypal",
