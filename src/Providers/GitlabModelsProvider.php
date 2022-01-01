@@ -12,7 +12,6 @@ use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectWriteRepository;
 
 class GitlabModelsProvider extends ServiceProvider
 {
-
     public function boot(): void
     {
         $this->publishes([

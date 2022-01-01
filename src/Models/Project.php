@@ -19,7 +19,6 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Project as ProjectContract;
  */
 class Project extends Model implements ProjectContract
 {
-
     public function getProjectId(): int
     {
         return $this->project_id;

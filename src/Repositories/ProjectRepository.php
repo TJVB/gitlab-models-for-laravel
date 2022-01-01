@@ -13,7 +13,6 @@ use TJVB\GitlabModelsForLaravel\Models\Project;
 
 class ProjectRepository implements ProjectWriteRepository, ProjectReadRepository
 {
-
     public function updateOrCreate(int $projectId, array $projectData): ProjectContract
     {
         return Project::updateOrCreate(['project_id' => $projectId], [

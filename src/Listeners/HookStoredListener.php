@@ -9,7 +9,6 @@ use TJVB\GitLabWebhooks\Contracts\Events\GitLabHookStored;
 
 class HookStoredListener implements GitLabHookStoredListener
 {
-
     public function handle(GitLabHookStored $event): void
     {
         // TODO: Implement handle() method.

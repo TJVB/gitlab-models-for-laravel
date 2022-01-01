@@ -8,6 +8,4 @@ use Exception;
 
 class GitLabModelsException extends Exception
 {
-
-
 }
