@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="GitLab webhooks receiver for Laravel">
-    <description>The coding standard for GitLab webhooks receiver for Laravel.</description>
+<ruleset name="GitLab models for Laravel">
+    <description>The coding standard for GitLab models for Laravel.</description>
     <file>./src/</file>
     <file>./tests/</file>
     <arg name="extensions" value="php"/>

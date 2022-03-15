@@ -14,11 +14,23 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Project as ProjectContract;
  * @property string $description
  * @property string $avatar_url
  * @property integer $visibility_level
- * @method static ?Project find(int $id)
+ * @method static ?Project firstWhere(array $filters)
  * @method static Project updateOrCreate(array $attributes, array $values = [])
+ * @method static Project create(array $values)
  */
 class Project extends Model implements ProjectContract
 {
+    public $table = 'gitlab_projects';
+
+    public $fillable = [
+        'project_id',
+        'name',
+        'web_url',
+        'description',
+        'avatar_url',
+        'visibility_level',
+    ];
+
     public function getProjectId(): int
     {
         return $this->project_id;

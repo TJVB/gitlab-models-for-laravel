@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests;
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
-use TJVB\GitLabWebhooks\GitLabWebhooksServiceProvider;
+use TJVB\GitlabModelsForLaravel\Providers\GitlabModelsProvider;
 
 class TestCase extends OrchestraTestCase
 {
+    public const EXAMPLE_PAYLOADS = __DIR__ . '/example_payloads/';
+
     protected function getPackageProviders($app): array
     {
         return [
-            GitLabWebhooksServiceProvider::class,
+            GitlabModelsProvider::class,
         ];
     }
 

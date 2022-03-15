@@ -26,7 +26,7 @@ class ProjectRepository implements ProjectWriteRepository, ProjectReadRepository
 
     public function find(int $projectId): ProjectContract
     {
-        $model = Project::find($projectId);
+        $model = Project::firstWhere(['project_id' => $projectId]);
         if ($model === null) {
             throw DataNotFound::notFoundForModelAndId(ProjectContract::class, $projectId);
         }

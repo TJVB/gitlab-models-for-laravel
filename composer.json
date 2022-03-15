@@ -28,7 +28,7 @@
     "require": {
         "php": "~8.0.0 || ~8.1.0",
         "laravel/framework": "^8.0",
-        "tjvb/gitlab-webhooks-receiver-for-laravel": "^1.1"
+        "tjvb/gitlab-webhooks-receiver-for-laravel": "dev-master as 2.0"
     },
     "config": {
         "sort-packages": true
@@ -48,6 +48,7 @@
     ],
     "require-dev": {
         "orchestra/testbench": "^6.23",
+        "phpmd/phpmd": "^2.11",
         "phpstan/phpstan": "^1.2",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.6"
