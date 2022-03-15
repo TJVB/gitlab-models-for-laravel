@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use TJVB\GitlabModelsForLaravel\Contracts\Models\Project as ProjectContract;
 
 /**
- * @property integer $project_id
+ * @property integer|string $project_id
  * @property string $name
  * @property string $web_url
  * @property string $description
  * @property string $avatar_url
- * @property integer $visibility_level
+ * @property integer|string $visibility_level
  * @method static ?Project firstWhere(array $filters)
  * @method static Project updateOrCreate(array $attributes, array $values = [])
  * @method static Project create(array $values)
@@ -33,7 +33,7 @@ class Project extends Model implements ProjectContract
 
     public function getProjectId(): int
     {
-        return $this->project_id;
+        return (int) $this->project_id;
     }
 
     public function getProjectName(): string
@@ -58,6 +58,6 @@ class Project extends Model implements ProjectContract
 
     public function getVisibilityLevel(): int
     {
-        return $this->visibility_level;
+        return (int) $this->visibility_level;
     }
 }

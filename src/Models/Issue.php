@@ -9,9 +9,9 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue as IssueContract;
 
 /**
  *
- * @property integer $issue_id
- * @property integer $issue_iid
- * @property integer $project_id
+ * @property integer|string $issue_id
+ * @property integer|string $issue_iid
+ * @property integer|string $project_id
  * @property string $title
  * @property string $description
  * @property string $url
@@ -37,17 +37,17 @@ class Issue extends Model implements IssueContract
     ];
     public function getIssueId(): int
     {
-        return $this->issue_id;
+        return (int) $this->issue_id;
     }
 
     public function getIssueIid(): int
     {
-        return $this->issue_iid;
+        return (int) $this->issue_iid;
     }
 
     public function getProjectId(): int
     {
-        return $this->project_id;
+        return (int) $this->project_id;
     }
 
     public function getTitle(): string
