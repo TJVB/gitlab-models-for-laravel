@@ -13,6 +13,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Tag as TagContract;
  * @property string $ref
  * @property string $checkout_sha
  * @method static Tag updateOrCreate(array $attributes, array $values = [])
+ * @method static Tag create(array $values)
  */
 class Tag extends Model implements TagContract
 {
