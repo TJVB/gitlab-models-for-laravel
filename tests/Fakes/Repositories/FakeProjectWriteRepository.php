@@ -8,10 +8,11 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Project;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\Project as ProjectModel;
 
-class FakeProjectWriteRepository implements ProjectWriteRepository
+final class FakeProjectWriteRepository implements ProjectWriteRepository
 {
     public array $receivedData = [];
     public ?Project $result = null;
+
     public function updateOrCreate(int $projectId, array $projectData): Project
     {
         $this->receivedData[] = [

@@ -35,6 +35,7 @@ class Issue extends Model implements IssueContract
         'state',
         'confidential',
     ];
+
     public function getIssueId(): int
     {
         return (int) $this->issue_id;

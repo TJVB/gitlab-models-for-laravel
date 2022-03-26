@@ -8,10 +8,11 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\Issue as IssueModel;
 
-class FakeIssueWriteRepository implements IssueWriteRepository
+final class FakeIssueWriteRepository implements IssueWriteRepository
 {
     public array $receivedData = [];
     public ?Issue $result = null;
+
     public function updateOrCreate(int $issueId, array $issueData): Issue
     {
         $this->receivedData[] = [

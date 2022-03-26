@@ -7,10 +7,12 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Listeners;
 use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService;
 use TJVB\GitlabModelsForLaravel\Listeners\HookStoredListener;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeIssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeTagUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 use TJVB\GitLabWebhooks\Events\HookStored;
 
@@ -59,12 +61,30 @@ class HookStoredListenerTest extends TestCase
      */
     public function weCanHandleATagEvent(): void
     {
-        $this->markTestIncomplete('TODO');
         // setup / mock
+        $projectUpdater = new FakeProjectUpdateService();
+        $this->app->bind(ProjectUpdateService::class, static function () use ($projectUpdater): ProjectUpdateService {
+            return $projectUpdater;
+        });
+        $tagUpdater = new FakeTagUpdateService();
+        $this->app->bind(TagUpdateService::class, static function () use ($tagUpdater): TagUpdateService {
+            return $tagUpdater;
+        });
+        /**
+         * @var HookStoredListener $listener
+         */
+        $listener = $this->app->make(HookStoredListener::class);
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'tag.json'), true);
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'tag_push';
+        $event = new HookStored($hookModel);
 
         // run
+        $listener->handle($event);
 
         // verify/assert
+        $this->assertNotEmpty($projectUpdater->receivedData);
+        $this->assertNotEmpty($tagUpdater->receivedData);
     }
 
     /**

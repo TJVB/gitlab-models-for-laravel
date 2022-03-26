@@ -7,7 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Fakes;
 use Carbon\CarbonImmutable;
 use TJVB\GitLabWebhooks\Contracts\Models\GitLabHookModel;
 
-class FakeGitLabHookModel implements GitLabHookModel
+final class FakeGitLabHookModel implements GitLabHookModel
 {
     public bool $systemHook = false;
     public array $body = [];

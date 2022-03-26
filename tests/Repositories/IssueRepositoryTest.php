@@ -33,18 +33,25 @@ class IssueRepositoryTest extends TestCase
     {
         // setup / mock
         $id = random_int(1, PHP_INT_MAX);
+        $iid = random_int(1, PHP_INT_MAX);
+        $projectId = random_int(1, PHP_INT_MAX);
+        $title = 'title' . random_int(1, PHP_INT_MAX);
+        $url = 'https://webtest' . mt_rand() . '.tld/url';
+        $description = md5((string)mt_rand());
+        $state = array_rand([
+            'opened' => 'opened',
+            'closed' => 'closed',
+        ]);
+        $confidential = random_int(0, 1);
         $data = [
             'issue_id' => $id,
-            'iid' => random_int(1, PHP_INT_MAX),
-            'project_id' => random_int(1, PHP_INT_MAX),
-            'title' => 'title' . random_int(1, PHP_INT_MAX),
-            'url' => 'https://webtest' . mt_rand() . '.tld/url',
-            'description' => md5((string)mt_rand()),
-            'state' => array_rand([
-                'opened',
-                'closed',
-            ]),
-            'confidential' => random_int(0, 1),
+            'iid' => $iid,
+            'project_id' => $projectId,
+            'title' => $title,
+            'url' => $url,
+            'description' => $description,
+            'state' => $state,
+            'confidential' => $confidential,
         ];
 
         // run
@@ -56,6 +63,14 @@ class IssueRepositoryTest extends TestCase
         $validationData['issue_iid'] = $validationData['iid'];
         unset($validationData['iid']);
         $this->assertEquals($id, $result->getIssueId());
+        $this->assertEquals($iid, $result->getIssueIid());
+        $this->assertEquals($projectId, $result->getProjectId());
+        $this->assertEquals($title, $result->getTitle());
+        $this->assertEquals($url, $result->getUrl());
+        $this->assertEquals($description, $result->getDescription());
+        $this->assertEquals($state, $result->getState());
+        $this->assertEquals((bool) $confidential, $result->getConfidential());
+
         $this->assertDatabaseHas('gitlab_issues', $validationData);
     }
 
@@ -91,8 +106,8 @@ class IssueRepositoryTest extends TestCase
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
             'description' => md5((string)mt_rand()),
             'state' => array_rand([
-                'opened',
-                'closed',
+                'opened' => 'opened',
+                'closed' => 'closed',
             ]),
             'confidential' => random_int(0, 1),
         ];
@@ -104,8 +119,8 @@ class IssueRepositoryTest extends TestCase
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
             'description' => md5((string)mt_rand()),
             'state' => array_rand([
-                'opened',
-                'closed',
+                'opened' => 'opened',
+                'closed' => 'closed',
             ]),
             'confidential' => random_int(0, 1),
         ]);
