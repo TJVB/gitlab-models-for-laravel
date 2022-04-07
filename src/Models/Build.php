@@ -6,10 +6,10 @@ namespace TJVB\GitlabModelsForLaravel\Models;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use TJVB\GitlabModelsForLaravel\Contracts\Models\Build as BuildContract;
 
 /**
- *
  * @property integer $build_id
  * @property integer $pipeline_id
  * @property integer $project_id
@@ -26,7 +26,10 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Build as BuildContract;
  */
 class Build extends Model implements BuildContract
 {
+    use SoftDeletes;
+
     public $table = 'gitlab_builds';
+
     public $fillable = [
         'build_id',
         'pipeline_id',
@@ -40,6 +43,7 @@ class Build extends Model implements BuildContract
         'finished_at',
         'allow_failure',
     ];
+
     protected $casts = [
         'build_id' => 'integer',
         'pipeline_id' => 'integer',

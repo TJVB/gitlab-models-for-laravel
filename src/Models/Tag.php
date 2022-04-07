@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use TJVB\GitlabModelsForLaravel\Contracts\Models\Tag as TagContract;
 
 /**
@@ -17,7 +18,10 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Tag as TagContract;
  */
 class Tag extends Model implements TagContract
 {
+    use SoftDeletes;
+
     public $table = 'gitlab_tags';
+
     public $fillable = [
         'project_id',
         'ref',

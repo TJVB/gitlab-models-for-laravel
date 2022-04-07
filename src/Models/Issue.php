@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue as IssueContract;
 
 /**
@@ -23,6 +24,8 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue as IssueContract;
  */
 class Issue extends Model implements IssueContract
 {
+    use SoftDeletes;
+
     public $table = 'gitlab_issues';
 
     public $fillable = [

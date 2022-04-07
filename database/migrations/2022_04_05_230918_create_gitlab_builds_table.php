@@ -23,8 +23,8 @@ class CreateGitlabBuildsTable extends Migration
             $table->string('status');
             $table->float('duration')->nullable();
             $table->dateTimeTz('build_created_at');
-            $table->dateTimeTz('started_at')->nullable();;
-            $table->dateTimeTz('finished_at')->nullable();;
+            $table->dateTimeTz('started_at')->nullable();
+            $table->dateTimeTz('finished_at')->nullable();
             $table->boolean('allow_failure')->default(false);
             $table->timestamps();
             $table->softDeletes();

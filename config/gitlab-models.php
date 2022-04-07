@@ -5,6 +5,7 @@ return [
     'model_to_store' => [
         'builds' => env('GITLAB_MODELS_STORE_BUILDS', true),
         'issues' => env('GITLAB_MODELS_STORE_ISSUES', true),
+        'merge_requests' => env('GITLAB_MODELS_STORE_MERGE_REQUESTS', true),
         'projects' => env('GITLAB_MODELS_STORE_PROJECTS', true),
         'tags' => env('GITLAB_MODELS_STORE_TAGS', true),
     ],
@@ -15,13 +16,10 @@ return [
 
     'listener' => \TJVB\GitlabModelsForLaravel\Listeners\HookStoredListener::class,
 
-    'models' => [
-        'project' => \TJVB\GitlabModelsForLaravel\Models\Project::class,
-    ],
-
     'repositories' => [
         'build_write' => \TJVB\GitlabModelsForLaravel\Repositories\BuildRepository::class,
         'issue_write' => \TJVB\GitlabModelsForLaravel\Repositories\IssueRepository::class,
+        'merge_request_write' => \TJVB\GitlabModelsForLaravel\Repositories\MergeRequestRepository::class,
         'project_read' => \TJVB\GitlabModelsForLaravel\Repositories\ProjectRepository::class,
         'project_write' => \TJVB\GitlabModelsForLaravel\Repositories\ProjectRepository::class,
         'tag_write' => \TJVB\GitlabModelsForLaravel\Repositories\TagRepository::class,
@@ -30,6 +28,7 @@ return [
     'services' => [
         'build_update' => \TJVB\GitlabModelsForLaravel\Services\BuildUpdateService::class,
         'issue_update' => \TJVB\GitlabModelsForLaravel\Services\IssueUpdateService::class,
+        'merge_request_update' => \TJVB\GitlabModelsForLaravel\Services\MergeRequestUpdateService::class,
         'project_update' => \TJVB\GitlabModelsForLaravel\Services\ProjectUpdateService::class,
         'tag_update' => \TJVB\GitlabModelsForLaravel\Services\TagUpdateService::class,
     ],

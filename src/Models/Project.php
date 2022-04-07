@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use TJVB\GitlabModelsForLaravel\Contracts\Models\Project as ProjectContract;
 
 /**
@@ -20,6 +21,8 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Project as ProjectContract;
  */
 class Project extends Model implements ProjectContract
 {
+    use SoftDeletes;
+
     public $table = 'gitlab_projects';
 
     public $fillable = [
