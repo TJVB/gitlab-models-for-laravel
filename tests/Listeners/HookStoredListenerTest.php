@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Listeners;
 
 use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService;
 use TJVB\GitlabModelsForLaravel\Listeners\HookStoredListener;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeBuildUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeIssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeTagUpdateService;
@@ -214,12 +216,26 @@ class HookStoredListenerTest extends TestCase
      */
     public function weCanHandleAJobEvent(): void
     {
-        $this->markTestIncomplete('TODO');
         // setup / mock
+        $buildUpdater = new FakeBuildUpdateService();
+        $this->app->bind(BuildUpdateService::class, static function () use ($buildUpdater): BuildUpdateService {
+            return $buildUpdater;
+        });
+
+        /**
+         * @var HookStoredListener $listener
+         */
+        $listener = $this->app->make(HookStoredListener::class);
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'job.json'), true);
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'build';
+        $event = new HookStored($hookModel);
 
         // run
+        $listener->handle($event);
 
         // verify/assert
+        $this->assertNotEmpty($buildUpdater->receivedData);
     }
 
     /**

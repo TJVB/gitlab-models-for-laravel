@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
+use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\TagWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService as TagUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
-use TJVB\GitlabModelsForLaravel\Services\IssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Services\TagUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakeTagWriteRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
+use TJVB\GitlabModelsForLaravel\Tests\TrueFalseProvider;
 
 class TagUpdateServiceTest extends TestCase
 {
+    use TrueFalseProvider;
+
     /**
      * @test
      */
@@ -28,8 +31,9 @@ class TagUpdateServiceTest extends TestCase
 
     /**
      * @test
+     * @dataProvider trueFalseProvider
      */
-    public function weUseTheRepositoryToUpdateOrCreateATag(): void
+    public function weUseTheRepositoryToUpdateOrCreateATag(bool $enabled): void
     {
         // setup / mock
         $fakeRepository = new FakeTagWriteRepository();
@@ -47,15 +51,31 @@ class TagUpdateServiceTest extends TestCase
             'checkout_sha' => $checkoutSha,
         ];
 
+        /**
+         * @var Repository $config
+         */
+        $config = $this->app->make(Repository::class);
+        $config->set('gitlab-models.model_to_store.tags', $enabled);
+
         // run
-        $service = $this->app->make(TagUpdateService::class);
+        $service = $this->app->make(TagUpdateService::class, [
+            'config' => $config,
+        ]);
         $service->updateOrCreate($data);
 
         // verify/assert
-        $this->assertNotEmpty($fakeRepository->receivedData);
-        $this->assertTrue(
+        if ($enabled) {
+            $this->assertNotEmpty($fakeRepository->receivedData);
+            $this->assertTrue(
+                $fakeRepository->hasReceivedData($projectId, $ref, $data),
+                'We didn\'t received the correct data on the repository'
+            );
+            return;
+        }
+        $this->assertEmpty($fakeRepository->receivedData);
+        $this->assertFalse(
             $fakeRepository->hasReceivedData($projectId, $ref, $data),
-            'We didn\'t received the correct data on the repository'
+            'We did received the correct data on the repository while disabled'
         );
     }
 
