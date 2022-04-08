@@ -43,7 +43,7 @@ class BuildRepositoryTest extends TestCase
         $stage = 'stage' . mt_rand();
         $status = 'status' . mt_rand();
         $allowFailure = (bool)random_int(0, 1);
-        $createdAt = CarbonImmutable::now()->subMinute();
+        $createdAt = CarbonImmutable::now()->subMinutes(random_int(10, 20));
 
         $dto = new BuildDTO(
             $id,
@@ -70,6 +70,7 @@ class BuildRepositoryTest extends TestCase
         $this->assertEquals($status, $result->getStatus());
         $this->assertEquals($createdAt, $result->getCreatedAt());
         $this->assertEquals($allowFailure, $result->getAllowFailure());
+        $this->assertTrue($createdAt->equalTo($result->getCreatedAt()));
 
         $this->assertDatabaseHas('gitlab_builds', [
             'build_id' => $id,
@@ -94,7 +95,9 @@ class BuildRepositoryTest extends TestCase
         $stage = 'stage' . mt_rand();
         $status = 'status' . mt_rand();
         $allowFailure = (bool)random_int(0, 1);
-        $createdAt = CarbonImmutable::now()->subMinute();
+        $createdAt = CarbonImmutable::now()->subMinutes(random_int(20, 29));
+        $startedAt = CarbonImmutable::now()->subMinutes(random_int(10, 19));
+        $finishedAt = CarbonImmutable::now()->subMinutes(random_int(1, 9));
         $duration = random_int(1, 1000) + 0.123;
 
         $dto = new BuildDTO(
@@ -106,8 +109,8 @@ class BuildRepositoryTest extends TestCase
             $status,
             $allowFailure,
             $createdAt,
-            null,
-            null,
+            $startedAt,
+            $finishedAt,
             $duration
         );
 
@@ -124,6 +127,9 @@ class BuildRepositoryTest extends TestCase
         $this->assertEquals($status, $result->getStatus());
         $this->assertEquals($createdAt, $result->getCreatedAt());
         $this->assertEquals($allowFailure, $result->getAllowFailure());
+        $this->assertEquals($duration, $result->getDuration());
+        $this->assertEquals($startedAt, $result->getStartedAt());
+        $this->assertEquals($finishedAt, $result->getFinishedAt());
 
         $this->assertDatabaseHas('gitlab_builds', [
             'build_id' => $id,

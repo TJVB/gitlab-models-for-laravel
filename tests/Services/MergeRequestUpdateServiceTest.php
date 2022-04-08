@@ -8,7 +8,6 @@ use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService as MergeRequestUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
-use TJVB\GitlabModelsForLaravel\Services\IssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Services\MergeRequestUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakeMergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;

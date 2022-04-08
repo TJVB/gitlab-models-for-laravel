@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\Issue;
+use TJVB\GitlabModelsForLaravel\Models\MergeRequest;
 use TJVB\GitlabModelsForLaravel\Repositories\IssueRepository;
 use TJVB\GitlabModelsForLaravel\Repositories\MergeRequestRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
@@ -38,7 +39,7 @@ class MergeRequestRepositoryTest extends TestCase
         $authorId = random_int(1, PHP_INT_MAX);
         $blockingDiscussionsResolved = random_int(0, 1);
         $description = md5((string)mt_rand());
-        $createdAt = CarbonImmutable::now()->subMinute();
+        $createdAt = CarbonImmutable::now()->subMinutes(random_int(10, 20));
         $id = random_int(1, PHP_INT_MAX);
         $iid = random_int(1, PHP_INT_MAX);
         $mergeStatus = md5((string)mt_rand());
@@ -48,6 +49,7 @@ class MergeRequestRepositoryTest extends TestCase
         $targetProjectId = random_int(1, PHP_INT_MAX);
         $targetBranch = md5((string)mt_rand());
         $title = 'title' . random_int(1, PHP_INT_MAX);
+        $updatedAt = CarbonImmutable::now()->subMinutes(random_int(1, 9));
         $url = 'https://webtest' . mt_rand() . '.tld/url';
         $workInProgress = random_int(0, 1);
 
@@ -56,7 +58,7 @@ class MergeRequestRepositoryTest extends TestCase
             'blocking_discussions_resolved' => $blockingDiscussionsResolved,
             'description' => $description,
             'created_at' => $createdAt,
-            'updated_at' => $createdAt,
+            'updated_at' => $updatedAt,
             'iid' => $iid,
             'merge_status' => $mergeStatus,
             'state' => $state,
@@ -88,6 +90,8 @@ class MergeRequestRepositoryTest extends TestCase
         $this->assertEquals($title, $result->getTitle());
         $this->assertEquals($url, $result->getUrl());
         $this->assertEquals($workInProgress, $result->getWorkInProgress());
+        $this->assertTrue($createdAt->equalTo($result->getCreatedAt()));
+        $this->assertTrue($updatedAt->equalTo($result->getUpdatedAt()));
 
         $validationData = $data;
         $validationData['merge_request_id'] = $id;
@@ -101,11 +105,55 @@ class MergeRequestRepositoryTest extends TestCase
      */
     public function weCanUpdateAMergeRequest(): void
     {
-        $this->markTestIncomplete('TODO');
         // setup / mock
+        $id = random_int(1, PHP_INT_MAX);
+        $data = [
+            'author_id' => random_int(1, PHP_INT_MAX),
+            'blocking_discussions_resolved' => random_int(0, 1),
+            'description' => md5((string)mt_rand()),
+            'created_at' => CarbonImmutable::now()->subMinutes(3),
+            'updated_at' => CarbonImmutable::now()->subMinutes(2),
+            'iid' => random_int(1, PHP_INT_MAX),
+            'merge_status' => md5((string)mt_rand()),
+            'state' => md5((string)mt_rand()),
+            'source_project_id' => random_int(0, 1),
+            'source_branch' => md5((string)mt_rand()),
+            'target_project_id' => random_int(0, 1),
+            'target_branch' => md5((string)mt_rand()),
+            'title' => 'title' . random_int(1, PHP_INT_MAX),
+            'url' => 'https://webtest' . mt_rand() . '.tld/url',
+            'work_in_progress' => random_int(0, 1),
+        ];
+        MergeRequest::create([
+            'merge_request_id' => $id,
+            'author_id' => random_int(1, PHP_INT_MAX),
+            'blocking_discussions_resolved' => random_int(0, 1),
+            'description' => md5((string)mt_rand()),
+            'merge_request_created_at' => CarbonImmutable::now()->subMinutes(3),
+            'merge_request_updated_at' => CarbonImmutable::now()->subMinutes(2),
+            'merge_request_iid' => random_int(1, PHP_INT_MAX),
+            'merge_status' => md5((string)mt_rand()),
+            'state' => md5((string)mt_rand()),
+            'source_project_id' => random_int(0, 1),
+            'source_branch' => md5((string)mt_rand()),
+            'target_project_id' => random_int(0, 1),
+            'target_branch' => md5((string)mt_rand()),
+            'title' => 'title' . random_int(1, PHP_INT_MAX),
+            'url' => 'https://webtest' . mt_rand() . '.tld/url',
+            'work_in_progress' => random_int(0, 1),
+        ]);
 
         // run
+        $repository = new MergeRequestRepository();
+        $result = $repository->updateOrCreate($id, $data);
 
         // verify/assert
+        $validationData = $data;
+        $validationData['merge_request_id'] = $id;
+        $validationData['merge_request_iid'] = $data['iid'];
+        unset($validationData['created_at'], $validationData['updated_at'], $validationData['iid']);
+        $this->assertEquals($id, $result->getMergeRequestId());
+        $this->assertDatabaseHas('gitlab_merge_requests', $validationData);
+        $this->assertDatabaseCount('gitlab_merge_requests', 1);
     }
 }
