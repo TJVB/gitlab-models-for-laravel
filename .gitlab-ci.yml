@@ -36,12 +36,13 @@ phpcs:
     - prepare_cache
 
 phpmd:
-  image: phpqa/phpmd
   stage: check
   script:
-    - phpmd src/ text phpmd.xml.dist
-  dependencies: []
-  needs: []
+    - vendor/bin/phpmd src/ text phpmd.xml.dist
+  dependencies:
+    - prepare_cache
+  needs:
+    - prepare_cache
 
 phpstan:
   stage: check

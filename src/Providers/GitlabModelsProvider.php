@@ -7,7 +7,6 @@ namespace TJVB\GitlabModelsForLaravel\Providers;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
-use TJVB\GitlabModelsForLaravel\Contracts\Models\Project;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\BuildWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
@@ -20,6 +19,9 @@ use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class GitlabModelsProvider extends ServiceProvider implements DeferrableProvider
 {
     public function boot(): void
