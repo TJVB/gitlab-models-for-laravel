@@ -6,11 +6,8 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Repositories;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
-use TJVB\GitlabModelsForLaravel\Models\Issue;
 use TJVB\GitlabModelsForLaravel\Models\MergeRequest;
-use TJVB\GitlabModelsForLaravel\Repositories\IssueRepository;
 use TJVB\GitlabModelsForLaravel\Repositories\MergeRequestRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 

@@ -8,6 +8,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService;
 use TJVB\GitlabModelsForLaravel\DTOs\BuildDTO;
@@ -20,6 +21,7 @@ class HookStoredListener implements GitLabHookStoredListener
         private BuildUpdateService $buildUpdateService,
         private IssueUpdateService $issueUpdateService,
         private MergeRequestUpdateService $mergeRequestUpdateService,
+        private PipelineUpdateService $pipelineUpdateService,
         private ProjectUpdateService $projectUpdateService,
         private TagUpdateService $tagUpdateService,
     ) {
@@ -41,7 +43,7 @@ class HookStoredListener implements GitLabHookStoredListener
         if ($gitLabHookModel->getObjectKind() === 'merge_request') {
             $this->storeMergeRequestObject($gitLabHookModel);
         }
-        if ($gitLabHookModel->getObjectKind() === 'object_kind') {
+        if ($gitLabHookModel->getObjectKind() === 'pipeline') {
             $this->storePipelineObject($gitLabHookModel);
         }
         if ($gitLabHookModel->getObjectKind() === 'push') {
@@ -55,7 +57,7 @@ class HookStoredListener implements GitLabHookStoredListener
     private function storeBuildObject(GitLabHookModel $gitLabHookModel): void
     {
         // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#job-events
-        $this->storeOrUpdateBuildData($gitLabHookModel->getBody());
+        $this->storeOrUpdateBuildData(BuildDTO::fromBuildEventData($gitLabHookModel->getBody()));
     }
 
     private function storeDeploymentObject(GitLabHookModel $gitLabHookModel): void
@@ -117,7 +119,7 @@ class HookStoredListener implements GitLabHookStoredListener
             if (!is_array($build)) {
                 continue;
             }
-            $this->storeOrUpdateBuildData($build);
+            $this->storeOrUpdateBuildData(BuildDTO::fromPipelineEventData($build));
         }
     }
 
@@ -140,9 +142,9 @@ class HookStoredListener implements GitLabHookStoredListener
         $this->storeOrUpdateTagData($body);
     }
 
-    private function storeOrUpdateBuildData(array $buildData): void
+    private function storeOrUpdateBuildData(BuildDTO $buildData): void
     {
-        $this->buildUpdateService->updateOrCreate(BuildDTO::fromBuildEventData($buildData));
+        $this->buildUpdateService->updateOrCreate($buildData);
     }
 
     private function storeOrUpdateDeploymentData(array $deploymentData): void
@@ -165,10 +167,9 @@ class HookStoredListener implements GitLabHookStoredListener
         $this->tagUpdateService->updateOrCreate($tagData);
     }
 
-    private function storeOrUpdatePipelineData(array $objectData): void
+    private function storeOrUpdatePipelineData(array $pipelineData): void
     {
-        // @TODO implement
-        unset($objectData);
+        $this->pipelineUpdateService->updateOrCreate($pipelineData);
     }
 
     private function storeOrUpdateMergeRequestData(array $mergeRequestData): void

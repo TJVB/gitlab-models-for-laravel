@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
 use Illuminate\Contracts\Config\Repository;
-use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService as MergeRequestUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Repositories\PipelineWriteRepository;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateService as PipelineUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
-use TJVB\GitlabModelsForLaravel\Services\MergeRequestUpdateService;
-use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakeMergeRequestWriteRepository;
+use TJVB\GitlabModelsForLaravel\Services\PipelineUpdateService;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakePipelineWriteRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 use TJVB\GitlabModelsForLaravel\Tests\TrueFalseProvider;
 
-class MergeRequestUpdateServiceTest extends TestCase
+class PipelineUpdateServiceTest extends TestCase
 {
     use TrueFalseProvider;
+
 
     /**
      * @test
@@ -23,10 +24,10 @@ class MergeRequestUpdateServiceTest extends TestCase
     public function weImplementTheContract(): void
     {
         // run
-        $service = $this->app->make(MergeRequestUpdateService::class);
+        $service = $this->app->make(PipelineUpdateService::class);
 
         // verify/assert
-        $this->assertInstanceOf(MergeRequestUpdateServiceContract::class, $service);
+        $this->assertInstanceOf(PipelineUpdateServiceContract::class, $service);
     }
 
     /**
@@ -36,10 +37,11 @@ class MergeRequestUpdateServiceTest extends TestCase
     public function weUseTheRepositoryToUpdateOrCreateAMergeRequest(bool $enabled): void
     {
         // setup / mock
-        $fakeRepository = new FakeMergeRequestWriteRepository();
+        $fakeRepository = new FakePipelineWriteRepository();
         $this->app->bind(
-            MergeRequestWriteRepository::class,
-            static function () use ($fakeRepository): MergeRequestWriteRepository {
+            PipelineWriteRepository::class,
+            static function () use ($fakeRepository): PipelineWriteRepository {
+
                 return $fakeRepository;
             }
         );
@@ -53,10 +55,10 @@ class MergeRequestUpdateServiceTest extends TestCase
          * @var Repository $config
          */
         $config = $this->app->make(Repository::class);
-        $config->set('gitlab-models.model_to_store.merge_requests', $enabled);
+        $config->set('gitlab-models.model_to_store.pipelines', $enabled);
 
         // run
-        $service = $this->app->make(MergeRequestUpdateService::class, [
+        $service = $this->app->make(PipelineUpdateService::class, [
             'config' => $config,
         ]);
         $service->updateOrCreate($data);
@@ -83,7 +85,7 @@ class MergeRequestUpdateServiceTest extends TestCase
     public function weGenerateAnErrorIfWeUpdateOrCreateAMergeRequestWithoutID(): void
     {
         // setup / mock
-        $service = $this->app->make(MergeRequestUpdateService::class);
+        $service = $this->app->make(PipelineUpdateService::class);
         $this->expectException(MissingData::class);
 
         // run

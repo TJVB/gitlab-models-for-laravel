@@ -8,6 +8,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService;
 use TJVB\GitlabModelsForLaravel\Listeners\HookStoredListener;
@@ -15,6 +16,7 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeBuildUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeIssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeMergeRequestUpdateService;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakePipelineUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeTagUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
@@ -230,12 +232,44 @@ class HookStoredListenerTest extends TestCase
      */
     public function weCanHandleAPipelineEvent(): void
     {
-        $this->markTestIncomplete('TODO');
         // setup / mock
+        $buildUpdater = new FakeBuildUpdateService();
+        $this->app->bind(BuildUpdateService::class, static function () use ($buildUpdater): BuildUpdateService {
+            return $buildUpdater;
+        });
+        $pipelineUpdate = new FakePipelineUpdateService();
+        $this->app->bind(PipelineUpdateService::class, static function () use ($pipelineUpdate): PipelineUpdateService {
+            return $pipelineUpdate;
+        });
+        $mergeRequestUpdate = new FakeMergeRequestUpdateService();
+        $this->app->bind(
+            MergeRequestUpdateService::class,
+            static function () use ($mergeRequestUpdate): MergeRequestUpdateService {
+                return $mergeRequestUpdate;
+            }
+        );
+        $projectUpdater = new FakeProjectUpdateService();
+        $this->app->bind(ProjectUpdateService::class, static function () use ($projectUpdater): ProjectUpdateService {
+            return $projectUpdater;
+        });
+
+        /**
+         * @var HookStoredListener $listener
+         */
+        $listener = $this->app->make(HookStoredListener::class);
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
+        $event = new HookStored($hookModel);
 
         // run
+        $listener->handle($event);
 
         // verify/assert
+        $this->assertNotEmpty($buildUpdater->receivedData);
+        $this->assertNotEmpty($pipelineUpdate->receivedData);
+        $this->assertNotEmpty($mergeRequestUpdate->receivedData);
+        $this->assertNotEmpty($projectUpdater->receivedData);
     }
 
     /**
