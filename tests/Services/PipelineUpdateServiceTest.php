@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\PipelineWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateService as PipelineUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Events\PipelineDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 use TJVB\GitlabModelsForLaravel\Services\PipelineUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakePipelineWriteRepository;
@@ -16,7 +18,6 @@ use TJVB\GitlabModelsForLaravel\Tests\TrueFalseProvider;
 class PipelineUpdateServiceTest extends TestCase
 {
     use TrueFalseProvider;
-
 
     /**
      * @test
@@ -37,6 +38,7 @@ class PipelineUpdateServiceTest extends TestCase
     public function weUseTheRepositoryToUpdateOrCreateAMergeRequest(bool $enabled): void
     {
         // setup / mock
+        Event::fake();
         $fakeRepository = new FakePipelineWriteRepository();
         $this->app->bind(
             PipelineWriteRepository::class,
@@ -70,6 +72,9 @@ class PipelineUpdateServiceTest extends TestCase
                 $fakeRepository->hasReceivedData($id, $data),
                 'We didn\'t received the correct data on the repository'
             );
+            Event::assertDispatched(static function (PipelineDataReceived $event) use ($id) {
+                return $event->getPipeline()->getPipelineId() === $id;
+            });
             return;
         }
         $this->assertEmpty($fakeRepository->receivedData);
@@ -77,6 +82,7 @@ class PipelineUpdateServiceTest extends TestCase
             $fakeRepository->hasReceivedData($id, $data),
             'We did received the data on the repository while disabled'
         );
+        Event::assertNotDispatched(PipelineDataReceived::class);
     }
 
     /**

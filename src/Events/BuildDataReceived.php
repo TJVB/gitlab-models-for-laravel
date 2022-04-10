@@ -7,21 +7,21 @@ namespace TJVB\GitlabModelsForLaravel\Events;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue;
+use TJVB\GitlabModelsForLaravel\Contracts\Models\Build;
 
-final class IssueDataReceived
+final class BuildDataReceived
 {
     use Dispatchable;
     use InteractsWithSockets;
     use SerializesModels;
 
 
-    public function __construct(public Issue $issue)
+    public function __construct(public Build $build)
     {
     }
 
-    public function getIssue(): Issue
+    public function getBuild(): Build
     {
-        return $this->issue;
+        return $this->build;
     }
 }

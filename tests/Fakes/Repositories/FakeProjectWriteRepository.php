@@ -21,6 +21,7 @@ final class FakeProjectWriteRepository implements ProjectWriteRepository
         ];
         if ($this->result === null) {
             $this->result = new ProjectModel();
+            $this->result->project_id = $projectId;
         }
         return $this->result;
     }

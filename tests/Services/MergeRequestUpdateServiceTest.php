@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService as MergeRequestUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Events\MergeRequestDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 use TJVB\GitlabModelsForLaravel\Services\MergeRequestUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakeMergeRequestWriteRepository;
@@ -36,6 +38,7 @@ class MergeRequestUpdateServiceTest extends TestCase
     public function weUseTheRepositoryToUpdateOrCreateAMergeRequest(bool $enabled): void
     {
         // setup / mock
+        Event::fake();
         $fakeRepository = new FakeMergeRequestWriteRepository();
         $this->app->bind(
             MergeRequestWriteRepository::class,
@@ -68,6 +71,9 @@ class MergeRequestUpdateServiceTest extends TestCase
                 $fakeRepository->hasReceivedData($id, $data),
                 'We didn\'t received the correct data on the repository'
             );
+            Event::assertDispatched(static function (MergeRequestDataReceived $event) use ($id) {
+                return $event->getMergeRequest()->getMergeRequestId() === $id;
+            });
             return;
         }
         $this->assertEmpty($fakeRepository->receivedData);
@@ -75,6 +81,7 @@ class MergeRequestUpdateServiceTest extends TestCase
             $fakeRepository->hasReceivedData($id, $data),
             'We did received the data on the repository while disabled'
         );
+        Event::assertNotDispatched(MergeRequestDataReceived::class);
     }
 
     /**

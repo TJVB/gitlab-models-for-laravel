@@ -7,21 +7,21 @@ namespace TJVB\GitlabModelsForLaravel\Events;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue;
+use TJVB\GitlabModelsForLaravel\Contracts\Models\MergeRequest;
 
-final class IssueDataReceived
+final class MergeRequestDataReceived
 {
     use Dispatchable;
     use InteractsWithSockets;
     use SerializesModels;
 
 
-    public function __construct(public Issue $issue)
+    public function __construct(public MergeRequest $mergeRequest)
     {
     }
 
-    public function getIssue(): Issue
+    public function getMergeRequest(): MergeRequest
     {
-        return $this->issue;
+        return $this->mergeRequest;
     }
 }

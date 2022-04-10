@@ -6,9 +6,11 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\BuildWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService as BuildUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\DTOs\BuildDTO;
+use TJVB\GitlabModelsForLaravel\Events\BuildDataReceived;
 use TJVB\GitlabModelsForLaravel\Services\BuildUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakeBuildWriteRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
@@ -37,6 +39,7 @@ class BuildUpdateServiceTest extends TestCase
     public function weUseTheRepositoryToUpdateOrCreateABuild(bool $enabled): void
     {
         // setup / mock
+        Event::fake();
         $fakeRepository = new FakeBuildWriteRepository();
         $this->app->bind(BuildWriteRepository::class, static function () use ($fakeRepository): BuildWriteRepository {
             return $fakeRepository;
@@ -72,6 +75,9 @@ class BuildUpdateServiceTest extends TestCase
                 $fakeRepository->hasReceivedData($id, $dto),
                 'We didn\'t received the correct data on the repository'
             );
+            Event::assertDispatched(static function (BuildDataReceived $event) use ($id) {
+                return $event->getBuild()->getBuildId() === $id;
+            });
             return;
         }
         $this->assertEmpty($fakeRepository->receivedData);
@@ -79,5 +85,6 @@ class BuildUpdateServiceTest extends TestCase
             $fakeRepository->hasReceivedData($id, $dto),
             'We did received the data on the repository while disabled'
         );
+        Event::assertNotDispatched(BuildDataReceived::class);
     }
 }

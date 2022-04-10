@@ -7,6 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Services;
 use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\BuildWriteRepository;
 use TJVB\GitlabModelsForLaravel\DTOs\BuildDTO;
+use TJVB\GitlabModelsForLaravel\Events\BuildDataReceived;
 
 final class BuildUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService
 {
@@ -21,6 +22,7 @@ final class BuildUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts
         if (!$this->config->get('gitlab-models.model_to_store.builds')) {
             return;
         }
-        $this->repository->updateOrCreate($buildDTO->buildId, $buildDTO);
+        $build = $this->repository->updateOrCreate($buildDTO->buildId, $buildDTO);
+        BuildDataReceived::dispatch($build);
     }
 }

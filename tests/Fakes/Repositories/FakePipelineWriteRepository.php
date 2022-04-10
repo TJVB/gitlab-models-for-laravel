@@ -20,6 +20,7 @@ class FakePipelineWriteRepository implements PipelineWriteRepository
         ];
         if ($this->result === null) {
             $this->result = new PipelineModel();
+            $this->result->pipeline_id = $pipelineId;
         }
         return $this->result;
     }

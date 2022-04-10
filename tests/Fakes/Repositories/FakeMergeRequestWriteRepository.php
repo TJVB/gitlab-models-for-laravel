@@ -24,6 +24,7 @@ final class FakeMergeRequestWriteRepository implements MergeRequestWriteReposito
         ];
         if ($this->result === null) {
             $this->result = new MergeRequestModel();
+            $this->result->merge_request_id = $mergeRequestId;
         }
         return $this->result;
     }

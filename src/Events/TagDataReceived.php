@@ -7,21 +7,21 @@ namespace TJVB\GitlabModelsForLaravel\Events;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue;
+use TJVB\GitlabModelsForLaravel\Contracts\Models\Tag;
 
-final class IssueDataReceived
+final class TagDataReceived
 {
     use Dispatchable;
     use InteractsWithSockets;
     use SerializesModels;
 
 
-    public function __construct(public Issue $issue)
+    public function __construct(public Tag $tag)
     {
     }
 
-    public function getIssue(): Issue
+    public function getTag(): Tag
     {
-        return $this->issue;
+        return $this->tag;
     }
 }

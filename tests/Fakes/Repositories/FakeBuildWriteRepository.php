@@ -17,18 +17,19 @@ class FakeBuildWriteRepository implements BuildWriteRepository
     public function updateOrCreate(int $buildId, BuildDTO $buildDTO): Build
     {
         $this->receivedData[] = [
-            'issueId' => $buildId,
+            'buildId' => $buildId,
             'buildDTO' => $buildDTO,
         ];
         if ($this->result === null) {
             $this->result = new BuildModel();
+            $this->result->build_id = $buildId;
         }
         return $this->result;
     }
     public function hasReceivedData(int $buildId, BuildDTO $buildDTO): bool
     {
         $search = [
-            'issueId' => $buildId,
+            'buildId' => $buildId,
             'buildDTO' => $buildDTO,
         ];
         return in_array($search, $this->receivedData, true);

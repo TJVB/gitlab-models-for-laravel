@@ -7,6 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Services;
 use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService as MergeRequestUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Events\MergeRequestDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 
 final class MergeRequestUpdateService implements MergeRequestUpdateServiceContract
@@ -25,6 +26,7 @@ final class MergeRequestUpdateService implements MergeRequestUpdateServiceContra
         if (!isset($mergeRequestData['id'])) {
             throw MissingData::missingDataForAction('id', ' updateOrCreateMergeRequest');
         }
-        $this->writeRepository->updateOrCreate($mergeRequestData['id'], $mergeRequestData);
+        $mergeRequest = $this->writeRepository->updateOrCreate($mergeRequestData['id'], $mergeRequestData);
+        MergeRequestDataReceived::dispatch($mergeRequest);
     }
 }

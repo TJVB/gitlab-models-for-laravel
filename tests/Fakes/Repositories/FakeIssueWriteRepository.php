@@ -21,6 +21,7 @@ final class FakeIssueWriteRepository implements IssueWriteRepository
         ];
         if ($this->result === null) {
             $this->result = new IssueModel();
+            $this->result->issue_id = $issueId;
         }
         return $this->result;
     }

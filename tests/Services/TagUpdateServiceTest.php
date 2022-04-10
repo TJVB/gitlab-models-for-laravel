@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\TagWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService as TagUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Events\TagDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 use TJVB\GitlabModelsForLaravel\Services\TagUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakeTagWriteRepository;
@@ -36,6 +38,7 @@ class TagUpdateServiceTest extends TestCase
     public function weUseTheRepositoryToUpdateOrCreateATag(bool $enabled): void
     {
         // setup / mock
+        Event::fake();
         $fakeRepository = new FakeTagWriteRepository();
         $this->app->bind(TagWriteRepository::class, static function () use ($fakeRepository): TagWriteRepository {
 
@@ -70,6 +73,9 @@ class TagUpdateServiceTest extends TestCase
                 $fakeRepository->hasReceivedData($projectId, $ref, $data),
                 'We didn\'t received the correct data on the repository'
             );
+            Event::assertDispatched(static function (TagDataReceived $event) use ($projectId, $ref) {
+                return $event->getTag()->getProjectId() === $projectId && $event->getTag()->getRef() === $ref;
+            });
             return;
         }
         $this->assertEmpty($fakeRepository->receivedData);
@@ -77,6 +83,7 @@ class TagUpdateServiceTest extends TestCase
             $fakeRepository->hasReceivedData($projectId, $ref, $data),
             'We did received the correct data on the repository while disabled'
         );
+        Event::assertNotDispatched(TagDataReceived::class);
     }
 
     /**

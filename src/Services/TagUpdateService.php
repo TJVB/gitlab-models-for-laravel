@@ -6,6 +6,7 @@ namespace TJVB\GitlabModelsForLaravel\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\TagWriteRepository;
+use TJVB\GitlabModelsForLaravel\Events\TagDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 
 final class TagUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService
@@ -27,10 +28,11 @@ final class TagUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\S
         if (!isset($tagData['ref'])) {
             throw MissingData::missingDataForAction('ref', ' updateOrCreateTag');
         }
-        $this->repository->updateOrCreate(
+        $tag = $this->repository->updateOrCreate(
             $tagData['project_id'],
             $tagData['ref'],
             $tagData
         );
+        TagDataReceived::dispatch($tag);
     }
 }

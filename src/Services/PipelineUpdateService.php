@@ -6,6 +6,7 @@ namespace TJVB\GitlabModelsForLaravel\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\PipelineWriteRepository;
+use TJVB\GitlabModelsForLaravel\Events\PipelineDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 
 class PipelineUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateService
@@ -22,6 +23,7 @@ class PipelineUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\Se
         if (!isset($pipelineData['id'])) {
             throw MissingData::missingDataForAction('id', ' updateOrCreatePipeline');
         }
-        $this->writeRepository->updateOrCreate($pipelineData['id'], $pipelineData);
+        $pipeline = $this->writeRepository->updateOrCreate($pipelineData['id'], $pipelineData);
+        PipelineDataReceived::dispatch($pipeline);
     }
 }

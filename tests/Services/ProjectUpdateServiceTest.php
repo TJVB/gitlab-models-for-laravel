@@ -71,7 +71,9 @@ class ProjectUpdateServiceTest extends TestCase
                 $fakeRepository->hasReceivedData($id, $data),
                 'We didn\'t received the correct data on the repository'
             );
-            Event::assertDispatched(ProjectDataReceived::class);
+            Event::assertDispatched(static function (ProjectDataReceived $event) use ($id) {
+                return $event->getProject()->getProjectId() === $id;
+            });
             return;
         }
         $this->assertEmpty($fakeRepository->receivedData);

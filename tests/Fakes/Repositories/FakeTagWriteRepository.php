@@ -22,6 +22,8 @@ final class FakeTagWriteRepository implements TagWriteRepository
         ];
         if ($this->result === null) {
             $this->result = new TagModel();
+            $this->result->project_id = $projectId;
+            $this->result->ref = $ref;
         }
         return $this->result;
     }
