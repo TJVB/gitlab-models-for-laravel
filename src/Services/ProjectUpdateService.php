@@ -6,6 +6,7 @@ namespace TJVB\GitlabModelsForLaravel\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectWriteRepository;
+use TJVB\GitlabModelsForLaravel\Events\ProjectDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 
 final class ProjectUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService
@@ -24,6 +25,7 @@ final class ProjectUpdateService implements \TJVB\GitlabModelsForLaravel\Contrac
         if (!isset($projectData['id'])) {
             throw MissingData::missingDataForAction('id', ' updateOrCreateProject');
         }
-        $this->projectRepository->updateOrCreate($projectData['id'], $projectData);
+        $project = $this->projectRepository->updateOrCreate($projectData['id'], $projectData);
+        ProjectDataReceived::dispatch($project);
     }
 }

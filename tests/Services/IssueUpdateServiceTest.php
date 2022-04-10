@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService as IssueUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Events\IssueDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 use TJVB\GitlabModelsForLaravel\Services\IssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakeIssueWriteRepository;
@@ -35,6 +37,7 @@ class IssueUpdateServiceTest extends TestCase
     public function weUseTheRepositoryToUpdateOrCreateAnIssue(bool $enabled): void
     {
         // setup / mock
+        Event::fake();
         $fakeRepository = new FakeIssueWriteRepository();
         $this->app->bind(IssueWriteRepository::class, static function () use ($fakeRepository): IssueWriteRepository {
 
@@ -65,6 +68,7 @@ class IssueUpdateServiceTest extends TestCase
                 $fakeRepository->hasReceivedData($id, $data),
                 'We didn\'t received the correct data on the repository'
             );
+            Event::assertDispatched(IssueDataReceived::class);
             return;
         }
         $this->assertEmpty($fakeRepository->receivedData);
@@ -72,6 +76,7 @@ class IssueUpdateServiceTest extends TestCase
             $fakeRepository->hasReceivedData($id, $data),
             'We did received the data on the repository while disabled'
         );
+        Event::assertNotDispatched(IssueDataReceived::class);
     }
 
     /**

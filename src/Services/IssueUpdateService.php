@@ -6,6 +6,7 @@ namespace TJVB\GitlabModelsForLaravel\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
+use TJVB\GitlabModelsForLaravel\Events\IssueDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 
 final class IssueUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService
@@ -24,6 +25,7 @@ final class IssueUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts
         if (!isset($issueData['id'])) {
             throw MissingData::missingDataForAction('id', ' updateOrCreateIssue');
         }
-        $this->writeRepository->updateOrCreate($issueData['id'], $issueData);
+        $issue = $this->writeRepository->updateOrCreate($issueData['id'], $issueData);
+        IssueDataReceived::dispatch($issue);
     }
 }
