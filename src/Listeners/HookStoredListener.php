@@ -8,6 +8,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService;
@@ -21,6 +22,7 @@ class HookStoredListener implements GitLabHookStoredListener
         private BuildUpdateService $buildUpdateService,
         private IssueUpdateService $issueUpdateService,
         private MergeRequestUpdateService $mergeRequestUpdateService,
+        private NoteUpdateService $noteUpdateService,
         private PipelineUpdateService $pipelineUpdateService,
         private ProjectUpdateService $projectUpdateService,
         private TagUpdateService $tagUpdateService,
@@ -42,6 +44,9 @@ class HookStoredListener implements GitLabHookStoredListener
         }
         if ($gitLabHookModel->getObjectKind() === 'merge_request') {
             $this->storeMergeRequestObject($gitLabHookModel);
+        }
+        if ($gitLabHookModel->getObjectKind() === 'note') {
+            $this->storeNoteObject($gitLabHookModel);
         }
         if ($gitLabHookModel->getObjectKind() === 'pipeline') {
             $this->storePipelineObject($gitLabHookModel);
@@ -89,6 +94,24 @@ class HookStoredListener implements GitLabHookStoredListener
         $body = $gitLabHookModel->getBody();
         if (isset($body['object_attributes']) && is_array($body['object_attributes'])) {
             $this->storeOrUpdateMergeRequestData($body['object_attributes']);
+        }
+        if (isset($body['project']) && is_array($body['project'])) {
+            $this->storeOrUpdateProjectData($body['project']);
+        }
+    }
+
+    private function storeNoteObject(GitLabHookModel $gitLabHookModel): void
+    {
+        // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#comment-events
+        $body = $gitLabHookModel->getBody();
+        if (isset($body['object_attributes']) && is_array($body['object_attributes'])) {
+            $this->storeOrUpdateNoteData($body['object_attributes']);
+        }
+        if (isset($body['issue']) && is_array($body['issue'])) {
+            $this->storeOrUpdateIssueData($body['issue']);
+        }
+        if (isset($body['merge_request']) && is_array($body['merge_request'])) {
+            $this->storeOrUpdateMergeRequestData($body['merge_request']);
         }
         if (isset($body['project']) && is_array($body['project'])) {
             $this->storeOrUpdateProjectData($body['project']);
@@ -175,5 +198,10 @@ class HookStoredListener implements GitLabHookStoredListener
     private function storeOrUpdateMergeRequestData(array $mergeRequestData): void
     {
         $this->mergeRequestUpdateService->updateOrCreate($mergeRequestData);
+    }
+
+    private function storeOrUpdateNoteData(array $noteData): void
+    {
+        $this->noteUpdateService->updateOrCreate($noteData);
     }
 }

@@ -30,6 +30,7 @@ class ProjectUpdateServiceTest extends TestCase
         // verify/assert
         $this->assertInstanceOf(ProjectUpdateServiceContract::class, $service);
     }
+
     /**
      * @test
      * @dataProvider trueFalseProvider

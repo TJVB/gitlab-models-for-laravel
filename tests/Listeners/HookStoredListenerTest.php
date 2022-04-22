@@ -8,6 +8,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService;
@@ -16,6 +17,7 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeBuildUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeIssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeMergeRequestUpdateService;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeNoteUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakePipelineUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeTagUpdateService;
@@ -129,12 +131,34 @@ class HookStoredListenerTest extends TestCase
      */
     public function weCanHandleACommentEventOnACommit(): void
     {
-        $this->markTestIncomplete('TODO');
         // setup / mock
+        $noteUpdater = new FakeNoteUpdateService();
+        $this->app->bind(NoteUpdateService::class, static function () use ($noteUpdater): NoteUpdateService {
+            return $noteUpdater;
+        });
+
+        $projectUpdater = new FakeProjectUpdateService();
+        $this->app->bind(ProjectUpdateService::class, static function () use ($projectUpdater): ProjectUpdateService {
+            return $projectUpdater;
+        });
+
+        /**
+         * @var HookStoredListener $listener
+         */
+        $listener = $this->app->make(HookStoredListener::class);
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
+            self::EXAMPLE_PAYLOADS . 'comment_commit.json'
+        ), true);
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'note';
+        $event = new HookStored($hookModel);
 
         // run
+        $listener->handle($event);
 
         // verify/assert
+        $this->assertNotEmpty($noteUpdater->receivedData);
+        $this->assertNotEmpty($projectUpdater->receivedData);
     }
 
     /**
@@ -142,12 +166,45 @@ class HookStoredListenerTest extends TestCase
      */
     public function weCanHandleACommentEventOnAMergeRequest(): void
     {
-        $this->markTestIncomplete('TODO');
         // setup / mock
+        $mergeRequestUpdate = new FakeMergeRequestUpdateService();
+        $this->app->bind(
+            MergeRequestUpdateService::class,
+            static function () use ($mergeRequestUpdate): MergeRequestUpdateService {
+                return $mergeRequestUpdate;
+            }
+        );
+        $noteUpdater = new FakeNoteUpdateService();
+        $this->app->bind(NoteUpdateService::class, static function () use ($noteUpdater): NoteUpdateService {
+            return $noteUpdater;
+        });
+
+        $projectUpdater = new FakeProjectUpdateService();
+        $this->app->bind(
+            ProjectUpdateService::class,
+            static function () use ($projectUpdater): ProjectUpdateService {
+                return $projectUpdater;
+            }
+        );
+
+        /**
+         * @var HookStoredListener $listener
+         */
+        $listener = $this->app->make(HookStoredListener::class);
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
+            self::EXAMPLE_PAYLOADS . 'comment_merge_request.json'
+        ), true);
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'note';
+        $event = new HookStored($hookModel);
 
         // run
+        $listener->handle($event);
 
         // verify/assert
+        $this->assertNotEmpty($mergeRequestUpdate->receivedData);
+        $this->assertNotEmpty($noteUpdater->receivedData);
+        $this->assertNotEmpty($projectUpdater->receivedData);
     }
 
     /**
@@ -155,12 +212,39 @@ class HookStoredListenerTest extends TestCase
      */
     public function weCanHandleACommentEventOnAnIssue(): void
     {
-        $this->markTestIncomplete('TODO');
         // setup / mock
+        $issueUpdater = new FakeIssueUpdateService();
+        $this->app->bind(IssueUpdateService::class, static function () use ($issueUpdater): IssueUpdateService {
+            return $issueUpdater;
+        });
+        $noteUpdater = new FakeNoteUpdateService();
+        $this->app->bind(NoteUpdateService::class, static function () use ($noteUpdater): NoteUpdateService {
+            return $noteUpdater;
+        });
+
+        $projectUpdater = new FakeProjectUpdateService();
+        $this->app->bind(ProjectUpdateService::class, static function () use ($projectUpdater): ProjectUpdateService {
+            return $projectUpdater;
+        });
+
+        /**
+         * @var HookStoredListener $listener
+         */
+        $listener = $this->app->make(HookStoredListener::class);
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
+            self::EXAMPLE_PAYLOADS . 'comment_issue.json'
+        ), true);
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'note';
+        $event = new HookStored($hookModel);
 
         // run
+        $listener->handle($event);
 
         // verify/assert
+        $this->assertNotEmpty($issueUpdater->receivedData);
+        $this->assertNotEmpty($noteUpdater->receivedData);
+        $this->assertNotEmpty($projectUpdater->receivedData);
     }
 
     /**
@@ -168,12 +252,34 @@ class HookStoredListenerTest extends TestCase
      */
     public function weCanHandleACommentEventOnACodeSnippet(): void
     {
-        $this->markTestIncomplete('TODO');
         // setup / mock
+        $noteUpdater = new FakeNoteUpdateService();
+        $this->app->bind(NoteUpdateService::class, static function () use ($noteUpdater): NoteUpdateService {
+            return $noteUpdater;
+        });
+
+        $projectUpdater = new FakeProjectUpdateService();
+        $this->app->bind(ProjectUpdateService::class, static function () use ($projectUpdater): ProjectUpdateService {
+            return $projectUpdater;
+        });
+
+        /**
+         * @var HookStoredListener $listener
+         */
+        $listener = $this->app->make(HookStoredListener::class);
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
+            self::EXAMPLE_PAYLOADS . 'comment_code_snippet.json'
+        ), true);
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'note';
+        $event = new HookStored($hookModel);
 
         // run
+        $listener->handle($event);
 
         // verify/assert
+        $this->assertNotEmpty($noteUpdater->receivedData);
+        $this->assertNotEmpty($projectUpdater->receivedData);
     }
 
     /**
