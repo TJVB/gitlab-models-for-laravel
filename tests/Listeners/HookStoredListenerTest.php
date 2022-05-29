@@ -272,9 +272,6 @@ class HookStoredListenerTest extends TestCase
         $mergeRequestUpdate = new FakeMergeRequestUpdateService();
         $projectUpdater = new FakeProjectUpdateService();
 
-        /**
-         * @var HookStoredListener $listener
-         */
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
