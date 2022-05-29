@@ -15,6 +15,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService;
 use TJVB\GitlabModelsForLaravel\Listeners\HookStoredListener;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeBuildUpdateService;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeDeploymentUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeIssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeMergeRequestUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeNoteUpdateService;
@@ -410,11 +411,23 @@ class HookStoredListenerTest extends TestCase
      */
     public function weCanHandleADeploymentEvent(): void
     {
-        $this->markTestIncomplete('TODO');
         // setup / mock
+        $deploymentUpdater = new FakeDeploymentUpdateService();
+        $projectUpdater = new FakeProjectUpdateService();
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'deployment.json'), true);
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'deployment';
+        $event = new HookStored($hookModel);
 
         // run
+        $listener = $this->app->make(HookStoredListener::class, [
+            'deploymentUpdateService' => $deploymentUpdater,
+            'projectUpdateService' => $projectUpdater
+        ]);
+        $listener->handle($event);
 
         // verify/assert
+        $this->assertNotEmpty($deploymentUpdater->receivedData);
+        $this->assertNotEmpty($projectUpdater->receivedData);
     }
 }

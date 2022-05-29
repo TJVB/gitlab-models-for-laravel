@@ -15,16 +15,15 @@ class PipelineRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
 
-/**
+    /**
      * @test
      */
-
-
     public function weImplementTheContracts(): void
     {
         // run
         $repository = new PipelineRepository();
-    // verify/assert
+
+        // verify/assert
         $this->assertInstanceOf(PipelineWriteRepository::class, $repository);
     }
 

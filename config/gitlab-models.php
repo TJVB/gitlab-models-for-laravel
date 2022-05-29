@@ -4,6 +4,7 @@ return [
 
     'model_to_store' => [
         'builds' => env('GITLAB_MODELS_STORE_BUILDS', true),
+        'deployments' => env('GITLAB_MODELS_STORE_DEPLOYMENTS', true),
         'issues' => env('GITLAB_MODELS_STORE_ISSUES', true),
         'merge_requests' => env('GITLAB_MODELS_STORE_MERGE_REQUESTS', true),
         'notes' => env('GITLAB_MODELS_STORE_NOTES', true),
@@ -27,6 +28,7 @@ return [
 
     'repositories' => [
         'build_write' => \TJVB\GitlabModelsForLaravel\Repositories\BuildRepository::class,
+        'deployment_write' => \TJVB\GitlabModelsForLaravel\Repositories\DeploymentRepository::class,
         'issue_write' => \TJVB\GitlabModelsForLaravel\Repositories\IssueRepository::class,
         'merge_request_write' => \TJVB\GitlabModelsForLaravel\Repositories\MergeRequestRepository::class,
         'note_write' => \TJVB\GitlabModelsForLaravel\Repositories\NoteRepository::class,
@@ -38,6 +40,7 @@ return [
 
     'services' => [
         'build_update' => \TJVB\GitlabModelsForLaravel\Services\BuildUpdateService::class,
+        'deployment_update' => \TJVB\GitlabModelsForLaravel\Services\DeploymentUpdateService::class,
         'issue_update' => \TJVB\GitlabModelsForLaravel\Services\IssueUpdateService::class,
         'merge_request_update' => \TJVB\GitlabModelsForLaravel\Services\MergeRequestUpdateService::class,
         'note_update' => \TJVB\GitlabModelsForLaravel\Services\NoteUpdateService::class,

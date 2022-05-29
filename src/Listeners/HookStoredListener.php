@@ -6,6 +6,7 @@ namespace TJVB\GitlabModelsForLaravel\Listeners;
 
 use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateService;
@@ -20,6 +21,7 @@ class HookStoredListener implements GitLabHookStoredListener
 {
     public function __construct(
         private BuildUpdateService $buildUpdateService,
+        private DeploymentUpdateService $deploymentUpdateService,
         private IssueUpdateService $issueUpdateService,
         private MergeRequestUpdateService $mergeRequestUpdateService,
         private NoteUpdateService $noteUpdateService,
@@ -172,7 +174,7 @@ class HookStoredListener implements GitLabHookStoredListener
 
     private function storeOrUpdateDeploymentData(array $deploymentData): void
     {
-        unset($deploymentData);
+        $this->deploymentUpdateService->updateOrCreate($deploymentData);
     }
 
     private function storeOrUpdateProjectData(array $projectData): void

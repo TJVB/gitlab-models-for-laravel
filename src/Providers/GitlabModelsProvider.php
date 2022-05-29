@@ -8,6 +8,7 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\BuildWriteRepository;
+use TJVB\GitlabModelsForLaravel\Contracts\Repositories\DeploymentWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\NoteWriteRepository;
@@ -16,6 +17,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectReadRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\TagWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService;
@@ -48,6 +50,7 @@ class GitlabModelsProvider extends ServiceProvider implements DeferrableProvider
 
         // repositories
         $this->app->bind(BuildWriteRepository::class, config('gitlab-models.repositories.build_write'));
+        $this->app->bind(DeploymentWriteRepository::class, config('gitlab-models.repositories.deployment_write'));
         $this->app->bind(IssueWriteRepository::class, config('gitlab-models.repositories.issue_write'));
         $this->app->bind(MergeRequestWriteRepository::class, config('gitlab-models.repositories.merge_request_write'));
         $this->app->bind(NoteWriteRepository::class, config('gitlab-models.repositories.note_write'));
@@ -58,6 +61,7 @@ class GitlabModelsProvider extends ServiceProvider implements DeferrableProvider
 
         // services
         $this->app->bind(BuildUpdateService::class, config('gitlab-models.services.build_update'));
+        $this->app->bind(DeploymentUpdateService::class, config('gitlab-models.services.deployment_update'));
         $this->app->bind(NoteUpdateService::class, config('gitlab-models.services.note_update'));
         $this->app->bind(IssueUpdateService::class, config('gitlab-models.services.issue_update'));
         $this->app->bind(MergeRequestUpdateService::class, config('gitlab-models.services.merge_request_update'));
@@ -73,6 +77,7 @@ class GitlabModelsProvider extends ServiceProvider implements DeferrableProvider
 
             // repositories
             BuildWriteRepository::class,
+            DeploymentWriteRepository::class,
             IssueWriteRepository::class,
             MergeRequestWriteRepository::class,
             NoteWriteRepository::class,
@@ -83,6 +88,7 @@ class GitlabModelsProvider extends ServiceProvider implements DeferrableProvider
 
             // services
             BuildUpdateService::class,
+            DeploymentUpdateService::class,
             IssueUpdateService::class,
             MergeRequestUpdateService::class,
             NoteUpdateService::class,
