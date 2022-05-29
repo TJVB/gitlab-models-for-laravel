@@ -46,19 +46,16 @@ class HookStoredListenerTest extends TestCase
     {
         // setup / mock
         $projectUpdater = new FakeProjectUpdateService();
-        $this->app->bind(ProjectUpdateService::class, static function () use ($projectUpdater): ProjectUpdateService {
-            return $projectUpdater;
-        });
-        /**
-         * @var HookStoredListener $listener
-         */
-        $listener = $this->app->make(HookStoredListener::class);
+
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'push.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'push';
         $event = new HookStored($hookModel);
 
         // run
+        $listener = $this->app->make(HookStoredListener::class, [
+            'projectUpdateService' => $projectUpdater,
+        ]);
         $listener->handle($event);
 
         // verify/assert
@@ -72,23 +69,18 @@ class HookStoredListenerTest extends TestCase
     {
         // setup / mock
         $projectUpdater = new FakeProjectUpdateService();
-        $this->app->bind(ProjectUpdateService::class, static function () use ($projectUpdater): ProjectUpdateService {
-            return $projectUpdater;
-        });
         $tagUpdater = new FakeTagUpdateService();
-        $this->app->bind(TagUpdateService::class, static function () use ($tagUpdater): TagUpdateService {
-            return $tagUpdater;
-        });
-        /**
-         * @var HookStoredListener $listener
-         */
-        $listener = $this->app->make(HookStoredListener::class);
+
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'tag.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'tag_push';
         $event = new HookStored($hookModel);
 
         // run
+        $listener = $this->app->make(HookStoredListener::class, [
+            'projectUpdateService' => $projectUpdater,
+            'tagUpdateService' => $tagUpdater,
+        ]);
         $listener->handle($event);
 
         // verify/assert
@@ -103,23 +95,18 @@ class HookStoredListenerTest extends TestCase
     {
         // setup / mock
         $projectUpdater = new FakeProjectUpdateService();
-        $this->app->bind(ProjectUpdateService::class, static function () use ($projectUpdater): ProjectUpdateService {
-            return $projectUpdater;
-        });
         $issueUpdater = new FakeIssueUpdateService();
-        $this->app->bind(IssueUpdateService::class, static function () use ($issueUpdater): IssueUpdateService {
-            return $issueUpdater;
-        });
-        /**
-         * @var HookStoredListener $listener
-         */
-        $listener = $this->app->make(HookStoredListener::class);
+
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'issue.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'issue';
         $event = new HookStored($hookModel);
 
         // run
+        $listener = $this->app->make(HookStoredListener::class, [
+            'projectUpdateService' => $projectUpdater,
+            'issueUpdateService' => $issueUpdater,
+        ]);
         $listener->handle($event);
 
         // verify/assert
@@ -134,19 +121,8 @@ class HookStoredListenerTest extends TestCase
     {
         // setup / mock
         $noteUpdater = new FakeNoteUpdateService();
-        $this->app->bind(NoteUpdateService::class, static function () use ($noteUpdater): NoteUpdateService {
-            return $noteUpdater;
-        });
-
         $projectUpdater = new FakeProjectUpdateService();
-        $this->app->bind(ProjectUpdateService::class, static function () use ($projectUpdater): ProjectUpdateService {
-            return $projectUpdater;
-        });
 
-        /**
-         * @var HookStoredListener $listener
-         */
-        $listener = $this->app->make(HookStoredListener::class);
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
             self::EXAMPLE_PAYLOADS . 'comment_commit.json'
@@ -155,6 +131,10 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        $listener = $this->app->make(HookStoredListener::class, [
+            'noteUpdateService' => $noteUpdater,
+            'projectUpdateService' => $projectUpdater,
+        ]);
         $listener->handle($event);
 
         // verify/assert
@@ -169,29 +149,9 @@ class HookStoredListenerTest extends TestCase
     {
         // setup / mock
         $mergeRequestUpdate = new FakeMergeRequestUpdateService();
-        $this->app->bind(
-            MergeRequestUpdateService::class,
-            static function () use ($mergeRequestUpdate): MergeRequestUpdateService {
-                return $mergeRequestUpdate;
-            }
-        );
         $noteUpdater = new FakeNoteUpdateService();
-        $this->app->bind(NoteUpdateService::class, static function () use ($noteUpdater): NoteUpdateService {
-            return $noteUpdater;
-        });
-
         $projectUpdater = new FakeProjectUpdateService();
-        $this->app->bind(
-            ProjectUpdateService::class,
-            static function () use ($projectUpdater): ProjectUpdateService {
-                return $projectUpdater;
-            }
-        );
 
-        /**
-         * @var HookStoredListener $listener
-         */
-        $listener = $this->app->make(HookStoredListener::class);
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
             self::EXAMPLE_PAYLOADS . 'comment_merge_request.json'
@@ -200,6 +160,11 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        $listener = $this->app->make(HookStoredListener::class, [
+            'mergeRequestUpdateService' => $mergeRequestUpdate,
+            'noteUpdateService' => $noteUpdater,
+            'projectUpdateService' => $projectUpdater,
+        ]);
         $listener->handle($event);
 
         // verify/assert
@@ -215,23 +180,9 @@ class HookStoredListenerTest extends TestCase
     {
         // setup / mock
         $issueUpdater = new FakeIssueUpdateService();
-        $this->app->bind(IssueUpdateService::class, static function () use ($issueUpdater): IssueUpdateService {
-            return $issueUpdater;
-        });
         $noteUpdater = new FakeNoteUpdateService();
-        $this->app->bind(NoteUpdateService::class, static function () use ($noteUpdater): NoteUpdateService {
-            return $noteUpdater;
-        });
-
         $projectUpdater = new FakeProjectUpdateService();
-        $this->app->bind(ProjectUpdateService::class, static function () use ($projectUpdater): ProjectUpdateService {
-            return $projectUpdater;
-        });
 
-        /**
-         * @var HookStoredListener $listener
-         */
-        $listener = $this->app->make(HookStoredListener::class);
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
             self::EXAMPLE_PAYLOADS . 'comment_issue.json'
@@ -240,6 +191,11 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        $listener = $this->app->make(HookStoredListener::class, [
+            'issueUpdateService' => $issueUpdater,
+            'noteUpdateService' => $noteUpdater,
+            'projectUpdateService' => $projectUpdater,
+        ]);
         $listener->handle($event);
 
         // verify/assert
@@ -255,19 +211,8 @@ class HookStoredListenerTest extends TestCase
     {
         // setup / mock
         $noteUpdater = new FakeNoteUpdateService();
-        $this->app->bind(NoteUpdateService::class, static function () use ($noteUpdater): NoteUpdateService {
-            return $noteUpdater;
-        });
-
         $projectUpdater = new FakeProjectUpdateService();
-        $this->app->bind(ProjectUpdateService::class, static function () use ($projectUpdater): ProjectUpdateService {
-            return $projectUpdater;
-        });
 
-        /**
-         * @var HookStoredListener $listener
-         */
-        $listener = $this->app->make(HookStoredListener::class);
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
             self::EXAMPLE_PAYLOADS . 'comment_code_snippet.json'
@@ -276,6 +221,10 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        $listener = $this->app->make(HookStoredListener::class, [
+            'noteUpdateService' => $noteUpdater,
+            'projectUpdateService' => $projectUpdater,
+        ]);
         $listener->handle($event);
 
         // verify/assert
@@ -290,21 +239,8 @@ class HookStoredListenerTest extends TestCase
     {
         // setup / mock
         $projectUpdater = new FakeProjectUpdateService();
-        $this->app->bind(ProjectUpdateService::class, static function () use ($projectUpdater): ProjectUpdateService {
-            return $projectUpdater;
-        });
         $mergeRequestUpdate = new FakeMergeRequestUpdateService();
-        $this->app->bind(
-            MergeRequestUpdateService::class,
-            static function () use ($mergeRequestUpdate): MergeRequestUpdateService {
-                return $mergeRequestUpdate;
-            }
-        );
 
-        /**
-         * @var HookStoredListener $listener
-         */
-        $listener = $this->app->make(HookStoredListener::class);
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(
             \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
@@ -314,6 +250,10 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        $listener = $this->app->make(HookStoredListener::class, [
+            'projectUpdateService' => $projectUpdater,
+            'mergeRequestUpdateService' => $mergeRequestUpdate,
+        ]);
         $listener->handle($event);
 
         // verify/assert
@@ -324,52 +264,29 @@ class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
-    public function weCanHandleAWikiPageEvent(): void
-    {
-        $this->markTestIncomplete('TODO');
-        // setup / mock
-
-        // run
-
-        // verify/assert
-    }
-
-    /**
-     * @test
-     */
     public function weCanHandleAPipelineEvent(): void
     {
         // setup / mock
         $buildUpdater = new FakeBuildUpdateService();
-        $this->app->bind(BuildUpdateService::class, static function () use ($buildUpdater): BuildUpdateService {
-            return $buildUpdater;
-        });
         $pipelineUpdate = new FakePipelineUpdateService();
-        $this->app->bind(PipelineUpdateService::class, static function () use ($pipelineUpdate): PipelineUpdateService {
-            return $pipelineUpdate;
-        });
         $mergeRequestUpdate = new FakeMergeRequestUpdateService();
-        $this->app->bind(
-            MergeRequestUpdateService::class,
-            static function () use ($mergeRequestUpdate): MergeRequestUpdateService {
-                return $mergeRequestUpdate;
-            }
-        );
         $projectUpdater = new FakeProjectUpdateService();
-        $this->app->bind(ProjectUpdateService::class, static function () use ($projectUpdater): ProjectUpdateService {
-            return $projectUpdater;
-        });
 
         /**
          * @var HookStoredListener $listener
          */
-        $listener = $this->app->make(HookStoredListener::class);
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $event = new HookStored($hookModel);
 
         // run
+        $listener = $this->app->make(HookStoredListener::class, [
+            'buildUpdateService' => $buildUpdater,
+            'pipelineUpdateService' => $pipelineUpdate,
+            'mergeRequestUpdateService' => $mergeRequestUpdate,
+            'projectUpdateService' => $projectUpdater,
+        ]);
         $listener->handle($event);
 
         // verify/assert
@@ -386,20 +303,16 @@ class HookStoredListenerTest extends TestCase
     {
         // setup / mock
         $buildUpdater = new FakeBuildUpdateService();
-        $this->app->bind(BuildUpdateService::class, static function () use ($buildUpdater): BuildUpdateService {
-            return $buildUpdater;
-        });
 
-        /**
-         * @var HookStoredListener $listener
-         */
-        $listener = $this->app->make(HookStoredListener::class);
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'job.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'build';
         $event = new HookStored($hookModel);
 
         // run
+        $listener = $this->app->make(HookStoredListener::class, [
+            'buildUpdateService' => $buildUpdater,
+        ]);
         $listener->handle($event);
 
         // verify/assert
@@ -414,6 +327,7 @@ class HookStoredListenerTest extends TestCase
         // setup / mock
         $deploymentUpdater = new FakeDeploymentUpdateService();
         $projectUpdater = new FakeProjectUpdateService();
+
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'deployment.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'deployment';

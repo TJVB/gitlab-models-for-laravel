@@ -35,30 +35,17 @@ class HookStoredListener implements GitLabHookStoredListener
     {
         $gitLabHookModel = $event->getHook();
 
-        if ($gitLabHookModel->getObjectKind() === 'build') {
-            $this->storeBuildObject($gitLabHookModel);
-        }
-        if ($gitLabHookModel->getObjectKind() === 'deployment') {
-            $this->storeDeploymentObject($gitLabHookModel);
-        }
-        if ($gitLabHookModel->getObjectKind() === 'issue') {
-            $this->storeIssueObject($gitLabHookModel);
-        }
-        if ($gitLabHookModel->getObjectKind() === 'merge_request') {
-            $this->storeMergeRequestObject($gitLabHookModel);
-        }
-        if ($gitLabHookModel->getObjectKind() === 'note') {
-            $this->storeNoteObject($gitLabHookModel);
-        }
-        if ($gitLabHookModel->getObjectKind() === 'pipeline') {
-            $this->storePipelineObject($gitLabHookModel);
-        }
-        if ($gitLabHookModel->getObjectKind() === 'push') {
-            $this->storePushObject($gitLabHookModel);
-        }
-        if ($gitLabHookModel->getObjectKind() === 'tag_push') {
-            $this->storeTagPushObject($gitLabHookModel);
-        }
+        match ($gitLabHookModel->getObjectKind()) {
+            'build' => $this->storeBuildObject($gitLabHookModel),
+            'deployment' => $this->storeDeploymentObject($gitLabHookModel),
+            'issue' => $this->storeIssueObject($gitLabHookModel),
+            'merge_request' => $this->storeMergeRequestObject($gitLabHookModel),
+            'note' => $this->storeNoteObject($gitLabHookModel),
+            'pipeline' => $this->storePipelineObject($gitLabHookModel),
+            'push' => $this->storePushObject($gitLabHookModel),
+            'tag_push' => $this->storeTagPushObject($gitLabHookModel),
+            default => null,
+        };
     }
 
     private function storeBuildObject(GitLabHookModel $gitLabHookModel): void
