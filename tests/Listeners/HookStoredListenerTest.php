@@ -5,23 +5,16 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Listeners;
 
 use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateService;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateService;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService;
 use TJVB\GitlabModelsForLaravel\Listeners\HookStoredListener;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
-use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeBuildUpdateService;
-use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeDeploymentUpdateService;
-use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeIssueUpdateService;
-use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeMergeRequestUpdateService;
-use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeNoteUpdateService;
-use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakePipelineUpdateService;
-use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
-use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeTagUpdateService;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeBuildHookHandler;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeDeploymentHookHandler;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeIssueHookHandler;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeMergeRequestHookHandler;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeNoteHookHandler;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakePipelineHookHandler;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakePushHookHandler;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeTagPushHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 use TJVB\GitLabWebhooks\Events\HookStored;
 
@@ -45,7 +38,7 @@ class HookStoredListenerTest extends TestCase
     public function weCanHandleAPushWebhook(): void
     {
         // setup / mock
-        $projectUpdater = new FakeProjectUpdateService();
+        $pushHookHandler = new FakePushHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'push.json'), true);
@@ -54,12 +47,12 @@ class HookStoredListenerTest extends TestCase
 
         // run
         $listener = $this->app->make(HookStoredListener::class, [
-            'projectUpdateService' => $projectUpdater,
+            'pushHookHandler' => $pushHookHandler,
         ]);
         $listener->handle($event);
 
         // verify/assert
-        $this->assertNotEmpty($projectUpdater->receivedData);
+        $this->assertTrue($pushHookHandler->hasReceivedData($hookModel));
     }
 
     /**
@@ -68,8 +61,7 @@ class HookStoredListenerTest extends TestCase
     public function weCanHandleATagEvent(): void
     {
         // setup / mock
-        $projectUpdater = new FakeProjectUpdateService();
-        $tagUpdater = new FakeTagUpdateService();
+        $tagPushHookHandler = new FakeTagPushHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'tag.json'), true);
@@ -78,14 +70,12 @@ class HookStoredListenerTest extends TestCase
 
         // run
         $listener = $this->app->make(HookStoredListener::class, [
-            'projectUpdateService' => $projectUpdater,
-            'tagUpdateService' => $tagUpdater,
+            'tagPushHookHandler' => $tagPushHookHandler,
         ]);
         $listener->handle($event);
 
         // verify/assert
-        $this->assertNotEmpty($projectUpdater->receivedData);
-        $this->assertNotEmpty($tagUpdater->receivedData);
+        $this->assertTrue($tagPushHookHandler->hasReceivedData($hookModel));
     }
 
     /**
@@ -94,8 +84,7 @@ class HookStoredListenerTest extends TestCase
     public function weCanHandleAnIssueEvent(): void
     {
         // setup / mock
-        $projectUpdater = new FakeProjectUpdateService();
-        $issueUpdater = new FakeIssueUpdateService();
+        $issueHookHandler = new FakeIssueHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'issue.json'), true);
@@ -104,14 +93,12 @@ class HookStoredListenerTest extends TestCase
 
         // run
         $listener = $this->app->make(HookStoredListener::class, [
-            'projectUpdateService' => $projectUpdater,
-            'issueUpdateService' => $issueUpdater,
+            'issueHookHandler' => $issueHookHandler,
         ]);
         $listener->handle($event);
 
         // verify/assert
-        $this->assertNotEmpty($issueUpdater->receivedData);
-        $this->assertNotEmpty($projectUpdater->receivedData);
+        $this->assertTrue($issueHookHandler->hasReceivedData($hookModel));
     }
 
     /**
@@ -120,8 +107,7 @@ class HookStoredListenerTest extends TestCase
     public function weCanHandleACommentEventOnACommit(): void
     {
         // setup / mock
-        $noteUpdater = new FakeNoteUpdateService();
-        $projectUpdater = new FakeProjectUpdateService();
+        $noteHookHandler = new FakeNoteHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
@@ -132,14 +118,12 @@ class HookStoredListenerTest extends TestCase
 
         // run
         $listener = $this->app->make(HookStoredListener::class, [
-            'noteUpdateService' => $noteUpdater,
-            'projectUpdateService' => $projectUpdater,
+            'noteHookHandler' => $noteHookHandler,
         ]);
         $listener->handle($event);
 
         // verify/assert
-        $this->assertNotEmpty($noteUpdater->receivedData);
-        $this->assertNotEmpty($projectUpdater->receivedData);
+        $this->assertTrue($noteHookHandler->hasReceivedData($hookModel));
     }
 
     /**
@@ -148,9 +132,7 @@ class HookStoredListenerTest extends TestCase
     public function weCanHandleACommentEventOnAMergeRequest(): void
     {
         // setup / mock
-        $mergeRequestUpdate = new FakeMergeRequestUpdateService();
-        $noteUpdater = new FakeNoteUpdateService();
-        $projectUpdater = new FakeProjectUpdateService();
+        $noteHookHandler = new FakeNoteHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
@@ -161,16 +143,12 @@ class HookStoredListenerTest extends TestCase
 
         // run
         $listener = $this->app->make(HookStoredListener::class, [
-            'mergeRequestUpdateService' => $mergeRequestUpdate,
-            'noteUpdateService' => $noteUpdater,
-            'projectUpdateService' => $projectUpdater,
+            'noteHookHandler' => $noteHookHandler,
         ]);
         $listener->handle($event);
 
         // verify/assert
-        $this->assertNotEmpty($mergeRequestUpdate->receivedData);
-        $this->assertNotEmpty($noteUpdater->receivedData);
-        $this->assertNotEmpty($projectUpdater->receivedData);
+        $this->assertTrue($noteHookHandler->hasReceivedData($hookModel));
     }
 
     /**
@@ -179,9 +157,7 @@ class HookStoredListenerTest extends TestCase
     public function weCanHandleACommentEventOnAnIssue(): void
     {
         // setup / mock
-        $issueUpdater = new FakeIssueUpdateService();
-        $noteUpdater = new FakeNoteUpdateService();
-        $projectUpdater = new FakeProjectUpdateService();
+        $noteHookHandler = new FakeNoteHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
@@ -192,16 +168,12 @@ class HookStoredListenerTest extends TestCase
 
         // run
         $listener = $this->app->make(HookStoredListener::class, [
-            'issueUpdateService' => $issueUpdater,
-            'noteUpdateService' => $noteUpdater,
-            'projectUpdateService' => $projectUpdater,
+            'noteHookHandler' => $noteHookHandler,
         ]);
         $listener->handle($event);
 
         // verify/assert
-        $this->assertNotEmpty($issueUpdater->receivedData);
-        $this->assertNotEmpty($noteUpdater->receivedData);
-        $this->assertNotEmpty($projectUpdater->receivedData);
+        $this->assertTrue($noteHookHandler->hasReceivedData($hookModel));
     }
 
     /**
@@ -210,8 +182,7 @@ class HookStoredListenerTest extends TestCase
     public function weCanHandleACommentEventOnACodeSnippet(): void
     {
         // setup / mock
-        $noteUpdater = new FakeNoteUpdateService();
-        $projectUpdater = new FakeProjectUpdateService();
+        $noteHookHandler = new FakeNoteHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
@@ -222,14 +193,12 @@ class HookStoredListenerTest extends TestCase
 
         // run
         $listener = $this->app->make(HookStoredListener::class, [
-            'noteUpdateService' => $noteUpdater,
-            'projectUpdateService' => $projectUpdater,
+            'noteHookHandler' => $noteHookHandler,
         ]);
         $listener->handle($event);
 
         // verify/assert
-        $this->assertNotEmpty($noteUpdater->receivedData);
-        $this->assertNotEmpty($projectUpdater->receivedData);
+        $this->assertTrue($noteHookHandler->hasReceivedData($hookModel));
     }
 
     /**
@@ -238,8 +207,7 @@ class HookStoredListenerTest extends TestCase
     public function weCanHandleAMergeRequestEvent(): void
     {
         // setup / mock
-        $projectUpdater = new FakeProjectUpdateService();
-        $mergeRequestUpdate = new FakeMergeRequestUpdateService();
+        $mergeRequestHookHandler = new FakeMergeRequestHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(
@@ -251,14 +219,12 @@ class HookStoredListenerTest extends TestCase
 
         // run
         $listener = $this->app->make(HookStoredListener::class, [
-            'projectUpdateService' => $projectUpdater,
-            'mergeRequestUpdateService' => $mergeRequestUpdate,
+            'mergeRequestHookHandler' => $mergeRequestHookHandler,
         ]);
         $listener->handle($event);
 
         // verify/assert
-        $this->assertNotEmpty($mergeRequestUpdate->receivedData);
-        $this->assertNotEmpty($projectUpdater->receivedData);
+        $this->assertTrue($mergeRequestHookHandler->hasReceivedData($hookModel));
     }
 
     /**
@@ -267,10 +233,7 @@ class HookStoredListenerTest extends TestCase
     public function weCanHandleAPipelineEvent(): void
     {
         // setup / mock
-        $buildUpdater = new FakeBuildUpdateService();
-        $pipelineUpdate = new FakePipelineUpdateService();
-        $mergeRequestUpdate = new FakeMergeRequestUpdateService();
-        $projectUpdater = new FakeProjectUpdateService();
+        $pipelineHookHandler = new FakePipelineHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
@@ -279,18 +242,12 @@ class HookStoredListenerTest extends TestCase
 
         // run
         $listener = $this->app->make(HookStoredListener::class, [
-            'buildUpdateService' => $buildUpdater,
-            'pipelineUpdateService' => $pipelineUpdate,
-            'mergeRequestUpdateService' => $mergeRequestUpdate,
-            'projectUpdateService' => $projectUpdater,
+            'pipelineHookHandler' => $pipelineHookHandler,
         ]);
         $listener->handle($event);
 
         // verify/assert
-        $this->assertNotEmpty($buildUpdater->receivedData);
-        $this->assertNotEmpty($pipelineUpdate->receivedData);
-        $this->assertNotEmpty($mergeRequestUpdate->receivedData);
-        $this->assertNotEmpty($projectUpdater->receivedData);
+        $this->assertTrue($pipelineHookHandler->hasReceivedData($hookModel));
     }
 
     /**
@@ -299,7 +256,7 @@ class HookStoredListenerTest extends TestCase
     public function weCanHandleAJobEvent(): void
     {
         // setup / mock
-        $buildUpdater = new FakeBuildUpdateService();
+        $buildHookHandler = new FakeBuildHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'job.json'), true);
@@ -308,12 +265,12 @@ class HookStoredListenerTest extends TestCase
 
         // run
         $listener = $this->app->make(HookStoredListener::class, [
-            'buildUpdateService' => $buildUpdater,
+            'buildHookHandler' => $buildHookHandler,
         ]);
         $listener->handle($event);
 
         // verify/assert
-        $this->assertNotEmpty($buildUpdater->receivedData);
+        $this->assertTrue($buildHookHandler->hasReceivedData($hookModel));
     }
 
     /**
@@ -322,8 +279,7 @@ class HookStoredListenerTest extends TestCase
     public function weCanHandleADeploymentEvent(): void
     {
         // setup / mock
-        $deploymentUpdater = new FakeDeploymentUpdateService();
-        $projectUpdater = new FakeProjectUpdateService();
+        $deploymentHookHandler = new FakeDeploymentHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'deployment.json'), true);
@@ -332,13 +288,11 @@ class HookStoredListenerTest extends TestCase
 
         // run
         $listener = $this->app->make(HookStoredListener::class, [
-            'deploymentUpdateService' => $deploymentUpdater,
-            'projectUpdateService' => $projectUpdater
+            'deploymentHookHandler' => $deploymentHookHandler,
         ]);
         $listener->handle($event);
 
         // verify/assert
-        $this->assertNotEmpty($deploymentUpdater->receivedData);
-        $this->assertNotEmpty($projectUpdater->receivedData);
+        $this->assertTrue($deploymentHookHandler->hasReceivedData($hookModel));
     }
 }

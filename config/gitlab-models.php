@@ -39,6 +39,15 @@ return [
     ],
 
     'services' => [
+        'build_handler' => \TJVB\GitlabModelsForLaravel\Services\BuildHookHandler::class,
+        'deployment_handler' => \TJVB\GitlabModelsForLaravel\Services\DeploymentHookHandler::class,
+        'issue_handler' => \TJVB\GitlabModelsForLaravel\Services\IssueHookHandler::class,
+        'merge_request_handler' => \TJVB\GitlabModelsForLaravel\Services\MergeRequestHookHandler::class,
+        'note_handler' => \TJVB\GitlabModelsForLaravel\Services\NoteHookHandler::class,
+        'pipeline_handler' => \TJVB\GitlabModelsForLaravel\Services\PipelineHookHandler::class,
+        'push_handler' => \TJVB\GitlabModelsForLaravel\Services\PushHookHandler::class,
+        'tag_push_handler' => \TJVB\GitlabModelsForLaravel\Services\TagPushHookHandler::class,
+
         'build_update' => \TJVB\GitlabModelsForLaravel\Services\BuildUpdateService::class,
         'deployment_update' => \TJVB\GitlabModelsForLaravel\Services\DeploymentUpdateService::class,
         'issue_update' => \TJVB\GitlabModelsForLaravel\Services\IssueUpdateService::class,

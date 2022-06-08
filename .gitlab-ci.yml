@@ -67,6 +67,7 @@ test_lowest:
     - curl -sS https://getcomposer.org/installer | php
     - php composer.phar update --prefer-lowest
     - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
+  coverage:  '/^\s*Lines:\s*\d+.\d+\%/'
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
@@ -81,6 +82,7 @@ test_php80:
   script:
     - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
     - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
+  coverage:  '/^\s*Lines:\s*\d+.\d+\%/'
   artifacts:
     reports:
       junit: phpunitresult/junit.xml
@@ -98,6 +100,7 @@ test_php81:
   script:
     - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
     - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
+  coverage:  '/^\s*Lines:\s*\d+.\d+\%/'
   artifacts:
     reports:
       junit: phpunitresult/junit.xml

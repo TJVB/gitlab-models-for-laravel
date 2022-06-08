@@ -16,13 +16,21 @@ use TJVB\GitlabModelsForLaravel\Contracts\Repositories\PipelineWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectReadRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\TagWriteRepository;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueHookHandlerContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestHookHandlerContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\PushHookHandlerContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\TagPushHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService;
 
 /**
@@ -60,6 +68,20 @@ class GitlabModelsProvider extends ServiceProvider implements DeferrableProvider
         $this->app->bind(TagWriteRepository::class, config('gitlab-models.repositories.tag_write'));
 
         // services
+        // hook handler services
+        $this->app->bind(BuildHookHandlerContract::class, config('gitlab-models.services.build_handler'));
+        $this->app->bind(DeploymentHookHandlerContract::class, config('gitlab-models.services.deployment_handler'));
+        $this->app->bind(IssueHookHandlerContract::class, config('gitlab-models.services.issue_handler'));
+        $this->app->bind(
+            MergeRequestHookHandlerContract::class,
+            config('gitlab-models.services.merge_request_handler')
+        );
+        $this->app->bind(NoteHookHandlerContract::class, config('gitlab-models.services.note_handler'));
+        $this->app->bind(PipelineHookHandlerContract::class, config('gitlab-models.services.pipeline_handler'));
+        $this->app->bind(PushHookHandlerContract::class, config('gitlab-models.services.push_handler'));
+        $this->app->bind(TagPushHookHandlerContract::class, config('gitlab-models.services.tag_push_handler'));
+
+        // update services
         $this->app->bind(BuildUpdateService::class, config('gitlab-models.services.build_update'));
         $this->app->bind(DeploymentUpdateService::class, config('gitlab-models.services.deployment_update'));
         $this->app->bind(NoteUpdateService::class, config('gitlab-models.services.note_update'));
@@ -87,6 +109,17 @@ class GitlabModelsProvider extends ServiceProvider implements DeferrableProvider
             TagWriteRepository::class,
 
             // services
+            // hook handler services
+            BuildHookHandlerContract::class,
+            DeploymentHookHandlerContract::class,
+            IssueHookHandlerContract::class,
+            MergeRequestHookHandlerContract::class,
+            NoteHookHandlerContract::class,
+            PipelineHookHandlerContract::class,
+            PushHookHandlerContract::class,
+            TagPushHookHandlerContract::class,
+
+            // update services
             BuildUpdateService::class,
             DeploymentUpdateService::class,
             IssueUpdateService::class,
