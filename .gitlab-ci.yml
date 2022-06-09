@@ -25,6 +25,7 @@ lint:
     # lint recursive
     - find src/ -type f -name '*.php' -exec php -l {} \; | (! grep -v "No syntax errors detected" )
   dependencies: []
+  needs: []
 
 phpcs:
   stage: check
@@ -59,55 +60,41 @@ phpstan:
       - phpstan.json
     when: always
 
-test_lowest:
+# this is a template for the test jobs and have the config that is used for all the test jobs
+.test_base:
   stage: test
+  coverage:  '/^\s*Lines:\s*\d+.\d+\%/'
+  artifacts:
+    reports:
+      junit: phpunitresult/junit.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: phpunitresult/cobertura-coverage.xml
+  dependencies:
+    - prepare_cache
+  needs:
+    - prepare_cache
+
+test_lowest:
+  extends: .test_base
   script:
     # Install composer
     - rm -f composer.lock
     - curl -sS https://getcomposer.org/installer | php
     - php composer.phar update --prefer-lowest
-    - vendor/bin/phpunit --coverage-text --colors=never --log-junit=phpunitresult/junit.xml
-  coverage:  '/^\s*Lines:\s*\d+.\d+\%/'
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-  dependencies:
-    - prepare_cache
-  needs:
-    - prepare_cache
+    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
 
 test_php80:
-  stage: test
+  extends: .test_base
   image: registry.gitlab.com/tjvb/phpimages:php80
   script:
     - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
     - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
-  coverage:  '/^\s*Lines:\s*\d+.\d+\%/'
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: phpunitresult/cobertura-coverage.xml
-  dependencies:
-    - prepare_cache
-  needs:
-    - prepare_cache
 
 test_php81:
-  stage: test
+  extends: .test_base
   image: registry.gitlab.com/tjvb/phpimages:php81
   script:
     - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
     - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
-  coverage:  '/^\s*Lines:\s*\d+.\d+\%/'
-  artifacts:
-    reports:
-      junit: phpunitresult/junit.xml
-      coverage_report:
-        coverage_format: cobertura
-        path: phpunitresult/cobertura-coverage.xml
-  dependencies:
-    - prepare_cache
-  needs:
-    - prepare_cache
