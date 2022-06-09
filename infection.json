@@ -10,6 +10,7 @@
     },
     "logs": {
         "text": "build/infection/infection.log",
+        "html": "build/infection/infection.html",
         "summary": "build/infection/infection-summary.log",
         "json": "build/infection/infection-log.json",
         "perMutator": "build/infection/infection-per-mutator.md"
