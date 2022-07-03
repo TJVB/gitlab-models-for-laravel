@@ -3,7 +3,7 @@
 [![pipeline status](https://gitlab.com/tjvb/gitlab-models-for-laravel/badges/master/pipeline.svg)](https://gitlab.com/tjvb/gitlab-models-for-laravel/commits/master)
 [![coverage report](https://gitlab.com/tjvb/gitlab-models-for-laravel/badges/master/coverage.svg)](https://gitlab.com/tjvb/gitlab-models-for-laravel/commits/master)
 
-GitLab push data for different objects with its webhook, this package provide the option to store that data in your database. Under the hood it use [tjvb/gitlab-webhooks-receiver-for-laravel](https://gitlab.com/tjvb/gitlab-webhooks-receiver-for-laravel/) for receiving the webhook data. After storing the data it will dispatch an event that can be used to update other parts of your data or react on the new input.
+GitLab push data for different objects with its webhook, this package provides the option to store that data in your database. Under the hood it use [tjvb/gitlab-webhooks-receiver-for-laravel](https://gitlab.com/tjvb/gitlab-webhooks-receiver-for-laravel/) for receiving the webhook data. After storing the data it will dispatch an event that can be used to update other parts of your data or react on the new input.
 
 ## Installation
 
