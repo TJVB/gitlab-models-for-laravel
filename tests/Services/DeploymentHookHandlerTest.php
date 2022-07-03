@@ -46,4 +46,28 @@ class DeploymentHookHandlerTest extends TestCase
         $this->assertNotEmpty($deploymentUpdateService->receivedData);
         $this->assertNotEmpty($projectUpdateService->receivedData);
     }
+
+    /**
+     * @test
+     */
+    public function weDoNotCrashOnInvalidData(): void
+    {
+        // setup / mock
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'deployment.json'), true);
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'deployment';
+
+        $hookModel->body['project'] = 'invalid project data';
+
+        $deploymentUpdateService = new FakeDeploymentUpdateService();
+        $projectUpdateService = new FakeProjectUpdateService();
+
+        // run
+        $handler = new DeploymentHookHandler($deploymentUpdateService, $projectUpdateService);
+        $handler->handle($hookModel);
+
+        // verify/assert
+        $this->assertNotEmpty($deploymentUpdateService->receivedData);
+        $this->assertEmpty($projectUpdateService->receivedData);
+    }
 }

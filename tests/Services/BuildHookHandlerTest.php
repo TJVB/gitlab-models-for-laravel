@@ -21,7 +21,8 @@ class BuildHookHandlerTest extends TestCase
 
         // run
         $handler = $this->app->make(BuildHookHandler::class);
-// verify/assert
+
+        // verify/assert
         $this->assertInstanceOf(BuildHookHandler::class, $handler);
         $this->assertInstanceOf(BuildHookHandlerContract::class, $handler);
     }
@@ -36,10 +37,12 @@ class BuildHookHandlerTest extends TestCase
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'job.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'build';
         $buildUpdater = new FakeBuildUpdateService();
-// run
+
+        // run
         $handler = new BuildHookHandler($buildUpdater);
         $handler->handle($hookModel);
-// verify/assert
+
+        // verify/assert
         $this->assertNotEmpty($buildUpdater->receivedData);
     }
 }

@@ -47,4 +47,29 @@ class IssueHookHandlerTest extends TestCase
         $this->assertNotEmpty($issueUpdateService->receivedData);
         $this->assertNotEmpty($projectUpdateService->receivedData);
     }
+
+    /**
+     * @test
+     */
+    public function weDoNotCrashOnInvalidData(): void
+    {
+        // setup / mock
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'issue.json'), true);
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'issue';
+
+        $hookModel->body['object_attributes'] = 123;
+        $hookModel->body['project'] = new \stdClass();
+
+        $issueUpdateService = new FakeIssueUpdateService();
+        $projectUpdateService = new FakeProjectUpdateService();
+
+        // run
+        $handler = new IssueHookHandler($issueUpdateService, $projectUpdateService);
+        $handler->handle($hookModel);
+
+        // verify/assert
+        $this->assertEmpty($issueUpdateService->receivedData);
+        $this->assertEmpty($projectUpdateService->receivedData);
+    }
 }
