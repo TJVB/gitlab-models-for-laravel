@@ -43,4 +43,24 @@ class PushHookHandlerTest extends TestCase
         // verify/assert
         $this->assertNotEmpty($projectUpdateService->receivedData);
     }
+
+    /**
+     * @test
+     */
+    public function weDoNotCrashOnInvalidData(): void
+    {
+        // setup / mock
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'push.json'), true);
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'push';
+        $hookModel->body['project'] = 'invalid project data';
+        $projectUpdateService = new FakeProjectUpdateService();
+
+        // run
+        $handler = new PushHookHandler($projectUpdateService);
+        $handler->handle($hookModel);
+
+        // verify/assert
+        $this->assertEmpty($projectUpdateService->receivedData);
+    }
 }
