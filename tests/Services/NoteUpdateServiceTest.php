@@ -152,4 +152,81 @@ class NoteUpdateServiceTest extends TestCase
             'id' => 123,
         ]);
     }
+
+    /**
+     * @test
+     * @dataProvider noteIdProvider
+     */
+    public function weHandleTheDifferentIdValues(mixed $id, bool $valid): void
+    {
+        // setup / mock
+        Event::fake();
+        $fakeRepository = new FakeNoteWriteRepository();
+        $this->app->bind(
+            NoteWriteRepository::class,
+            static function () use ($fakeRepository): NoteWriteRepository {
+                return $fakeRepository;
+            }
+        );
+        $data = [
+            'id' => $id,
+            'key' => 'value',
+            'noteable_type' => 'Snippet'
+        ];
+
+        /**
+         * @var Repository $config
+         */
+        $config = $this->app->make(Repository::class);
+        $config->set('gitlab-models.model_to_store.notes', true);
+        $config->set('gitlab-models.comment_types_to_store', ['Snippet']);
+
+        if (!$valid) {
+            $this->expectException(MissingData::class);
+        }
+
+        // run
+        $service = $this->app->make(NoteUpdateService::class, [
+            'config' => $config,
+        ]);
+        $service->updateOrCreate($data);
+
+        // verify/assert
+        if ($valid) {
+            $this->assertNotEmpty($fakeRepository->receivedData);
+            $this->assertTrue(
+                $fakeRepository->hasReceivedData((int)$id, $data),
+                'We didn\'t received the correct data on the repository'
+            );
+            Event::assertDispatched(static function (NoteDataReceived $event) use ($id) {
+
+                return $event->getNote()->getNoteId() === (int)$id;
+            });
+            return;
+        }
+        $this->assertEmpty($fakeRepository->receivedData);
+        $this->assertFalse(
+            $fakeRepository->hasReceivedData($id, $data),
+            'We did received the correct data on the repository while disabled'
+        );
+        Event::assertNotDispatched(NoteDataReceived::class);
+    }
+
+    public function noteIdProvider(): array
+    {
+        return [
+            'valid int' => [
+                123,
+                true,
+            ],
+            'valid string' => [
+                '123',
+                true,
+            ],
+            'invalid int' => [
+                'n123',
+                false,
+            ],
+        ];
+    }
 }
