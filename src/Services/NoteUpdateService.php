@@ -26,7 +26,13 @@ final class NoteUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\
         if (!isset($noteData['noteable_type'])) {
             throw MissingData::missingDataForAction('noteable_type', ' updateOrCreateNote');
         }
-        if (!in_array($noteData['noteable_type'], $this->config->get('gitlab-models.comment_types_to_store', []), true)) {
+        if (
+            !in_array(
+                $noteData['noteable_type'],
+                $this->config->get('gitlab-models.comment_types_to_store', []),
+                true
+            )
+        ) {
             return;
         }
         $note = $this->repository->updateOrCreate((int) $noteData['id'], $noteData);
