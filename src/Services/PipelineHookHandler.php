@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Services;
 
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
@@ -16,7 +16,7 @@ final class PipelineHookHandler implements PipelineHookHandlerContract
 {
     public function __construct(
         private BuildUpdateService $buildUpdateService,
-        private MergeRequestUpdateService $mergeRequestUpdateService,
+        private MergeRequestUpdateServiceContract $mergeRequestUpdateService,
         private PipelineUpdateService $pipelineUpdateService,
         private ProjectUpdateService $projectUpdateService,
     ) {

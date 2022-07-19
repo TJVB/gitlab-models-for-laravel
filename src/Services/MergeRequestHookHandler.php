@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Services;
 
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestHookHandlerContract;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
 use TJVB\GitLabWebhooks\Contracts\Models\GitLabHookModel;
 
 final class MergeRequestHookHandler implements MergeRequestHookHandlerContract
 {
     public function __construct(
-        private MergeRequestUpdateService $mergeRequestUpdateService,
+        private MergeRequestUpdateServiceContract $mergeRequestUpdateService,
         private ProjectUpdateService $projectUpdateService,
     ) {
     }

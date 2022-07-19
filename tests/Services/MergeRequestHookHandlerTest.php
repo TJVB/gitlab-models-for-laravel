@@ -7,7 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Services\MergeRequestHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
-use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeMergeRequestUpdateService;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeMergeRequestUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
@@ -39,7 +39,7 @@ class MergeRequestHookHandlerTest extends TestCase
         );
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
 
-        $mergeRequestUpdateService = new FakeMergeRequestUpdateService();
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
         $projectUpdateService = new FakeProjectUpdateService();
 
         // run
@@ -49,5 +49,57 @@ class MergeRequestHookHandlerTest extends TestCase
         // verify/assert
         $this->assertNotEmpty($mergeRequestUpdateService->receivedData);
         $this->assertNotEmpty($projectUpdateService->receivedData);
+    }
+
+    /**
+     * @test
+     */
+    public function weDontStoreInvalidMergeRequestData(): void
+    {
+        // setup / mock
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(
+            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+            true
+        );
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
+        $hookModel->body['object_attributes'] = 'invalid merge request data';
+
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
+        $projectUpdateService = new FakeProjectUpdateService();
+
+        // run
+        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService);
+        $handler->handle($hookModel);
+
+        // verify/assert
+        $this->assertEmpty($mergeRequestUpdateService->receivedData);
+        $this->assertNotEmpty($projectUpdateService->receivedData);
+    }
+
+    /**
+     * @test
+     */
+    public function weDontStoreInvalidProjectData(): void
+    {
+        // setup / mock
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(
+            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+            true
+        );
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
+        $hookModel->body['project'] = 'invalid project data';
+
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
+        $projectUpdateService = new FakeProjectUpdateService();
+
+        // run
+        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService);
+        $handler->handle($hookModel);
+
+        // verify/assert
+        $this->assertNotEmpty($mergeRequestUpdateService->receivedData);
+        $this->assertEmpty($projectUpdateService->receivedData);
     }
 }

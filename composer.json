@@ -61,5 +61,22 @@
         "phpstan/phpstan": "^1.2",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.6"
+    },
+    "scripts": {
+        "check-all": [
+            "@format",
+            "@codestyle",
+            "@test-coverage",
+            "@phpstan",
+            "@phpmd",
+            "@infection"
+        ],
+        "codestyle": "@php vendor/bin/phpcs",
+        "format": "@php vendor/bin/phpcbf",
+        "phpmd": "@php vendor/bin/phpmd src/ text phpmd.xml.dist",
+        "phpstan": "@php vendor/bin/phpstan",
+        "test": "@php vendor/bin/phpunit --no-coverage",
+        "test-coverage": "@php vendor/bin/phpunit --coverage-html build/coverage",
+        "infection": "@php vendor/bin/infection"
     }
 }

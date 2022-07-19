@@ -25,7 +25,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestHookHandlerContra
 use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
@@ -86,7 +86,10 @@ class GitlabModelsProvider extends ServiceProvider implements DeferrableProvider
         $this->app->bind(DeploymentUpdateService::class, config('gitlab-models.services.deployment_update'));
         $this->app->bind(NoteUpdateService::class, config('gitlab-models.services.note_update'));
         $this->app->bind(IssueUpdateService::class, config('gitlab-models.services.issue_update'));
-        $this->app->bind(MergeRequestUpdateService::class, config('gitlab-models.services.merge_request_update'));
+        $this->app->bind(
+            MergeRequestUpdateServiceContract::class,
+            config('gitlab-models.services.merge_request_update')
+        );
         $this->app->bind(PipelineUpdateService::class, config('gitlab-models.services.pipeline_update'));
         $this->app->bind(ProjectUpdateService::class, config('gitlab-models.services.project_update'));
         $this->app->bind(TagUpdateService::class, config('gitlab-models.services.tag_update'));
@@ -123,7 +126,7 @@ class GitlabModelsProvider extends ServiceProvider implements DeferrableProvider
             BuildUpdateService::class,
             DeploymentUpdateService::class,
             IssueUpdateService::class,
-            MergeRequestUpdateService::class,
+            MergeRequestUpdateServiceContract::class,
             NoteUpdateService::class,
             PipelineUpdateService::class,
             ProjectUpdateService::class,

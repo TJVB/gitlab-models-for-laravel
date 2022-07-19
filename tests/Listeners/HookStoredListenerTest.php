@@ -295,4 +295,48 @@ class HookStoredListenerTest extends TestCase
         // verify/assert
         $this->assertTrue($deploymentHookHandler->hasReceivedData($hookModel));
     }
+
+    /**
+     * @test
+     */
+    public function weDontCrashOnAnUnknownHookObjectKind(): void
+    {
+        // setup / mock
+        $buildHookHandler = new FakeBuildHookHandler();
+        $deploymentHookHandler = new FakeDeploymentHookHandler();
+        $issueHookHandler = new FakeIssueHookHandler();
+        $mergeRequestHookHandler = new FakeMergeRequestHookHandler();
+        $noteHookHandler = new FakeNoteHookHandler();
+        $pipelineHookHandler = new FakePipelineHookHandler();
+        $pushHookHandler = new FakePushHookHandler();
+        $tagPushHookHandler = new FakeTagPushHookHandler();
+
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = [];
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'unknown';
+        $event = new HookStored($hookModel);
+
+        // run
+        $listener = $this->app->make(HookStoredListener::class, [
+            'buildHookHandler' => $buildHookHandler,
+            'deploymentHookHandler' => $deploymentHookHandler,
+            'issueHookHandler' => $issueHookHandler,
+            'mergeRequestHookHandler' => $mergeRequestHookHandler,
+            'noteHookHandler' => $noteHookHandler,
+            'pipelineHookHandler' => $pipelineHookHandler,
+            'pushHookHandler' => $pushHookHandler,
+            'tagPushHookHandler' => $tagPushHookHandler,
+        ]);
+        $listener->handle($event);
+
+        // verify/assert
+        $this->assertEmpty($buildHookHandler->receivedData);
+        $this->assertEmpty($deploymentHookHandler->receivedData);
+        $this->assertEmpty($issueHookHandler->receivedData);
+        $this->assertEmpty($mergeRequestHookHandler->receivedData);
+        $this->assertEmpty($noteHookHandler->receivedData);
+        $this->assertEmpty($pipelineHookHandler->receivedData);
+        $this->assertEmpty($pushHookHandler->receivedData);
+        $this->assertEmpty($tagPushHookHandler->receivedData);
+    }
 }

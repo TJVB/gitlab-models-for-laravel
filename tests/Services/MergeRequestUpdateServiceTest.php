@@ -7,7 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateService as MergeRequestUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\MergeRequestDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 use TJVB\GitlabModelsForLaravel\Services\MergeRequestUpdateService;
@@ -28,6 +28,7 @@ class MergeRequestUpdateServiceTest extends TestCase
         $service = $this->app->make(MergeRequestUpdateService::class);
 
         // verify/assert
+        $this->assertInstanceOf(MergeRequestUpdateService::class, $service);
         $this->assertInstanceOf(MergeRequestUpdateServiceContract::class, $service);
     }
 
@@ -90,7 +91,7 @@ class MergeRequestUpdateServiceTest extends TestCase
     public function weGenerateAnErrorIfWeUpdateOrCreateAMergeRequestWithoutID(): void
     {
         // setup / mock
-        $service = $this->app->make(MergeRequestUpdateService::class);
+        $service = $this->app->make(MergeRequestUpdateServiceContract::class);
         $this->expectException(MissingData::class);
 
         // run

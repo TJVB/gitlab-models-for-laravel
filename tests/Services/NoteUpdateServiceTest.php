@@ -21,11 +21,10 @@ class NoteUpdateServiceTest extends TestCase
 {
     use TrueFalseProvider;
 
-/**
+
+    /**
      * @test
      */
-
-
     public function weImplementTheContract(): void
     {
         // run

@@ -10,6 +10,7 @@ use TJVB\GitLabWebhooks\Contracts\Models\GitLabHookModel;
 final class FakePushHookHandler implements PushHookHandlerContract
 {
     public array $receivedData = [];
+
     public function handle(GitLabHookModel $gitLabHookModel): void
     {
         $this->receivedData[] = $gitLabHookModel;

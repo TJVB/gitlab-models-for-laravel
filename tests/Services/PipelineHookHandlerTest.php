@@ -8,7 +8,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Services\PipelineHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeBuildUpdateService;
-use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeMergeRequestUpdateService;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeMergeRequestUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakePipelineUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
@@ -38,7 +38,7 @@ class PipelineHookHandlerTest extends TestCase
         $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $buildUpdateService = new FakeBuildUpdateService();
-        $mergeRequestUpdateService = new FakeMergeRequestUpdateService();
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
         $pipelineUpdateService = new FakePipelineUpdateService();
         $projectUpdateService = new FakeProjectUpdateService();
 
@@ -69,7 +69,7 @@ class PipelineHookHandlerTest extends TestCase
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $hookModel->body['object_attributes'] = 'invalid pipeline';
         $buildUpdateService = new FakeBuildUpdateService();
-        $mergeRequestUpdateService = new FakeMergeRequestUpdateService();
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
         $pipelineUpdateService = new FakePipelineUpdateService();
         $projectUpdateService = new FakeProjectUpdateService();
 
@@ -100,7 +100,7 @@ class PipelineHookHandlerTest extends TestCase
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $hookModel->body['project'] = 'invalid projectdata';
         $buildUpdateService = new FakeBuildUpdateService();
-        $mergeRequestUpdateService = new FakeMergeRequestUpdateService();
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
         $pipelineUpdateService = new FakePipelineUpdateService();
         $projectUpdateService = new FakeProjectUpdateService();
 
@@ -131,7 +131,7 @@ class PipelineHookHandlerTest extends TestCase
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $hookModel->body['merge_request'] = 'invalid merge_request data';
         $buildUpdateService = new FakeBuildUpdateService();
-        $mergeRequestUpdateService = new FakeMergeRequestUpdateService();
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
         $pipelineUpdateService = new FakePipelineUpdateService();
         $projectUpdateService = new FakeProjectUpdateService();
 
@@ -162,7 +162,7 @@ class PipelineHookHandlerTest extends TestCase
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $hookModel->body['builds'] = ['invalid build data'];
         $buildUpdateService = new FakeBuildUpdateService();
-        $mergeRequestUpdateService = new FakeMergeRequestUpdateService();
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
         $pipelineUpdateService = new FakePipelineUpdateService();
         $projectUpdateService = new FakeProjectUpdateService();
 
@@ -194,7 +194,7 @@ class PipelineHookHandlerTest extends TestCase
         // add an invalid build in front of the others
         array_unshift($hookModel->body['builds'], 'invalid build data');
         $buildUpdateService = new FakeBuildUpdateService();
-        $mergeRequestUpdateService = new FakeMergeRequestUpdateService();
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
         $pipelineUpdateService = new FakePipelineUpdateService();
         $projectUpdateService = new FakeProjectUpdateService();
 
@@ -225,7 +225,7 @@ class PipelineHookHandlerTest extends TestCase
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $hookModel->body['builds'] = 'invalid builds data';
         $buildUpdateService = new FakeBuildUpdateService();
-        $mergeRequestUpdateService = new FakeMergeRequestUpdateService();
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
         $pipelineUpdateService = new FakePipelineUpdateService();
         $projectUpdateService = new FakeProjectUpdateService();
 

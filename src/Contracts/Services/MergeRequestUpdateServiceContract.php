@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Contracts\Services;
 
-interface MergeRequestUpdateService
+interface MergeRequestUpdateServiceContract
 {
     public function updateOrCreate(array $mergeRequestData): void;
 }
