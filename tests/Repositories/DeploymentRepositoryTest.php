@@ -54,6 +54,7 @@ class DeploymentRepositoryTest extends TestCase
 
         // verify/assert
         $this->assertEquals($id, $result->getDeploymentId());
+        $this->assertEquals($deployableId, $result->getDeployableId());
         $this->assertEquals($deployableUrl, $result->getDeployableUrl());
         $this->assertEquals($environment, $result->getEnvironment());
         $this->assertEquals($status, $result->getStatus());

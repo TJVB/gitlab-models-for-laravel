@@ -88,7 +88,16 @@ class IssueRepositoryTest extends TestCase
 
         // verify/assert
         $this->assertEquals($id, $result->getIssueId());
-        $this->assertDatabaseHas('gitlab_issues', ['issue_id' => $id]);
+        $this->assertDatabaseHas('gitlab_issues', [
+            'issue_id' => $id,
+            'issue_iid' => '',
+            'project_id' => '',
+            'title' => '',
+            'description' => '',
+            'url' => '',
+            'state' => '',
+            'confidential' => 0,
+        ]);
     }
 
     /**

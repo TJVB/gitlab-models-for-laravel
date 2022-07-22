@@ -76,6 +76,6 @@ class Issue extends Model implements IssueContract
 
     public function getConfidential(): bool
     {
-        return $this->confidential;
+        return (bool) $this->confidential;
     }
 }
