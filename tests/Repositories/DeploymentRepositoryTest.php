@@ -88,6 +88,16 @@ class DeploymentRepositoryTest extends TestCase
             'status' => $status,
             'status_changed_at' => $changedAt,
         ];
+        // another deployment
+        $otherDeploymentData = [
+            'deployment_id' => random_int(1, PHP_INT_MAX),
+            'deployable_id' => random_int(1, PHP_INT_MAX),
+            'deployable_url' => 'https://webtest' . mt_rand() . '.tld/web',
+            'environment' => 'environment' . mt_rand(),
+            'status' => 'status' . mt_rand(),
+            'status_changed_at' => CarbonImmutable::now()->subMinutes(random_int(10, 20)),
+        ];
+        Deployment::create($otherDeploymentData);
         Deployment::create([
             'deployment_id' => $id,
             'deployable_id' => random_int(1, PHP_INT_MAX),
@@ -110,6 +120,13 @@ class DeploymentRepositoryTest extends TestCase
             'environment' => $environment,
             'status' => $status,
         ]);
-        $this->assertDatabaseCount(Deployment::class, 1);
+        $this->assertDatabaseHas('gitlab_deployments', [
+            'deployment_id' => $otherDeploymentData['deployment_id'],
+            'deployable_id' => $otherDeploymentData['deployable_id'],
+            'deployable_url' => $otherDeploymentData['deployable_url'],
+            'environment' => $otherDeploymentData['environment'],
+            'status' => $otherDeploymentData['status'],
+        ]);
+        $this->assertDatabaseCount(Deployment::class, 2);
     }
 }
