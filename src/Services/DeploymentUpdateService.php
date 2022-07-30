@@ -10,7 +10,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentUpdateService as De
 use TJVB\GitlabModelsForLaravel\Events\DeploymentDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 
-class DeploymentUpdateService implements DeploymentUpdateServiceContract
+final class DeploymentUpdateService implements DeploymentUpdateServiceContract
 {
     public function __construct(private Repository $config, private DeploymentWriteRepository $repository)
     {

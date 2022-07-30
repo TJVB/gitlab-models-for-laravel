@@ -8,7 +8,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\NoteWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectWriteRepository;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateService as NoteUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateServiceContract as NoteUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\NoteDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 use TJVB\GitlabModelsForLaravel\Services\NoteUpdateService;

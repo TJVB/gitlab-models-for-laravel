@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Services;
 
-use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteHookHandlerContract;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateService;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract;
 use TJVB\GitLabWebhooks\Contracts\Models\GitLabHookModel;
 
 final class NoteHookHandler implements NoteHookHandlerContract
 {
     public function __construct(
-        private IssueUpdateService $issueUpdateService,
+        private IssueUpdateServiceContract $issueUpdateService,
         private MergeRequestUpdateServiceContract $mergeRequestUpdateService,
-        private NoteUpdateService $noteUpdateService,
-        private ProjectUpdateService $projectUpdateService,
+        private NoteUpdateServiceContract $noteUpdateService,
+        private ProjectUpdateServiceContract $projectUpdateService,
     ) {
     }
 

@@ -6,14 +6,14 @@ namespace TJVB\GitlabModelsForLaravel\Services;
 
 use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentUpdateService;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract;
 use TJVB\GitLabWebhooks\Contracts\Models\GitLabHookModel;
 
 final class DeploymentHookHandler implements DeploymentHookHandlerContract
 {
     public function __construct(
         private DeploymentUpdateService $deploymentUpdateService,
-        private ProjectUpdateService $projectUpdateService,
+        private ProjectUpdateServiceContract $projectUpdateService,
     ) {
     }
 

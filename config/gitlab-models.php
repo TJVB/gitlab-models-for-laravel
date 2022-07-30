@@ -2,6 +2,10 @@
 
 return [
 
+    /**
+     * These are the GitLab models that we want to store in the database.
+     * We will not call the save function in the repository if it is disabled
+     */
     'model_to_store' => [
         'builds' => env('GITLAB_MODELS_STORE_BUILDS', true),
         'deployments' => env('GITLAB_MODELS_STORE_DEPLOYMENTS', true),
@@ -13,6 +17,10 @@ return [
         'tags' => env('GITLAB_MODELS_STORE_TAGS', true),
     ],
 
+    /**
+     * A comment has a type that explains where it is connected.
+     * By default, we only want to store the comments on a merge requests and issues.
+     */
     'comment_types_to_store' => [
 //        'Commit',
         'MergeRequest',
@@ -20,12 +28,23 @@ return [
 //        'Snippet',
     ],
 
+    /**
+     * The event(s) that we handle to start storing the information
+     * This need to implement the GitLabHookStored interface
+     */
     'events_to_listen' => [
         \TJVB\GitLabWebhooks\Contracts\Events\GitLabHookStored::class,
     ],
 
+    /**
+     * The listener that listen to the event(s)
+     * This need to implement the TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener interface
+     */
     'listener' => \TJVB\GitlabModelsForLaravel\Listeners\HookStoredListener::class,
 
+    /**
+     * These are the bindings for the repositories, these need to implement the corresponding interfaces.
+     */
     'repositories' => [
         'build_write' => \TJVB\GitlabModelsForLaravel\Repositories\BuildRepository::class,
         'deployment_write' => \TJVB\GitlabModelsForLaravel\Repositories\DeploymentRepository::class,
@@ -38,6 +57,9 @@ return [
         'tag_write' => \TJVB\GitlabModelsForLaravel\Repositories\TagRepository::class,
     ],
 
+    /**
+     * These are the bindings for the services, these need to implement the corresponding interfaces.
+     */
     'services' => [
         'build_handler' => \TJVB\GitlabModelsForLaravel\Services\BuildHookHandler::class,
         'deployment_handler' => \TJVB\GitlabModelsForLaravel\Services\DeploymentHookHandler::class,

@@ -6,10 +6,11 @@ namespace TJVB\GitlabModelsForLaravel\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\BuildWriteRepository;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\DTOs\BuildDTO;
 use TJVB\GitlabModelsForLaravel\Events\BuildDataReceived;
 
-final class BuildUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService
+final class BuildUpdateService implements BuildUpdateServiceContract
 {
     public function __construct(
         private Repository $config,

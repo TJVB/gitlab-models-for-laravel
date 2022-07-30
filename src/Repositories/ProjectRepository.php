@@ -11,7 +11,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectWriteRepository;
 use TJVB\GitlabModelsForLaravel\Exceptions\DataNotFound;
 use TJVB\GitlabModelsForLaravel\Models\Project;
 
-class ProjectRepository implements ProjectWriteRepository, ProjectReadRepository
+final class ProjectRepository implements ProjectWriteRepository, ProjectReadRepository
 {
     public function updateOrCreate(int $projectId, array $projectData): ProjectContract
     {

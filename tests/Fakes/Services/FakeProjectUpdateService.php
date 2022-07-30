@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Fakes\Services;
 
-use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract;
 
-final class FakeProjectUpdateService implements ProjectUpdateService
+final class FakeProjectUpdateService implements ProjectUpdateServiceContract
 {
     public array $receivedData = [];
 

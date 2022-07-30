@@ -15,7 +15,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Services\PushHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagPushHookHandlerContract;
 use TJVB\GitLabWebhooks\Contracts\Events\GitLabHookStored;
 
-class HookStoredListener implements GitLabHookStoredListener
+final class HookStoredListener implements GitLabHookStoredListener
 {
     public function __construct(
         private BuildHookHandlerContract $buildHookHandler,

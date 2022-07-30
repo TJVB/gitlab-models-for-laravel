@@ -7,7 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\TagWriteRepository;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService as TagUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateServiceContract as TagUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\TagDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 use TJVB\GitlabModelsForLaravel\Services\TagUpdateService;

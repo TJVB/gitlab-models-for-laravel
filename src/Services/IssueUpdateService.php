@@ -6,10 +6,11 @@ namespace TJVB\GitlabModelsForLaravel\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\IssueDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 
-final class IssueUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService
+final class IssueUpdateService implements IssueUpdateServiceContract
 {
     public function __construct(
         private Repository $config,

@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Services;
 
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueHookHandlerContract;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateService;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract;
 use TJVB\GitLabWebhooks\Contracts\Models\GitLabHookModel;
 
 final class IssueHookHandler implements IssueHookHandlerContract
 {
     public function __construct(
-        private IssueUpdateService $issueUpdateService,
-        private ProjectUpdateService $projectUpdateService,
+        private IssueUpdateServiceContract $issueUpdateService,
+        private ProjectUpdateServiceContract $projectUpdateService,
     ) {
     }
 

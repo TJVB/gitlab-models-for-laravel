@@ -6,7 +6,7 @@ namespace TJVB\GitlabModelsForLaravel\Contracts\Services;
 
 use TJVB\GitlabModelsForLaravel\DTOs\BuildDTO;
 
-interface BuildUpdateService
+interface BuildUpdateServiceContract
 {
     public function updateOrCreate(BuildDTO $buildDTO): void;
 }

@@ -6,10 +6,11 @@ namespace TJVB\GitlabModelsForLaravel\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\NoteWriteRepository;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\NoteDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 
-final class NoteUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateService
+final class NoteUpdateService implements NoteUpdateServiceContract
 {
     public function __construct(private NoteWriteRepository $repository, private Repository $config)
     {

@@ -9,7 +9,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Repositories\BuildWriteRepository;
 use TJVB\GitlabModelsForLaravel\DTOs\BuildDTO;
 use TJVB\GitlabModelsForLaravel\Models\Build;
 
-class BuildRepository implements BuildWriteRepository
+final class BuildRepository implements BuildWriteRepository
 {
     public function updateOrCreate(int $buildId, BuildDTO $buildDTO): BuildContract
     {

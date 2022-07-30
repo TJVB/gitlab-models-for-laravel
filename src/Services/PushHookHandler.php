@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Services;
 
-use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PushHookHandlerContract;
 use TJVB\GitLabWebhooks\Contracts\Models\GitLabHookModel;
 
 final class PushHookHandler implements PushHookHandlerContract
 {
-    public function __construct(private ProjectUpdateService $projectUpdateService)
+    public function __construct(private ProjectUpdateServiceContract $projectUpdateService)
     {
     }
 

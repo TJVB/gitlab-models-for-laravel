@@ -6,10 +6,11 @@ namespace TJVB\GitlabModelsForLaravel\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectWriteRepository;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\ProjectDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 
-final class ProjectUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService
+final class ProjectUpdateService implements ProjectUpdateServiceContract
 {
     public function __construct(
         private Repository $config,

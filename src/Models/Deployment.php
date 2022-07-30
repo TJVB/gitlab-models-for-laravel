@@ -39,13 +39,15 @@ class Deployment extends Model implements DeploymentContract
         'deployable_id' => 'integer',
         'status_changed_at' => 'immutable_datetime',
     ];
-/**
+
+    /**
      * The storage format of the model's date columns.
      * We need to update this to not lose the precision that we receive from GitLab
      *
      * @var string
      */
     protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function getDeploymentId(): int
     {
         return $this->deployment_id;

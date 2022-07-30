@@ -10,7 +10,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\MergeRequest as MergeRequestCon
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\MergeRequest;
 
-class MergeRequestRepository implements MergeRequestWriteRepository
+final class MergeRequestRepository implements MergeRequestWriteRepository
 {
     public function updateOrCreate(int $mergeRequestId, array $mergeRequestData): MergeRequestContract
     {

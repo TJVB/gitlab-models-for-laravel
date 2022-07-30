@@ -6,10 +6,11 @@ namespace TJVB\GitlabModelsForLaravel\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\PipelineWriteRepository;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\PipelineDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 
-class PipelineUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateService
+final class PipelineUpdateService implements PipelineUpdateServiceContract
 {
     public function __construct(private Repository $config, private PipelineWriteRepository $writeRepository)
     {

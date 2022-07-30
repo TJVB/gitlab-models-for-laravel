@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Contracts\Services;
 
-interface ProjectUpdateService
+interface TagUpdateServiceContract
 {
-    public function updateOrCreate(array $projectData): void;
+    public function updateOrCreate(array $tagData): void;
 }

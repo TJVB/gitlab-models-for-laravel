@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Services;
 
-use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateServiceContract;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineHookHandlerContract;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\DTOs\BuildDTO;
 use TJVB\GitLabWebhooks\Contracts\Models\GitLabHookModel;
 
 final class PipelineHookHandler implements PipelineHookHandlerContract
 {
     public function __construct(
-        private BuildUpdateService $buildUpdateService,
+        private BuildUpdateServiceContract $buildUpdateService,
         private MergeRequestUpdateServiceContract $mergeRequestUpdateService,
-        private PipelineUpdateService $pipelineUpdateService,
-        private ProjectUpdateService $projectUpdateService,
+        private PipelineUpdateServiceContract $pipelineUpdateService,
+        private ProjectUpdateServiceContract $projectUpdateService,
     ) {
     }
 

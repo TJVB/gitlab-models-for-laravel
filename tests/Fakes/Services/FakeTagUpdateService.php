@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Fakes\Services;
 
-use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateServiceContract;
 
-final class FakeTagUpdateService implements TagUpdateService
+final class FakeTagUpdateService implements TagUpdateServiceContract
 {
     public array $receivedData = [];
 

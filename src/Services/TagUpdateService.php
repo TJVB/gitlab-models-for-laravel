@@ -6,10 +6,11 @@ namespace TJVB\GitlabModelsForLaravel\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\TagWriteRepository;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\TagDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 
-final class TagUpdateService implements \TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService
+final class TagUpdateService implements TagUpdateServiceContract
 {
     public function __construct(
         private Repository $config,

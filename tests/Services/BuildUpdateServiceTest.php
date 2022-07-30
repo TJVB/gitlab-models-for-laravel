@@ -8,7 +8,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\BuildWriteRepository;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService as BuildUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateServiceContract as BuildUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\DTOs\BuildDTO;
 use TJVB\GitlabModelsForLaravel\Events\BuildDataReceived;
 use TJVB\GitlabModelsForLaravel\Services\BuildUpdateService;

@@ -27,6 +27,7 @@ class Tag extends Model implements TagContract
         'ref',
         'checkout_sha',
     ];
+
     public function getProjectId(): int
     {
         return (int) $this->project_id;

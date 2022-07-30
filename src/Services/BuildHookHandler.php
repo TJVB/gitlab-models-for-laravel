@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Services;
 
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildHookHandlerContract;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\DTOs\BuildDTO;
 use TJVB\GitLabWebhooks\Contracts\Models\GitLabHookModel;
 
 final class BuildHookHandler implements BuildHookHandlerContract
 {
-    public function __construct(private BuildUpdateService $buildUpdateService,)
+    public function __construct(private BuildUpdateServiceContract $buildUpdateService,)
     {
     }
 

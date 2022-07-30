@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Services;
 
-use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagPushHookHandlerContract;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateService;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateServiceContract;
 use TJVB\GitLabWebhooks\Contracts\Models\GitLabHookModel;
 
 final class TagPushHookHandler implements TagPushHookHandlerContract
 {
     public function __construct(
-        private ProjectUpdateService $projectUpdateService,
-        private TagUpdateService $tagUpdateService,
+        private ProjectUpdateServiceContract $projectUpdateService,
+        private TagUpdateServiceContract $tagUpdateService,
     ) {
     }
 
