@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Providers;
 
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
@@ -32,6 +33,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PushHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagPushHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateServiceContract;
+use TJVB\GitLabWebhooks\Contracts\Events\GitLabHookStored;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -47,6 +49,11 @@ class GitlabModelsProvider extends ServiceProvider implements DeferrableProvider
             __DIR__ . '/../../database/migrations/' => database_path('migrations')
         ], 'migrations');
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+
+        $this->app->make(Dispatcher::class)->listen(
+            config('gitlab-models.events_to_listen'),
+            GitLabHookStoredListener::class,
+        );
     }
 
     public function register(): void
