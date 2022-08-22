@@ -15,6 +15,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Pipeline as PipelineContract;
  * @property CarbonImmutable $pipeline_finished_at
  * @property integer $pipeline_id
  * @property integer $pipeline_iid
+ * @property integer $project_id
  * @property string $ref
  * @property string $sha
  * @property string $source
@@ -35,7 +36,7 @@ class Pipeline extends Model implements PipelineContract
         'pipeline_created_at',
         'pipeline_finished_at',
         'pipeline_id',
-        'pipeline_iid',
+        'project_id',
         'ref',
         'sha',
         'source',
@@ -48,7 +49,7 @@ class Pipeline extends Model implements PipelineContract
         'pipeline_created_at' => 'immutable_datetime',
         'pipeline_finished_at' => 'immutable_datetime',
         'pipeline_id' => 'integer',
-        'pipeline_iid' => 'integer',
+        'project_id' => 'integer',
         'stages' => 'array',
         'tag' => 'bool',
     ];
@@ -81,9 +82,9 @@ class Pipeline extends Model implements PipelineContract
         return $this->pipeline_id;
     }
 
-    public function getPipelineIid(): int
+    public function getProjectId(): int
     {
-        return $this->pipeline_iid;
+        return $this->project_id;
     }
 
     public function getRef(): string

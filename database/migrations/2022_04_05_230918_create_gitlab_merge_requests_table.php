@@ -17,7 +17,7 @@ class CreateGitlabMergeRequestsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('author_id');
             $table->boolean('blocking_discussions_resolved')->default(true);
-            $table->string('description');
+            $table->text('description');
             $table->dateTimeTz('merge_request_created_at');
             $table->unsignedBigInteger('merge_request_id');
             $table->unsignedBigInteger('merge_request_iid');

@@ -20,7 +20,7 @@ class CreateGitlabIssuesTable extends Migration
             $table->unsignedBigInteger('project_id');
             $table->string('title');
             $table->string('url');
-            $table->string('description')->default('');
+            $table->text('description')->default('');
             $table->string('state')->default('');
             $table->boolean('confidential')->default(false);
             $table->timestamps();

@@ -12,7 +12,7 @@ interface Pipeline
     public function getDuration(): int;
     public function getFinishedAt(): CarbonImmutable;
     public function getPipelineId(): int;
-    public function getPipelineIid(): int;
+    public function getProjectId(): int;
     public function getRef(): string;
     public function getSha(): string;
     public function getSource(): string;

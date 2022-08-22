@@ -38,7 +38,6 @@ class PipelineRepositoryTest extends TestCase
             'duration' => random_int(1, 500),
             'created_at' => CarbonImmutable::now()->subMinutes(3),
             'finished_at' => CarbonImmutable::now()->subMinutes(2),
-            'iid' => random_int(1, PHP_INT_MAX),
             'ref' => md5((string)mt_rand()),
             'sha' => md5((string)mt_rand()),
             'source' => md5((string)mt_rand()),
@@ -57,9 +56,8 @@ class PipelineRepositoryTest extends TestCase
         // verify/assert
         $validationData = $data;
         $validationData['pipeline_id'] = $id;
-        $validationData['pipeline_iid'] = $data['iid'];
         $validationData['stages'] = \Safe\json_encode($data['stages']);
-        unset($validationData['created_at'], $validationData['finished_at'], $validationData['iid']);
+        unset($validationData['created_at'], $validationData['finished_at']);
         $this->assertEquals($id, $result->getPipelineId());
         $this->assertDatabaseHas('gitlab_pipelines', $validationData);
         $this->assertDatabaseCount('gitlab_pipelines', 1);
@@ -67,7 +65,6 @@ class PipelineRepositoryTest extends TestCase
         $this->assertEquals($data['duration'], $result->getDuration());
         $this->assertEquals($data['created_at'], $result->getCreatedAt());
         $this->assertEquals($data['finished_at'], $result->getFinishedAt());
-        $this->assertEquals($data['iid'], $result->getPipelineIid());
         $this->assertEquals($data['ref'], $result->getRef());
         $this->assertEquals($data['sha'], $result->getSha());
         $this->assertEquals($data['source'], $result->getSource());
@@ -87,7 +84,6 @@ class PipelineRepositoryTest extends TestCase
             'duration' => random_int(1, 500),
             'created_at' => CarbonImmutable::now()->subMinutes(3),
             'finished_at' => CarbonImmutable::now()->subMinutes(2),
-            'iid' => random_int(1, PHP_INT_MAX),
             'ref' => md5((string)mt_rand()),
             'sha' => md5((string)mt_rand()),
             'source' => md5((string)mt_rand()),
@@ -97,13 +93,16 @@ class PipelineRepositoryTest extends TestCase
             ],
             'status' => md5((string)mt_rand()),
             'tag' => random_int(0, 1),
+            'project' => [
+                'id' => random_int(1, PHP_INT_MAX),
+            ],
         ];
         Pipeline::create([
             'pipeline_id' => $id,
             'duration' => random_int(1, 500),
             'pipeline_created_at' => CarbonImmutable::now()->subMinutes(3),
             'pipeline_finished_at' => CarbonImmutable::now()->subMinutes(2),
-            'pipeline_iid' => random_int(1, PHP_INT_MAX),
+            'project_id' => random_int(1, PHP_INT_MAX),
             'ref' => md5((string)mt_rand()),
             'sha' => md5((string)mt_rand()),
             'source' => md5((string)mt_rand()),
@@ -122,9 +121,13 @@ class PipelineRepositoryTest extends TestCase
         // verify/assert
         $validationData = $data;
         $validationData['pipeline_id'] = $id;
-        $validationData['pipeline_iid'] = $data['iid'];
+        $validationData['project_id'] = $validationData['project']['id'];
         $validationData['stages'] = \Safe\json_encode($data['stages']);
-        unset($validationData['created_at'], $validationData['finished_at'], $validationData['iid']);
+        unset(
+            $validationData['created_at'],
+            $validationData['finished_at'],
+            $validationData['project']
+        );
         $this->assertEquals($id, $result->getPipelineId());
         $this->assertDatabaseHas('gitlab_pipelines', $validationData);
         $this->assertDatabaseCount('gitlab_pipelines', 1);
