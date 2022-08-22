@@ -49,17 +49,13 @@ class GitlabModelsProvider extends ServiceProvider implements DeferrableProvider
             __DIR__ . '/../../database/migrations/' => database_path('migrations')
         ], 'migrations');
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
-
-        $this->app->make(Dispatcher::class)->listen(
-            config('gitlab-models.events_to_listen'),
-            GitLabHookStoredListener::class,
-        );
     }
 
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../../config/gitlab-models.php', 'gitlab-models');
         $this->app->bind(GitLabHookStoredListener::class, config('gitlab-models.listener'));
+        $this->app->register(GitlabModelsEventServiceProvider::class);
 
         $this->registerRepositories();
         $this->registerServices();
