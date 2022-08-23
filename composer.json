@@ -27,7 +27,7 @@
     ],
     "require": {
         "php": "~8.0.0 || ~8.1.0",
-        "laravel/framework": "^8.0",
+        "laravel/framework": "^8.0 || ^9.0",
         "nesbot/carbon": "^2.57",
         "tjvb/gitlab-webhooks-receiver-for-laravel": "dev-master as 2.0"
     },
