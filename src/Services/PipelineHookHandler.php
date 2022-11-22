@@ -27,6 +27,7 @@ final class PipelineHookHandler implements PipelineHookHandlerContract
         // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#pipeline-events
         $body = $gitLabHookModel->getBody();
         if (isset($body['object_attributes']) && is_array($body['object_attributes'])) {
+            $body['object_attributes']['project'] = $body['project'] ?? null;
             $this->pipelineUpdateService->updateOrCreate($body['object_attributes']);
         }
         if (isset($body['project']) && is_array($body['project'])) {

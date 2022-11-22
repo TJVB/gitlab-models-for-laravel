@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Providers;
 
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\BuildWriteRepository;
@@ -33,12 +31,11 @@ use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PushHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagPushHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateServiceContract;
-use TJVB\GitLabWebhooks\Contracts\Events\GitLabHookStored;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class GitlabModelsProvider extends ServiceProvider implements DeferrableProvider
+class GitlabModelsProvider extends ServiceProvider
 {
     public function boot(): void
     {
