@@ -47,6 +47,9 @@ class PipelineRepositoryTest extends TestCase
             ],
             'status' => md5((string)mt_rand()),
             'tag' => random_int(0, 1),
+            'project' => [
+                'id' => random_int(1, PHP_INT_MAX)
+            ],
         ];
 
         // run
@@ -56,8 +59,9 @@ class PipelineRepositoryTest extends TestCase
         // verify/assert
         $validationData = $data;
         $validationData['pipeline_id'] = $id;
+        $validationData['project_id'] = $data['project']['id'];
         $validationData['stages'] = \Safe\json_encode($data['stages']);
-        unset($validationData['created_at'], $validationData['finished_at']);
+        unset($validationData['created_at'], $validationData['finished_at'], $validationData['project']);
         $this->assertEquals($id, $result->getPipelineId());
         $this->assertDatabaseHas('gitlab_pipelines', $validationData);
         $this->assertDatabaseCount('gitlab_pipelines', 1);
@@ -71,6 +75,7 @@ class PipelineRepositoryTest extends TestCase
         $this->assertEquals($data['stages'], $result->getStages());
         $this->assertEquals($data['status'], $result->getStatus());
         $this->assertEquals((bool) $data['tag'], $result->isTag());
+        $this->assertEquals($data['project']['id'], $result->getProjectId());
     }
 
     /**
