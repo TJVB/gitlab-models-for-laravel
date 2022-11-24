@@ -49,6 +49,7 @@ return [
         'build_write' => \TJVB\GitlabModelsForLaravel\Repositories\BuildRepository::class,
         'deployment_write' => \TJVB\GitlabModelsForLaravel\Repositories\DeploymentRepository::class,
         'issue_write' => \TJVB\GitlabModelsForLaravel\Repositories\IssueRepository::class,
+        'label_write' => \TJVB\GitlabModelsForLaravel\Repositories\LabelRepository::class,
         'merge_request_write' => \TJVB\GitlabModelsForLaravel\Repositories\MergeRequestRepository::class,
         'note_write' => \TJVB\GitlabModelsForLaravel\Repositories\NoteRepository::class,
         'pipeline_write' => \TJVB\GitlabModelsForLaravel\Repositories\PipelineRepository::class,

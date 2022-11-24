@@ -9,6 +9,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\BuildWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\DeploymentWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
+use TJVB\GitlabModelsForLaravel\Contracts\Repositories\LabelWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\NoteWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\PipelineWriteRepository;
@@ -67,6 +68,7 @@ class GitlabModelsProvider extends ServiceProvider
             BuildWriteRepository::class,
             DeploymentWriteRepository::class,
             IssueWriteRepository::class,
+            LabelWriteRepository::class,
             MergeRequestWriteRepository::class,
             NoteWriteRepository::class,
             PipelineWriteRepository::class,
@@ -102,6 +104,7 @@ class GitlabModelsProvider extends ServiceProvider
         $this->app->bind(BuildWriteRepository::class, config('gitlab-models.repositories.build_write'));
         $this->app->bind(DeploymentWriteRepository::class, config('gitlab-models.repositories.deployment_write'));
         $this->app->bind(IssueWriteRepository::class, config('gitlab-models.repositories.issue_write'));
+        $this->app->bind(LabelWriteRepository::class, config('gitlab-models.repositories.label_write'));
         $this->app->bind(MergeRequestWriteRepository::class, config('gitlab-models.repositories.merge_request_write'));
         $this->app->bind(NoteWriteRepository::class, config('gitlab-models.repositories.note_write'));
         $this->app->bind(PipelineWriteRepository::class, config('gitlab-models.repositories.pipeline_write'));
