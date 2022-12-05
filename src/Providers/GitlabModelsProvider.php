@@ -21,6 +21,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueHookHandlerContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\LabelUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateServiceContract;
@@ -131,12 +132,13 @@ class GitlabModelsProvider extends ServiceProvider
         // update services
         $this->app->bind(BuildUpdateServiceContract::class, config('gitlab-models.services.build_update'));
         $this->app->bind(DeploymentUpdateService::class, config('gitlab-models.services.deployment_update'));
-        $this->app->bind(NoteUpdateServiceContract::class, config('gitlab-models.services.note_update'));
         $this->app->bind(IssueUpdateServiceContract::class, config('gitlab-models.services.issue_update'));
+        $this->app->bind(LabelUpdateServiceContract::class, config('gitlab-models.services.label_update'));
         $this->app->bind(
             MergeRequestUpdateServiceContract::class,
             config('gitlab-models.services.merge_request_update')
         );
+        $this->app->bind(NoteUpdateServiceContract::class, config('gitlab-models.services.note_update'));
         $this->app->bind(PipelineUpdateServiceContract::class, config('gitlab-models.services.pipeline_update'));
         $this->app->bind(ProjectUpdateServiceContract::class, config('gitlab-models.services.project_update'));
         $this->app->bind(TagUpdateServiceContract::class, config('gitlab-models.services.tag_update'));

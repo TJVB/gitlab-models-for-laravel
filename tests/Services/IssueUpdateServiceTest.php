@@ -30,6 +30,7 @@ class IssueUpdateServiceTest extends TestCase
         // verify/assert
         $this->assertInstanceOf(IssueUpdateServiceContract::class, $service);
     }
+
     /**
      * @test
      * @dataProvider trueFalseProvider
@@ -40,7 +41,6 @@ class IssueUpdateServiceTest extends TestCase
         Event::fake();
         $fakeRepository = new FakeIssueWriteRepository();
         $this->app->bind(IssueWriteRepository::class, static function () use ($fakeRepository): IssueWriteRepository {
-
             return $fakeRepository;
         });
         $id = random_int(1, PHP_INT_MAX);
