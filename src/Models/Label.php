@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Models;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use TJVB\GitlabModelsForLaravel\Contracts\Models\Label as LabelContract;
 
 /**
+ * @property integer $id
  * @property integer $label_id
  * @property string $title
  * @property string $color
@@ -21,13 +23,14 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Label as LabelContract;
  * @property null|integer $group_id
  * @method static Label updateOrCreate(array $attributes, array $values = [])
  * @method static Label create(array $values)
+ * @method static Builder whereIn(string $field, array $values)
  */
 final class Label extends Model implements LabelContract
 {
     use SoftDeletes;
 
-
     public $table = 'gitlab_labels';
+
     public $fillable = [
         'label_id',
         'title',
@@ -39,6 +42,7 @@ final class Label extends Model implements LabelContract
         'type',
         'group_id',
     ];
+
     protected $casts = [
         'label_id' => 'integer',
         'project_id' => 'integer',
@@ -46,13 +50,15 @@ final class Label extends Model implements LabelContract
         'label_created_at' => 'immutable_datetime',
         'label_updated_at' => 'immutable_datetime',
     ];
-/**
+
+    /**
      * The storage format of the model's date columns.
      * We need to update this to not lose the precision that we receive from GitLab
      *
      * @var string
      */
     protected $dateFormat = 'Y-m-d H:i:s.u';
+
     public function getLabelId(): int
     {
         return $this->label_id;

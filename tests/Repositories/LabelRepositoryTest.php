@@ -45,10 +45,12 @@ final class LabelRepositoryTest extends TestCase
             'type' => md5((string)mt_rand()),
             'group_id' => random_int(1, PHP_INT_MAX),
         ];
-// run
+
+        // run
         $repository = new LabelRepository();
         $result = $repository->updateOrCreate($id, $data);
-// verify/assert
+
+        // verify/assert
         $this->assertEquals($id, $result->getLabelId());
         $this->assertEquals($data['title'], $result->getTitle());
         $this->assertEquals($data['color'], $result->getColor());

@@ -12,6 +12,9 @@ final class FakeIssueWriteRepository implements IssueWriteRepository
 {
     public array $receivedData = [];
     public ?Issue $result = null;
+    public ?Issue $syncResult = null;
+
+    public array $receivedSync = [];
 
     public function updateOrCreate(int $issueId, array $issueData): Issue
     {
@@ -33,5 +36,14 @@ final class FakeIssueWriteRepository implements IssueWriteRepository
             'issueData' => $issueData,
         ];
         return in_array($search, $this->receivedData, true);
+    }
+
+    public function syncLabels(int $issueId, array $labels): ?Issue
+    {
+        $this->receivedSync[] = [
+            'issueId' => $issueId,
+            'labels' => $labels,
+        ];
+        return $this->syncResult;
     }
 }

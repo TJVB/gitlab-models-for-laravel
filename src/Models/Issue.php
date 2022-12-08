@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue as IssueContract;
 
 /**
  *
+ * @property integer $id
  * @property integer|string $issue_id
  * @property integer|string $issue_iid
  * @property integer|string $project_id
@@ -77,5 +80,13 @@ class Issue extends Model implements IssueContract
     public function getConfidential(): bool
     {
         return (bool) $this->confidential;
+    }
+
+    public function labels(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Label::class,
+            'gitlab_issue_gitlab_label',
+        );
     }
 }

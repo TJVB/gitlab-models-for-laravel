@@ -9,4 +9,6 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue;
 interface IssueWriteRepository
 {
     public function updateOrCreate(int $issueId, array $issueData): Issue;
+
+    public function syncLabels(int $issueId, array $labels): ?Issue;
 }
