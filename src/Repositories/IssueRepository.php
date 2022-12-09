@@ -38,7 +38,7 @@ final class IssueRepository implements IssueWriteRepository
         if ($issue === null) {
             return null;
         }
-        $issue->labels() ->sync(Label::whereIn('label_id', $labelIds)->get());
+        $issue->labels()->sync(Label::whereIn('label_id', $labelIds)->get());
         return $issue;
     }
 }

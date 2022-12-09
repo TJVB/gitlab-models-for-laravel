@@ -135,7 +135,7 @@ class IssueUpdateServiceTest extends TestCase
                 [
                     'title' => $fakeLabelUpdateService->result->title
                 ],
-            ]
+            ],
         ];
 
         /**

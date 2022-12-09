@@ -15,6 +15,8 @@ final class FakeMergeRequestWriteRepository implements MergeRequestWriteReposito
 {
     public array $receivedData = [];
     public ?MergeRequest $result = null;
+    public array $receivedSync = [];
+    public ?MergeRequest $syncResult = null;
 
     public function updateOrCreate(int $mergeRequestId, array $mergeRequestData): MergeRequest
     {
@@ -36,5 +38,14 @@ final class FakeMergeRequestWriteRepository implements MergeRequestWriteReposito
             'mergeRequestData' => $mergeRequestData,
         ];
         return in_array($search, $this->receivedData, true);
+    }
+
+    public function syncLabels(int $mergeRequestId, array $labels): ?MergeRequest
+    {
+        $this->receivedSync[] = [
+            'mergeRequestId' => $mergeRequestId,
+            'labels' => $labels,
+        ];
+        return $this->syncResult;
     }
 }

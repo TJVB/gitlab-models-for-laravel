@@ -8,6 +8,8 @@ use Carbon\CarbonImmutable;
 use Illuminate\Support\Arr;
 use TJVB\GitlabModelsForLaravel\Contracts\Models\MergeRequest as MergeRequestContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
+use TJVB\GitlabModelsForLaravel\DTOs\LabelDTO;
+use TJVB\GitlabModelsForLaravel\Models\Label;
 use TJVB\GitlabModelsForLaravel\Models\MergeRequest;
 
 final class MergeRequestRepository implements MergeRequestWriteRepository
@@ -31,5 +33,23 @@ final class MergeRequestRepository implements MergeRequestWriteRepository
             'url' => (string) Arr::get($mergeRequestData, 'url'),
             'work_in_progress' => Arr::get($mergeRequestData, 'work_in_progress', false),
         ]);
+    }
+
+    public function syncLabels(int $mergeRequestId, array $labels): ?MergeRequestContract
+    {
+        $labelIds = [];
+        foreach ($labels as $label) {
+            if ($label instanceof LabelDTO) {
+                $labelIds[] = $label->labelId;
+            }
+        }
+        $mergeRequest = MergeRequest::query()
+            ->where('merge_request_id', $mergeRequestId)
+            ->first();
+        if ($mergeRequest === null) {
+            return null;
+        }
+        $mergeRequest->labels()->sync(Label::whereIn('label_id', $labelIds)->get());
+        return $mergeRequest;
     }
 }

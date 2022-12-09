@@ -6,11 +6,13 @@ namespace TJVB\GitlabModelsForLaravel\Models;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use TJVB\GitlabModelsForLaravel\Contracts\Models\MergeRequest as MergeRequestContract;
 
 /**
  *
+ * @property integer $id
  * @property integer $author_id
  * @property bool $blocking_discussions_resolved
  * @property string $description
@@ -153,5 +155,13 @@ class MergeRequest extends Model implements MergeRequestContract
     public function getWorkInProgress(): bool
     {
         return $this->work_in_progress;
+    }
+
+    public function labels(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Label::class,
+            'gitlab_label_gitlab_merge_request',
+        );
     }
 }
