@@ -13,17 +13,17 @@ final class BuildDTO
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        public int $buildId,
-        public int $pipelineId,
-        public int $projectId,
-        public string $name,
-        public string $stage,
-        public string $status,
-        public bool $allowFailure,
-        public CarbonImmutable $createdAt,
-        public ?CarbonImmutable $startedAt = null,
-        public ?CarbonImmutable $finishedAt = null,
-        public ?float $duration = null,
+        public readonly int $buildId,
+        public readonly int $pipelineId,
+        public readonly int $projectId,
+        public readonly string $name,
+        public readonly string $stage,
+        public readonly string $status,
+        public readonly bool $allowFailure,
+        public readonly CarbonImmutable $createdAt,
+        public readonly ?CarbonImmutable $startedAt = null,
+        public readonly ?CarbonImmutable $finishedAt = null,
+        public readonly ?float $duration = null,
     ) {
     }
 
