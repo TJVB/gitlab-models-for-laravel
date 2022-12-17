@@ -52,6 +52,10 @@
         {
             "type": "github",
             "url": "https://github.com/sponsors/tvbeek/"
+        },
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/TJVB/"
         }
     ],
     "require-dev": {
