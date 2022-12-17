@@ -1,5 +1,5 @@
 # set the default docker image
-image: registry.gitlab.com/tjvb/phpimages:php80
+image: registry.gitlab.com/tjvb/phpimages:php81
 
 stages:
   - prepare # prepare the cache
@@ -82,13 +82,6 @@ test_lowest:
     - rm -f composer.lock
     - curl -sS https://getcomposer.org/installer | php
     - php composer.phar update --prefer-lowest
-    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
-    - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
-
-test_php80:
-  extends: .test_base
-  image: registry.gitlab.com/tjvb/phpimages:php80
-  script:
     - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
     - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
 

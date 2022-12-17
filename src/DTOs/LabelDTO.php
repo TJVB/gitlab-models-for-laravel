@@ -10,15 +10,15 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Label;
 final class LabelDTO
 {
     public function __construct(
-        public int $labelId,
-        public string $title,
-        public string $color,
-        public ?int $projectId,
-        public CarbonImmutable $createdAt,
-        public CarbonImmutable $updatedAt,
-        public ?string $description,
-        public string $type,
-        public ?int $groupId,
+        public readonly int $labelId,
+        public readonly string $title,
+        public readonly string $color,
+        public readonly ?int $projectId,
+        public readonly CarbonImmutable $createdAt,
+        public readonly CarbonImmutable $updatedAt,
+        public readonly ?string $description,
+        public readonly string $type,
+        public readonly ?int $groupId,
     ) {
     }
 
