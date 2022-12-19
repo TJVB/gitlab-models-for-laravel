@@ -18,8 +18,8 @@ class CreateGitlabProjectsTable extends Migration
             $table->unsignedBigInteger('project_id');
             $table->string('name');
             $table->string('web_url');
-            $table->longText('description')->default('');
-            $table->string('avatar_url')->default('');
+            $table->longText('description')->default('')->nullable();
+            $table->string('avatar_url')->default('')->nullable();
             $table->unsignedInteger('visibility_level')->default(0);
             $table->timestamps();
             $table->softDeletes();

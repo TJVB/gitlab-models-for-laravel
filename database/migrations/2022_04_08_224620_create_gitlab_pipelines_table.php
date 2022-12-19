@@ -19,12 +19,12 @@ class CreateGitlabPipelinesTable extends Migration
             $table->dateTimeTz('pipeline_created_at');
             $table->dateTimeTz('pipeline_finished_at')->nullable();
             $table->unsignedBigInteger('pipeline_id');
-            $table->unsignedBigInteger('project_id');
-            $table->string('ref');
-            $table->string('sha');
-            $table->string('source');
+            $table->unsignedBigInteger('project_id')->nullable();
+            $table->string('ref')->default('');
+            $table->string('sha')->default('');
+            $table->string('source')->default('');
             $table->json('stages');
-            $table->string('status');
+            $table->string('status')->default('');
             $table->boolean('tag')->default(false);
             $table->timestamps();
             $table->softDeletes();

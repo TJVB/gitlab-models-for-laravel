@@ -16,13 +16,13 @@ class CreateGitlabLabelsTable extends Migration
         Schema::create('gitlab_labels', static function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('label_id');
-            $table->string('title');
-            $table->string('color');
+            $table->string('title')->default('');
+            $table->string('color')->default('');
             $table->unsignedBigInteger('project_id')->nullable();
-            $table->dateTimeTz('label_created_at');
-            $table->dateTimeTz('label_updated_at');
+            $table->dateTimeTz('label_created_at')->nullable();
+            $table->dateTimeTz('label_updated_at')->nullable();
             $table->longText('description')->nullable();
-            $table->string('type');
+            $table->string('type')->default('');
             $table->unsignedBigInteger('group_id')->nullable();
             $table->timestamps();
             $table->softDeletes();

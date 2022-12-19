@@ -15,7 +15,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Pipeline as PipelineContract;
  * @property CarbonImmutable $pipeline_finished_at
  * @property integer $pipeline_id
  * @property integer $pipeline_iid
- * @property integer $project_id
+ * @property ?integer $project_id
  * @property string $ref
  * @property string $sha
  * @property string $source

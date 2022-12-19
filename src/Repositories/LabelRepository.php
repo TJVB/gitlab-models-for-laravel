@@ -21,7 +21,7 @@ final class LabelRepository implements LabelWriteRepository
             'label_created_at' => CarbonImmutable::make(Arr::get($labelData, 'created_at')),
             'label_updated_at' => CarbonImmutable::make(Arr::get($labelData, 'updated_at')),
             'description' => (string) Arr::get($labelData, 'description'),
-            'type' => Arr::get($labelData, 'type'),
+            'type' => (string) Arr::get($labelData, 'type'),
             'group_id' => Arr::get($labelData, 'group_id'),
         ]);
     }

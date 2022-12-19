@@ -12,8 +12,8 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Project as ProjectContract;
  * @property integer|string $project_id
  * @property string $name
  * @property string $web_url
- * @property string $description
- * @property string $avatar_url
+ * @property ?string $description
+ * @property ?string $avatar_url
  * @property integer|string $visibility_level
  * @method static ?Project firstWhere(array $filters)
  * @method static Project updateOrCreate(array $attributes, array $values = [])
@@ -51,12 +51,12 @@ class Project extends Model implements ProjectContract
 
     public function getDescription(): string
     {
-        return $this->description;
+        return (string) $this->description;
     }
 
     public function getAvatarUrl(): string
     {
-        return $this->avatar_url;
+        return (string) $this->avatar_url;
     }
 
     public function getVisibilityLevel(): int

@@ -7,6 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Models;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use TJVB\GitlabModelsForLaravel\Contracts\Models\Note as NoteContract;
 
 /**
  *
@@ -24,7 +25,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static Note updateOrCreate(array $attributes, array $values = [])
  * @method static Note create(array $values)
  */
-class Note extends Model implements \TJVB\GitlabModelsForLaravel\Contracts\Models\Note
+class Note extends Model implements NoteContract
 {
     use SoftDeletes;
 

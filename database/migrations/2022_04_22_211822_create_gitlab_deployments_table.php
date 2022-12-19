@@ -17,9 +17,9 @@ class CreateGitlabDeploymentsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('deployment_id');
             $table->unsignedBigInteger('deployable_id');
-            $table->string('deployable_url');
-            $table->string('environment');
-            $table->string('status');
+            $table->string('deployable_url')->default('');
+            $table->string('environment')->default('');
+            $table->string('status')->default('');
             $table->dateTimeTz('status_changed_at');
             $table->timestamps();
             $table->softDeletes();
