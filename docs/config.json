@@ -1,0 +1,8 @@
+{
+  "pages": {
+    "Introduction.md": "Introduction",
+    "Installation.md":  "Installation",
+    "Configuration.md": "Configuration",
+    "Events.md": "Events"
+  }
+}
