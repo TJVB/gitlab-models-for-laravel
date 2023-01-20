@@ -1,23 +1,13 @@
 {
     "name": "tjvb/gitlab-models-for-laravel",
-    "type": "library",
     "description": "Save the GitLab data in your Laravel project",
+    "license": "MIT",
+    "type": "library",
     "keywords": [
         "tjvb",
         "gitlab",
         "laravel"
     ],
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "TJVB\\GitlabModelsForLaravel\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "TJVB\\GitlabModelsForLaravel\\Tests\\": "tests/"
-        }
-    },
     "authors": [
         {
             "name": "Tobias van Beek",
@@ -25,25 +15,6 @@
             "homepage": "https://tjvb.nl"
         }
     ],
-    "require": {
-        "php": "~8.1.0 || ~8.2.0",
-        "laravel/framework": "^9.0",
-        "nesbot/carbon": "^2.57",
-        "tjvb/gitlab-webhooks-receiver-for-laravel": "dev-master as 2.0"
-    },
-    "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "infection/extension-installer": true
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "TJVB\\GitlabModelsForLaravel\\Providers\\GitlabModelsProvider"
-            ]
-        }
-    },
     "funding": [
         {
             "type": "paypal",
@@ -58,6 +29,12 @@
             "url": "https://github.com/sponsors/TJVB/"
         }
     ],
+    "require": {
+        "php": "~8.1.0 || ~8.2.0",
+        "laravel/framework": "^9.0",
+        "nesbot/carbon": "^2.57",
+        "tjvb/gitlab-webhooks-receiver-for-laravel": "^2.0.0"
+    },
     "require-dev": {
         "infection/infection": "^0.26.10",
         "orchestra/testbench": "^7.0",
@@ -65,6 +42,29 @@
         "phpstan/phpstan": "^1.9",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "TJVB\\GitlabModelsForLaravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TJVB\\GitlabModelsForLaravel\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "infection/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TJVB\\GitlabModelsForLaravel\\Providers\\GitlabModelsProvider"
+            ]
+        }
     },
     "scripts": {
         "check-all": [
@@ -77,10 +77,10 @@
         ],
         "codestyle": "@php vendor/bin/phpcs",
         "format": "@php vendor/bin/phpcbf",
+        "infection": "@php vendor/bin/infection",
         "phpmd": "@php vendor/bin/phpmd src/ text phpmd.xml.dist",
         "phpstan": "@php vendor/bin/phpstan",
         "test": "@php vendor/bin/phpunit --no-coverage",
-        "test-coverage": "@php vendor/bin/phpunit --coverage-html build/coverage",
-        "infection": "@php vendor/bin/infection"
+        "test-coverage": "@php vendor/bin/phpunit --coverage-html build/coverage"
     }
 }
