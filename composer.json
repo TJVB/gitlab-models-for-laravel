@@ -22,22 +22,22 @@
         },
         {
             "type": "github",
-            "url": "https://github.com/sponsors/tvbeek/"
+            "url": "https://github.com/sponsors/tvbeek"
         },
         {
             "type": "github",
-            "url": "https://github.com/sponsors/TJVB/"
+            "url": "https://github.com/sponsors/TJVB"
         }
     ],
     "require": {
         "php": "~8.1.0 || ~8.2.0",
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^9.0 || ^10.0",
         "nesbot/carbon": "^2.57",
         "tjvb/gitlab-webhooks-receiver-for-laravel": "^2.0.0"
     },
     "require-dev": {
         "infection/infection": "^0.26.10",
-        "orchestra/testbench": "^7.0",
+        "orchestra/testbench": "^7.0 || ^8.0",
         "phpmd/phpmd": "^2.13",
         "phpstan/phpstan": "^1.9",
         "phpunit/phpunit": "^9.5",
