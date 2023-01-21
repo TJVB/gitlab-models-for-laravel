@@ -15,6 +15,12 @@
             "homepage": "https://tjvb.nl"
         }
     ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "support": {
+        "issues": "https://gitlab.com/tjvb/gitlab-models-for-laravel/-/issues",
+        "source": "https://gitlab.com/tjvb/gitlab-models-for-laravel/-/tree/master"
+    },
     "funding": [
         {
             "type": "paypal",
