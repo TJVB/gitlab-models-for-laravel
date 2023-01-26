@@ -18,7 +18,7 @@ class CreateGitlabNotesTable extends Migration
             $table->unsignedBigInteger('author_id');
             $table->string('commit_id')->nullable();
             $table->string('line_code')->nullable();
-            $table->longText('note')->default('');
+            $table->longText('note')->nullable();
             $table->dateTimeTz('note_created_at');
             $table->dateTimeTz('note_updated_at');
             $table->unsignedBigInteger('note_id');

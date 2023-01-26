@@ -14,7 +14,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Note as NoteContract;
  * @property integer $author_id
  * @property ?string $commit_id
  * @property ?string $line_code
- * @property string $note
+ * @property ?string $note
  * @property CarbonImmutable $note_created_at
  * @property integer $note_id
  * @property CarbonImmutable $note_updated_at
@@ -84,7 +84,7 @@ class Note extends Model implements NoteContract
 
     public function getNote(): string
     {
-        return $this->note;
+        return (string)$this->note;
     }
 
     public function getNoteId(): int
