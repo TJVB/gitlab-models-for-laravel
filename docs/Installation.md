@@ -9,7 +9,7 @@ composer require tjvb/gitlab-models-for-laravel
 
 ```bash
 php artisan vendor:publish --provider="TJVB\GitLabWebhooks\GitLabWebhooksServiceProvider" --tag="migrations"
-php artisan vendor:publish --provider="TJVB\GitlabModelsForLaravel\Providers" --tag="migrations"
+php artisan vendor:publish --provider="TJVB\GitlabModelsForLaravel\Providers\GitlabModelsProvider" --tag="migrations"
 php artisan migrate
 ```
 
