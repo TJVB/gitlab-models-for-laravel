@@ -45,7 +45,7 @@ class DeploymentUpdateServiceTest extends TestCase
         $fakeRepository = new FakeDeploymentWritRepository();
         $id = random_int(1, PHP_INT_MAX);
         $data = [
-            'id' => $id,
+            'deployment_id' => $id,
             'key' => 'value',
         ];
 

@@ -21,10 +21,10 @@ final class DeploymentUpdateService implements DeploymentUpdateServiceContract
         if (!$this->config->get('gitlab-models.model_to_store.deployments')) {
             return;
         }
-        if (!isset($deploymentData['id'])) {
-            throw MissingData::missingDataForAction('id', 'updateOrCreateDeployment');
+        if (!isset($deploymentData['deployment_id'])) {
+            throw MissingData::missingDataForAction('deployment_id', 'updateOrCreateDeployment');
         }
-        $deployment = $this->repository->updateOrCreate($deploymentData['id'], $deploymentData);
+        $deployment = $this->repository->updateOrCreate($deploymentData['deployment_id'], $deploymentData);
         DeploymentDataReceived::dispatch($deployment);
     }
 }
