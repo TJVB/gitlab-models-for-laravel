@@ -15,7 +15,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\MergeRequest as MergeRequestCon
  * @property integer $id
  * @property integer $author_id
  * @property bool $blocking_discussions_resolved
- * @property string $description
+ * @property ?string $description
  * @property CarbonImmutable $merge_request_created_at
  * @property integer $merge_request_id
  * @property integer $merge_request_iid
@@ -94,7 +94,7 @@ class MergeRequest extends Model implements MergeRequestContract
 
     public function getDescription(): string
     {
-        return $this->description;
+        return (string)$this->description;
     }
 
     public function getMergeRequestId(): int

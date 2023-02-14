@@ -17,7 +17,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue as IssueContract;
  * @property integer|string $issue_iid
  * @property integer|string $project_id
  * @property string $title
- * @property string $description
+ * @property ?string $description
  * @property string $url
  * @property string $state
  * @property bool $confidential
@@ -64,7 +64,7 @@ class Issue extends Model implements IssueContract
 
     public function getDescription(): string
     {
-        return $this->description;
+        return (string)$this->description;
     }
 
     public function getUrl(): string

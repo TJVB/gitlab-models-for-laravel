@@ -6,5 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+
+## 0.1.1 - 2023-01-26
+
+### Added
+- Add Laravel 10 support.
+
+### Fixed
+- Fixed the deployment_id from the event data.
+
 ## 0.1.0 - 2023-01-23
 - Initial release
