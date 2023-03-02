@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## Fixed
+- Fixed the clearing of data for a build while handling a pipeline event.
 
 ## 0.1.1 - 2023-01-26
 

@@ -18,14 +18,16 @@ final class BuildDTOTest extends TestCase
         $id = random_int(1, 100000);
         $pipelineId = random_int(1, 100000);
         $projectId = random_int(1, 100000);
-// run
+
+        // run
         $dto = BuildDTO::fromBuildEventData([
            'build_id' => (string) $id,
            'pipeline_id' => (string) $pipelineId,
            'project_id' => (string) $projectId,
             'build_created_at' => '2022-06-09 22:37',
         ]);
-// verify/assert
+
+        // verify/assert
         $this->assertEquals($id, $dto->buildId);
         $this->assertEquals($pipelineId, $dto->pipelineId);
         $this->assertEquals($projectId, $dto->projectId);
@@ -39,14 +41,18 @@ final class BuildDTOTest extends TestCase
         $id = random_int(1, 100000);
         $pipelineId = random_int(1, 100000);
         $projectId = random_int(1, 100000);
-// run
-        $dto = BuildDTO::fromPipelineEventData([
-            'id' => (string) $id,
-            'pipeline_id' => (string) $pipelineId,
-            'project_id' => (string) $projectId,
-            'created_at' => '2022-06-09 22:37',
-        ]);
-// verify/assert
+
+        // run
+        $dto = BuildDTO::fromPipelineEventData(
+            [
+                'id' => (string) $id,
+                'created_at' => '2022-06-09 22:37',
+            ],
+            $pipelineId,
+            $projectId
+        );
+
+        // verify/assert
         $this->assertEquals($id, $dto->buildId);
         $this->assertEquals($pipelineId, $dto->pipelineId);
         $this->assertEquals($projectId, $dto->projectId);
