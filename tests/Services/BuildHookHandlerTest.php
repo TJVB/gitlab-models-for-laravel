@@ -10,6 +10,9 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeBuildUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
+use function Safe\file_get_contents;
+use function Safe\json_decode;
+
 class BuildHookHandlerTest extends TestCase
 {
     /**
@@ -34,7 +37,7 @@ class BuildHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'job.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'job.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'build';
         $buildUpdater = new FakeBuildUpdateService();
 

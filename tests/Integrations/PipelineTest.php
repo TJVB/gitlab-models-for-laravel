@@ -19,12 +19,10 @@ final class PipelineTest extends TestCase
 {
     use DatabaseMigrations;
 
-/**
+    /**
      * @test
      */
-
-
-    public function weStoreTheDataFromThePipelineData(): void
+    public function weStoreTheDataFromThePipelineEvent(): void
     {
         // setup / mock
         $hookBody = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
