@@ -19,6 +19,7 @@ final class MergeRequestRepository implements MergeRequestWriteRepository
         'blocking_discussions_resolved',
         'description',
         'merge_request_created_at',
+        'url',
         'work_in_progress',
     ];
 
