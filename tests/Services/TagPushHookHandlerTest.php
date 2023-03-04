@@ -11,6 +11,9 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeTagUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
+use function Safe\file_get_contents;
+use function Safe\json_decode;
+
 final class TagPushHookHandlerTest extends TestCase
 {
     /**
@@ -33,7 +36,7 @@ final class TagPushHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'tag.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'tag.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'tag';
 
         $projectUpdateService = new FakeProjectUpdateService();
@@ -58,7 +61,7 @@ final class TagPushHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'tag.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'tag.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'tag';
         $hookModel->body['project'] = 'invalid projectdata';
         $projectUpdateService = new FakeProjectUpdateService();

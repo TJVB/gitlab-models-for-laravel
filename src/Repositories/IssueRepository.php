@@ -15,15 +15,18 @@ final class IssueRepository implements IssueWriteRepository
 {
     public function updateOrCreate(int $issueId, array $issueData): IssueContract
     {
-        return Issue::updateOrCreate(['issue_id' => $issueId], [
+        $data = [
             'issue_iid' => Arr::get($issueData, 'iid', ''),
             'project_id' => Arr::get($issueData, 'project_id', ''),
             'title' => Arr::get($issueData, 'title', ''),
             'description' => Arr::get($issueData, 'description', ''),
             'url' => Arr::get($issueData, 'url', ''),
             'state' => Arr::get($issueData, 'state', ''),
-            'confidential' => (bool) Arr::get($issueData, 'confidential', false),
-        ]);
+        ];
+        if (isset($issueData['confidential'])) {
+            $data['confidential'] = (bool) Arr::get($issueData, 'confidential');
+        }
+        return Issue::updateOrCreate(['issue_id' => $issueId], $data);
     }
 
     public function syncLabels(int $issueId, array $labels): ?IssueContract

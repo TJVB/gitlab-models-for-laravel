@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Services;
 
+use Illuminate\Support\Arr;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateServiceContract;
@@ -48,7 +49,13 @@ final class PipelineHookHandler implements PipelineHookHandlerContract
             if (!is_array($build)) {
                 continue;
             }
-            $this->buildUpdateService->updateOrCreate(BuildDTO::fromPipelineEventData($build));
+            $this->buildUpdateService->updateOrCreate(
+                BuildDTO::fromPipelineEventData(
+                    $build,
+                    (int) Arr::get($build, 'object_attributes.id'),
+                    (int) Arr::get($build, 'project.id'),
+                )
+            );
         }
     }
 }

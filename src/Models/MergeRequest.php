@@ -82,7 +82,7 @@ class MergeRequest extends Model implements MergeRequestContract
         return $this->author_id;
     }
 
-    public function getBlockingDiscussionsResolved(): bool
+    public function getBlockingDiscussionsResolved(): ?bool
     {
         return $this->blocking_discussions_resolved;
     }

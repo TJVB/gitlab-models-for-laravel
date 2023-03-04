@@ -9,7 +9,7 @@ use Carbon\CarbonImmutable;
 interface MergeRequest
 {
     public function getAuthorId(): int;
-    public function getBlockingDiscussionsResolved(): bool;
+    public function getBlockingDiscussionsResolved(): ?bool;
     public function getCreatedAt(): CarbonImmutable;
     public function getDescription(): string;
     public function getMergeRequestId(): int;

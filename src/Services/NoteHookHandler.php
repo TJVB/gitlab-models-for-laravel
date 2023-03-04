@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Services;
 
+use Illuminate\Support\Arr;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteHookHandlerContract;
@@ -32,7 +33,9 @@ final class NoteHookHandler implements NoteHookHandlerContract
             $this->issueUpdateService->updateOrCreate($body['issue']);
         }
         if (isset($body['merge_request']) && is_array($body['merge_request'])) {
-            $this->mergeRequestUpdateService->updateOrCreate($body['merge_request']);
+            $mergeRequestData = $body['merge_request'];
+            $mergeRequestData['url'] = Arr::get($body['object_attributes'], 'url', '');
+            $this->mergeRequestUpdateService->updateOrCreate($mergeRequestData);
         }
         if (isset($body['project']) && is_array($body['project'])) {
             $this->projectUpdateService->updateOrCreate($body['project']);

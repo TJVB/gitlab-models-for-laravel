@@ -13,6 +13,9 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeNoteUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
+use function Safe\file_get_contents;
+use function Safe\json_decode;
+
 final class NoteHookHandlerTest extends TestCase
 {
     /**
@@ -46,7 +49,7 @@ final class NoteHookHandlerTest extends TestCase
         $projectUpdateService = new FakeProjectUpdateService();
 
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . $type . '.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . $type . '.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'note';
 
         // run
@@ -77,9 +80,7 @@ final class NoteHookHandlerTest extends TestCase
         $projectUpdateService = new FakeProjectUpdateService();
 
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
-            self::EXAMPLE_PAYLOADS . 'comment_code_snippet.json'
-        ), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'comment_code_snippet.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'note';
         $hookModel->body['object_attributes'] = 'invalid attribute';
         $hookModel->body['project'] = 'invalid project';

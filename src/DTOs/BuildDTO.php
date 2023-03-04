@@ -44,12 +44,12 @@ final class BuildDTO
         );
     }
 
-    public static function fromPipelineEventData(array $data): BuildDTO
+    public static function fromPipelineEventData(array $data, int $pipelineId, int $projectId): BuildDTO
     {
         return new BuildDTO(
             (int)Arr::get($data, 'id'),
-            (int)Arr::get($data, 'pipeline_id'),
-            (int)Arr::get($data, 'project_id'),
+            $pipelineId,
+            $projectId,
             (string) Arr::get($data, 'name'),
             (string) Arr::get($data, 'stage'),
             (string) Arr::get($data, 'status'),

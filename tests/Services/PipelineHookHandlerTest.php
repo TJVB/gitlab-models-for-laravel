@@ -13,6 +13,9 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakePipelineUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
+use function Safe\file_get_contents;
+use function Safe\json_decode;
+
 class PipelineHookHandlerTest extends TestCase
 {
     /**
@@ -35,7 +38,7 @@ class PipelineHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $buildUpdateService = new FakeBuildUpdateService();
         $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
@@ -65,7 +68,7 @@ class PipelineHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $hookModel->body['object_attributes'] = 'invalid pipeline';
         $buildUpdateService = new FakeBuildUpdateService();
@@ -96,7 +99,7 @@ class PipelineHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $hookModel->body['project'] = 'invalid projectdata';
         $buildUpdateService = new FakeBuildUpdateService();
@@ -127,7 +130,7 @@ class PipelineHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $hookModel->body['merge_request'] = 'invalid merge_request data';
         $buildUpdateService = new FakeBuildUpdateService();
@@ -158,7 +161,7 @@ class PipelineHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $hookModel->body['builds'] = ['invalid build data'];
         $buildUpdateService = new FakeBuildUpdateService();
@@ -189,7 +192,7 @@ class PipelineHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         // add an invalid build in front of the others
         array_unshift($hookModel->body['builds'], 'invalid build data');
@@ -221,7 +224,7 @@ class PipelineHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $hookModel->body['builds'] = 'invalid builds data';
         $buildUpdateService = new FakeBuildUpdateService();
