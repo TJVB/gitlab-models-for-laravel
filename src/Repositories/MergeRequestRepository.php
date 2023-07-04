@@ -67,4 +67,9 @@ final class MergeRequestRepository implements MergeRequestWriteRepository
         $mergeRequest->labels()->sync(Label::whereIn('label_id', $labelIds)->get());
         return $mergeRequest;
     }
+
+    public function syncAssignees(int $mergeRequestId, array $assigneeIds)
+    {
+        // TODO: Implement syncAssignees() method.
+    }
 }

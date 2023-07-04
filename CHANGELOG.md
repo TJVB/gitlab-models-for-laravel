@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## Added
+- Add option to save users.
+- Add option to save assignees for a merge request.
+
 ## 0.2.0 - 2023-03-04
 
 ### Fixed

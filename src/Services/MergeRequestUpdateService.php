@@ -8,15 +8,17 @@ use Illuminate\Contracts\Config\Repository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\LabelUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\UserUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\MergeRequestDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 
 final class MergeRequestUpdateService implements MergeRequestUpdateServiceContract
 {
     public function __construct(
-        private Repository $config,
-        private MergeRequestWriteRepository $writeRepository,
-        private LabelUpdateServiceContract $labelUpdateService,
+        private readonly Repository $config,
+        private readonly MergeRequestWriteRepository $writeRepository,
+        private readonly LabelUpdateServiceContract $labelUpdateService,
+        private readonly UserUpdateServiceContract $userUpdateService,
     ) {
     }
 
@@ -29,17 +31,60 @@ final class MergeRequestUpdateService implements MergeRequestUpdateServiceContra
             throw MissingData::missingDataForAction('id', ' updateOrCreateMergeRequest');
         }
         $mergeRequest = $this->writeRepository->updateOrCreate($mergeRequestData['id'], $mergeRequestData);
+        $this->handleAssignees($mergeRequestData);
         $this->handleLabels($mergeRequestData);
         MergeRequestDataReceived::dispatch($mergeRequest);
     }
 
     private function handleLabels(array $mergeRequestData): void
     {
+        if (!$this->config->get('gitlab-models.merge_request_relations.labels')) {
+            return;
+        }
         $labels = [];
         foreach ($mergeRequestData['labels'] ?? [] as $labelData) {
             $labels[] = $this->labelUpdateService->updateOrCreate($labelData);
         }
         array_filter($labels);
         $this->writeRepository->syncLabels($mergeRequestData['id'], $labels);
+    }
+
+    private function handleAssignees(array $mergeRequestData): void
+    {
+        if (!$this->config->get('gitlab-models.merge_request_relations.assignees')) {
+            return;
+        }
+        if (
+            !array_key_exists('assignee', $mergeRequestData) &&
+            !array_key_exists('assignees', $mergeRequestData) &&
+            !array_key_exists('assignee_id', $mergeRequestData)
+        ) {
+            // for this hook we didn't have any data about assignees
+            return;
+        }
+        $assigneesData = $mergeRequestData['assignees'] ?? [];
+        if (isset($mergeRequestData['assignee'])) {
+            $assigneesData[]  = $mergeRequestData['assignee'];
+        }
+        $assigneeIds = [];
+        if (isset($mergeRequestData['assignee_ids']) && is_array($mergeRequestData['assignee_ids'])) {
+            $assigneeIds = $mergeRequestData['assignee_ids'];
+        }
+        if (isset($mergeRequestData['assignee_id']) && is_numeric($mergeRequestData['assignee_id'])) {
+            $assigneeIds[] = $mergeRequestData['assignee_id'];
+        }
+        foreach ($assigneesData as $user) {
+            if (is_numeric($user)) {
+                $user = [
+                    'id' => $user,
+                ];
+            }
+            if (!isset($user['id'])) {
+                continue;
+            }
+            $this->userUpdateService->updateOrCreate($user);
+            $assigneeIds[] = $user['id'];
+        }
+        $this->writeRepository->syncAssignees($mergeRequestData['id'], $assigneeIds);
     }
 }

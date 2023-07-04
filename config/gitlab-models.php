@@ -16,6 +16,7 @@ return [
         'pipelines' => env('GITLAB_MODELS_STORE_PIPELINES', true),
         'projects' => env('GITLAB_MODELS_STORE_PROJECTS', true),
         'tags' => env('GITLAB_MODELS_STORE_TAGS', true),
+        'users' => env('GITLAB_MODELS_STORE_USERS', true),
     ],
 
     /**
@@ -27,6 +28,11 @@ return [
         'MergeRequest',
         'Issue',
 //        'Snippet',
+    ],
+
+    'merge_request_relations' => [
+        'assignees' => env('GITLAB_MODELS_STORE_MERGE_REQUESTS_ASSIGNEES', true),
+        'labels' => env('GITLAB_MODELS_STORE_MERGE_REQUESTS_LABELS', true),
     ],
 
     /**
@@ -57,6 +63,7 @@ return [
         'project_read' => \TJVB\GitlabModelsForLaravel\Repositories\ProjectRepository::class,
         'project_write' => \TJVB\GitlabModelsForLaravel\Repositories\ProjectRepository::class,
         'tag_write' => \TJVB\GitlabModelsForLaravel\Repositories\TagRepository::class,
+        'user_write' => \TJVB\GitlabModelsForLaravel\Repositories\UserRepository::class,
     ],
 
     /**
@@ -81,5 +88,6 @@ return [
         'pipeline_update' => \TJVB\GitlabModelsForLaravel\Services\PipelineUpdateService::class,
         'project_update' => \TJVB\GitlabModelsForLaravel\Services\ProjectUpdateService::class,
         'tag_update' => \TJVB\GitlabModelsForLaravel\Services\TagUpdateService::class,
+        'user_update' => \TJVB\GitlabModelsForLaravel\Services\UserUpdateService::class,
     ],
 ];
