@@ -164,4 +164,11 @@ class MergeRequest extends Model implements MergeRequestContract
             'gitlab_label_gitlab_merge_request',
         );
     }
+    public function assignees(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            'gitlab_merge_request_assignees',
+        );
+    }
 }

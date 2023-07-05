@@ -7,6 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Integrations;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use TJVB\GitlabModelsForLaravel\Models\MergeRequest;
 use TJVB\GitlabModelsForLaravel\Models\Project;
+use TJVB\GitlabModelsForLaravel\Models\User;
 use TJVB\GitlabModelsForLaravel\Services\MergeRequestHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
@@ -60,6 +61,13 @@ final class MergeRequestTest extends TestCase
             'description' => $hookBody['project']['description'],
             'avatar_url' => (string)$hookBody['project']['avatar_url'],
             'visibility_level' => $hookBody['project']['visibility_level'],
+        ]);
+
+        $this->assertDatabaseHas(User::class, [
+            'user_id' => $hookBody['assignees'][0]['id'],
+            'name' => $hookBody['assignees'][0]['name'],
+            'username' => $hookBody['assignees'][0]['username'],
+            'avatar_url' => $hookBody['assignees'][0]['avatar_url'],
         ]);
     }
 }

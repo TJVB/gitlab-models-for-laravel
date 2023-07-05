@@ -62,10 +62,29 @@ final class MergeRequestUpdateService implements MergeRequestUpdateServiceContra
             // for this hook we didn't have any data about assignees
             return;
         }
-        $assigneesData = $mergeRequestData['assignees'] ?? [];
-        if (isset($mergeRequestData['assignee'])) {
-            $assigneesData[]  = $mergeRequestData['assignee'];
-        }
+//        $assigneesData = $mergeRequestData['assignees'] ?? [];
+//        if (isset($mergeRequestData['assignee'])) {
+//            $assigneesData[]  = $mergeRequestData['assignee'];
+//        }
+
+        $assigneeIds = $this->getBasicAssigneesIds($mergeRequestData);
+//        foreach ($assigneesData as $user) {
+//            if (is_numeric($user)) {
+//                $user = [
+//                    'id' => $user,
+//                ];
+//            }
+//            if (!isset($user['id'])) {
+//                return;
+//            }
+//            $this->userUpdateService->updateOrCreate($user);
+//            $assigneeIds[] = $user['id'];
+//        }
+        $this->writeRepository->syncAssignees($mergeRequestData['id'], $assigneeIds);
+    }
+
+    private function getBasicAssigneesIds(array $mergeRequestData): array
+    {
         $assigneeIds = [];
         if (isset($mergeRequestData['assignee_ids']) && is_array($mergeRequestData['assignee_ids'])) {
             $assigneeIds = $mergeRequestData['assignee_ids'];
@@ -73,18 +92,11 @@ final class MergeRequestUpdateService implements MergeRequestUpdateServiceContra
         if (isset($mergeRequestData['assignee_id']) && is_numeric($mergeRequestData['assignee_id'])) {
             $assigneeIds[] = $mergeRequestData['assignee_id'];
         }
-        foreach ($assigneesData as $user) {
-            if (is_numeric($user)) {
-                $user = [
-                    'id' => $user,
-                ];
-            }
-            if (!isset($user['id'])) {
-                continue;
-            }
-            $this->userUpdateService->updateOrCreate($user);
-            $assigneeIds[] = $user['id'];
+        foreach ($assigneeIds as $assigneeId) {
+            $this->userUpdateService->updateOrCreate([
+                'id' => $assigneeId,
+            ]);
         }
-        $this->writeRepository->syncAssignees($mergeRequestData['id'], $assigneeIds);
+        return $assigneeIds;
     }
 }
