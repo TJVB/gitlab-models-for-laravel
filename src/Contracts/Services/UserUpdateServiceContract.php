@@ -6,5 +6,5 @@ namespace TJVB\GitlabModelsForLaravel\Contracts\Services;
 
 interface UserUpdateServiceContract
 {
-    public function updateOrCreate(array $userData);
+    public function updateOrCreate(array $userData): void;
 }

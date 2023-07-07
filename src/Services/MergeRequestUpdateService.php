@@ -18,7 +18,6 @@ final class MergeRequestUpdateService implements MergeRequestUpdateServiceContra
         private readonly Repository $config,
         private readonly MergeRequestWriteRepository $writeRepository,
         private readonly LabelUpdateServiceContract $labelUpdateService,
-        private readonly UserUpdateServiceContract $userUpdateService,
     ) {
     }
 
@@ -62,24 +61,8 @@ final class MergeRequestUpdateService implements MergeRequestUpdateServiceContra
             // for this hook we didn't have any data about assignees
             return;
         }
-//        $assigneesData = $mergeRequestData['assignees'] ?? [];
-//        if (isset($mergeRequestData['assignee'])) {
-//            $assigneesData[]  = $mergeRequestData['assignee'];
-//        }
 
         $assigneeIds = $this->getBasicAssigneesIds($mergeRequestData);
-//        foreach ($assigneesData as $user) {
-//            if (is_numeric($user)) {
-//                $user = [
-//                    'id' => $user,
-//                ];
-//            }
-//            if (!isset($user['id'])) {
-//                return;
-//            }
-//            $this->userUpdateService->updateOrCreate($user);
-//            $assigneeIds[] = $user['id'];
-//        }
         $this->writeRepository->syncAssignees($mergeRequestData['id'], $assigneeIds);
     }
 
@@ -91,11 +74,6 @@ final class MergeRequestUpdateService implements MergeRequestUpdateServiceContra
         }
         if (isset($mergeRequestData['assignee_id']) && is_numeric($mergeRequestData['assignee_id'])) {
             $assigneeIds[] = $mergeRequestData['assignee_id'];
-        }
-        foreach ($assigneeIds as $assigneeId) {
-            $this->userUpdateService->updateOrCreate([
-                'id' => $assigneeId,
-            ]);
         }
         return $assigneeIds;
     }

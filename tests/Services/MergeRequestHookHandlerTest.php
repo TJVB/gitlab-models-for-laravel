@@ -9,6 +9,7 @@ use TJVB\GitlabModelsForLaravel\Services\MergeRequestHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeMergeRequestUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
+use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeUserUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
 class MergeRequestHookHandlerTest extends TestCase
@@ -41,9 +42,10 @@ class MergeRequestHookHandlerTest extends TestCase
 
         $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
         $projectUpdateService = new FakeProjectUpdateService();
+        $userUpdateService = new FakeUserUpdateService();
 
         // run
-        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService);
+        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
         $handler->handle($hookModel);
 
         // verify/assert
@@ -67,9 +69,10 @@ class MergeRequestHookHandlerTest extends TestCase
 
         $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
         $projectUpdateService = new FakeProjectUpdateService();
+        $userUpdateService = new FakeUserUpdateService();
 
         // run
-        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService);
+        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
         $handler->handle($hookModel);
 
         // verify/assert
@@ -93,9 +96,10 @@ class MergeRequestHookHandlerTest extends TestCase
 
         $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
         $projectUpdateService = new FakeProjectUpdateService();
+        $userUpdateService = new FakeUserUpdateService();
 
         // run
-        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService);
+        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
         $handler->handle($hookModel);
 
         // verify/assert
