@@ -12,5 +12,7 @@ interface MergeRequestWriteRepository
 
     public function syncLabels(int $mergeRequestId, array $labels): ?MergeRequest;
 
-    public function syncAssignees(int $mergeRequestId, array $assigneeIds);
+    public function syncAssignees(int $mergeRequestId, array $assigneeIds): void;
+
+    public function syncReviewers(int $mergeRequestId, array $reviewerIds): void;
 }

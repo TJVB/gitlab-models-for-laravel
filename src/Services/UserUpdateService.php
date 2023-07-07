@@ -20,7 +20,7 @@ final class UserUpdateService implements UserUpdateServiceContract
 
     public function updateOrCreate(array $userData): void
     {
-        if (!$this->config->get('gitlab-models.model_to_store.projects')) {
+        if (!$this->config->get('gitlab-models.model_to_store.users')) {
             return;
         }
         if (!isset($userData['id'])) {

@@ -104,8 +104,9 @@ class MergeRequestUpdateServiceTest extends TestCase
 
     /**
      * @test
+     * @dataProvider trueFalseProvider
      */
-    public function weCanStoreTheLabelsIfProvided(): void
+    public function weCanStoreTheLabelsIfProvided(bool $enabled): void
     {
         // setup / mock
         Event::fake();
@@ -150,6 +151,7 @@ class MergeRequestUpdateServiceTest extends TestCase
          */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.merge_requests', true);
+        $config->set('gitlab-models.merge_request_relations.labels', $enabled);
 
         // run
         $service = $this->app->make(MergeRequestUpdateService::class, [
@@ -163,9 +165,124 @@ class MergeRequestUpdateServiceTest extends TestCase
             $fakeRepository->hasReceivedData($id, $data),
             'We didn\'t received the correct data on the repository'
         );
-        $this->assertNotEmpty($fakeRepository->receivedSync);
         Event::assertDispatched(static function (MergeRequestDataReceived $event) use ($id) {
             return $event->getMergeRequest()->getMergeRequestId() === $id;
         });
+        if ($enabled) {
+            $this->assertNotEmpty($fakeRepository->receivedSync);
+            return;
+        }
+        $this->assertEmpty($fakeRepository->receivedSync);
+    }
+
+    /**
+     * @test
+     * @dataProvider trueFalseProvider
+     */
+    public function weSyncTheAssignees(bool $enabled): void
+    {
+        // setup / mock
+        Event::fake();
+        $fakeRepository = new FakeMergeRequestWriteRepository();
+        $this->app->bind(
+            MergeRequestWriteRepository::class,
+            static function () use ($fakeRepository): MergeRequestWriteRepository {
+                return $fakeRepository;
+            }
+        );
+
+        $id = random_int(1, PHP_INT_MAX);
+        $assigneeId = random_int(1, PHP_INT_MAX);
+        $data = [
+            'id' => $id,
+            'key' => 'value',
+            'assignee_ids' => [
+                $assigneeId,
+            ],
+        ];
+
+        /**
+         * @var Repository $config
+         */
+        $config = $this->app->make(Repository::class);
+        $config->set('gitlab-models.model_to_store.merge_requests', true);
+        $config->set('gitlab-models.merge_request_relations.assignees', $enabled);
+
+        // run
+        $service = $this->app->make(MergeRequestUpdateService::class, [
+            'config' => $config,
+        ]);
+        $service->updateOrCreate($data);
+
+        // verify/assert
+        $this->assertNotEmpty($fakeRepository->receivedData);
+        $this->assertTrue(
+            $fakeRepository->hasReceivedData($id, $data),
+            'We didn\'t received the correct data on the repository'
+        );
+        Event::assertDispatched(static function (MergeRequestDataReceived $event) use ($id) {
+            return $event->getMergeRequest()->getMergeRequestId() === $id;
+        });
+        if ($enabled) {
+            $this->assertNotEmpty($fakeRepository->receivedAssignees);
+            $this->assertTrue($fakeRepository->hasReceivedAssignees($id, [$assigneeId]));
+            return;
+        }
+        $this->assertEmpty($fakeRepository->receivedAssignees);
+    }
+
+    /**
+     * @test
+     * @dataProvider trueFalseProvider
+     */
+    public function weSyncTheReviewers(bool $enabled): void
+    {
+        // setup / mock
+        Event::fake();
+        $fakeRepository = new FakeMergeRequestWriteRepository();
+        $this->app->bind(
+            MergeRequestWriteRepository::class,
+            static function () use ($fakeRepository): MergeRequestWriteRepository {
+                return $fakeRepository;
+            }
+        );
+
+        $id = random_int(1, PHP_INT_MAX);
+        $reviewerId = random_int(1, PHP_INT_MAX);
+        $data = [
+            'id' => $id,
+            'key' => 'value',
+            'reviewer_ids' => [
+                $reviewerId,
+            ],
+        ];
+
+        /**
+         * @var Repository $config
+         */
+        $config = $this->app->make(Repository::class);
+        $config->set('gitlab-models.model_to_store.merge_requests', true);
+        $config->set('gitlab-models.merge_request_relations.reviewers', $enabled);
+
+        // run
+        $service = $this->app->make(MergeRequestUpdateService::class, [
+            'config' => $config,
+        ]);
+        $service->updateOrCreate($data);
+
+        // verify/assert
+        $this->assertNotEmpty($fakeRepository->receivedData);
+        $this->assertTrue(
+            $fakeRepository->hasReceivedData($id, $data),
+            'We didn\'t received the correct data on the repository'
+        );
+        Event::assertDispatched(static function (MergeRequestDataReceived $event) use ($id) {
+            return $event->getMergeRequest()->getMergeRequestId() === $id;
+        });
+        if ($enabled) {
+            $this->assertTrue($fakeRepository->hasReceivedReviewers($id, [$reviewerId]));
+            return;
+        }
+        $this->assertEmpty($fakeRepository->receivedReviewers);
     }
 }

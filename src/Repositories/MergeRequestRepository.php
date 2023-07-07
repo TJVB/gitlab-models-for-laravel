@@ -81,4 +81,16 @@ final class MergeRequestRepository implements MergeRequestWriteRepository
         }
         $mergeRequest->assignees()->sync(User::whereIn('user_id', $assigneeIds)->get());
     }
+
+    public function syncReviewers(int $mergeRequestId, array $reviewerIds): void
+    {
+        /** @var MergeRequest|null $mergeRequest */
+        $mergeRequest = MergeRequest::query()
+            ->where('merge_request_id', $mergeRequestId)
+            ->first();
+        if ($mergeRequest === null) {
+            return;
+        }
+        $mergeRequest->reviewers()->sync(User::whereIn('user_id', $reviewerIds)->get());
+    }
 }

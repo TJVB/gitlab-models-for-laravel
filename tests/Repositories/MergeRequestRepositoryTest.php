@@ -6,17 +6,20 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Repositories;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\WithFaker;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\DTOs\LabelDTO;
 use TJVB\GitlabModelsForLaravel\Models\Issue;
 use TJVB\GitlabModelsForLaravel\Models\Label;
 use TJVB\GitlabModelsForLaravel\Models\MergeRequest;
+use TJVB\GitlabModelsForLaravel\Models\User;
 use TJVB\GitlabModelsForLaravel\Repositories\MergeRequestRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
 class MergeRequestRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
+    use WithFaker;
 
     /**
      * @test
@@ -213,7 +216,7 @@ class MergeRequestRepositoryTest extends TestCase
     /**
      * @test
      */
-    public function weDonNotCrashIfWeTryToSyncForAnIssueThatIsNotStored(): void
+    public function weDonNotCrashIfWeTryToSyncLabelsForAnIssueThatIsNotStored(): void
     {
         // setup / mock
         $label = Label::create([
@@ -235,5 +238,47 @@ class MergeRequestRepositoryTest extends TestCase
         // verify/assert
         $this->assertNull($result);
         $this->assertDatabaseCount('gitlab_label_gitlab_merge_request', 0);
+    }
+
+    /**
+     * @test
+     */
+    public function weDonNotCrashIfWeTryToSyncAssigneesForAnIssueThatIsNotStored(): void
+    {
+        // setup / mock
+        $user = User::create([
+            'user_id' => random_int(1, PHP_INT_MAX),
+            'name' => $this->faker->name(),
+            'username' => $this->faker->userName(),
+            'avatar_url' => $this->faker->url(),
+        ]);
+
+        // run
+        $repository = new MergeRequestRepository();
+        $repository->syncAssignees(random_int(1, PHP_INT_MAX), [$user->getUserId()]);
+
+        // verify/assert
+        $this->assertDatabaseCount('gitlab_merge_request_assignees', 0);
+    }
+
+    /**
+     * @test
+     */
+    public function weDonNotCrashIfWeTryToSyncReviewersForAnIssueThatIsNotStored(): void
+    {
+        // setup / mock
+        $user = User::create([
+            'user_id' => random_int(1, PHP_INT_MAX),
+            'name' => $this->faker->name(),
+            'username' => $this->faker->userName(),
+            'avatar_url' => $this->faker->url(),
+        ]);
+
+        // run
+        $repository = new MergeRequestRepository();
+        $repository->syncReviewers(random_int(1, PHP_INT_MAX), [$user->getUserId()]);
+
+        // verify/assert
+        $this->assertDatabaseCount('gitlab_merge_request_reviewers', 0);
     }
 }

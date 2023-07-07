@@ -69,5 +69,12 @@ final class MergeRequestTest extends TestCase
             'username' => $hookBody['assignees'][0]['username'],
             'avatar_url' => $hookBody['assignees'][0]['avatar_url'],
         ]);
+
+        $this->assertDatabaseHas(User::class, [
+            'user_id' => $hookBody['reviewers'][0]['id'],
+            'name' => $hookBody['reviewers'][0]['name'],
+            'username' => $hookBody['reviewers'][0]['username'],
+            'avatar_url' => $hookBody['reviewers'][0]['avatar_url'],
+        ]);
     }
 }

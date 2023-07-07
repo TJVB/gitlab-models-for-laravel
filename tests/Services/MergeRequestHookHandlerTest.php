@@ -106,4 +106,196 @@ class MergeRequestHookHandlerTest extends TestCase
         $this->assertNotEmpty($mergeRequestUpdateService->receivedData);
         $this->assertEmpty($projectUpdateService->receivedData);
     }
+
+    /**
+     * @test
+     */
+    public function weStoreTheAssignees(): void
+    {
+        // setup / mock
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(
+            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+            true
+        );
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
+        $hookModel->body['reviewers'] = [];
+        $hookModel->body['assignees'] = [
+            [
+                'id' => 234,
+                'name' => 'assignee name',
+                'username' => 'assignee username',
+                'avatar_url' => 'http://avatar.example',
+            ],
+        ];
+
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
+        $projectUpdateService = new FakeProjectUpdateService();
+        $userUpdateService = new FakeUserUpdateService();
+
+        // run
+        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler->handle($hookModel);
+
+        // verify/assert
+        $this->assertNotEmpty($mergeRequestUpdateService->receivedData);
+        $this->assertNotEmpty($projectUpdateService->receivedData);
+        $this->assertNotEmpty($userUpdateService->receivedData);
+        $this->assertCount(1, $userUpdateService->receivedData);
+        $this->assertEquals($hookModel->body['assignees'], $userUpdateService->receivedData);
+    }
+
+    /**
+     * @test
+     */
+    public function weDontStoreAssigneesIfTheyArentSet(): void
+    {
+        // setup / mock
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(
+            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+            true
+        );
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
+        $hookModel->body['reviewers'] = [];
+        unset($hookModel->body['assignees']);
+
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
+        $projectUpdateService = new FakeProjectUpdateService();
+        $userUpdateService = new FakeUserUpdateService();
+
+        // run
+        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler->handle($hookModel);
+
+        // verify/assert
+        $this->assertNotEmpty($mergeRequestUpdateService->receivedData);
+        $this->assertNotEmpty($projectUpdateService->receivedData);
+        $this->assertEmpty($userUpdateService->receivedData);
+    }
+
+    /**
+     * @test
+     */
+    public function weIgnoreInvalidAssignees(): void
+    {
+        // setup / mock
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(
+            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+            true
+        );
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
+        $hookModel->body['reviewers'] = [];
+        $hookModel->body['assignees'] = 'invalid';
+
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
+        $projectUpdateService = new FakeProjectUpdateService();
+        $userUpdateService = new FakeUserUpdateService();
+
+        // run
+        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler->handle($hookModel);
+
+        // verify/assert
+        $this->assertNotEmpty($mergeRequestUpdateService->receivedData);
+        $this->assertNotEmpty($projectUpdateService->receivedData);
+        $this->assertEmpty($userUpdateService->receivedData);
+    }
+
+    /**
+     * @test
+     */
+    public function weStoreTheReviewers(): void
+    {
+        // setup / mock
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(
+            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+            true
+        );
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
+        $hookModel->body['assignees'] = [];
+        $hookModel->body['reviewers'] = [
+            [
+                'id' => 234,
+                'name' => 'assignee name',
+                'username' => 'assignee username',
+                'avatar_url' => 'http://avatar.example',
+            ],
+        ];
+
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
+        $projectUpdateService = new FakeProjectUpdateService();
+        $userUpdateService = new FakeUserUpdateService();
+
+        // run
+        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler->handle($hookModel);
+
+        // verify/assert
+        $this->assertNotEmpty($mergeRequestUpdateService->receivedData);
+        $this->assertNotEmpty($projectUpdateService->receivedData);
+        $this->assertNotEmpty($userUpdateService->receivedData);
+        $this->assertCount(1, $userUpdateService->receivedData);
+        $this->assertEquals($hookModel->body['reviewers'], $userUpdateService->receivedData);
+    }
+
+    /**
+     * @test
+     */
+    public function weDontStoreReviewersIfTheyArentSet(): void
+    {
+        // setup / mock
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(
+            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+            true
+        );
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
+        $hookModel->body['assignees'] = [];
+        unset($hookModel->body['reviewers']);
+
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
+        $projectUpdateService = new FakeProjectUpdateService();
+        $userUpdateService = new FakeUserUpdateService();
+
+        // run
+        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler->handle($hookModel);
+
+        // verify/assert
+        $this->assertNotEmpty($mergeRequestUpdateService->receivedData);
+        $this->assertNotEmpty($projectUpdateService->receivedData);
+        $this->assertEmpty($userUpdateService->receivedData);
+    }
+
+    /**
+     * @test
+     */
+    public function weIgnoreInvalidReviewers(): void
+    {
+        // setup / mock
+        $hookModel = new FakeGitLabHookModel();
+        $hookModel->body = \Safe\json_decode(
+            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+            true
+        );
+        $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
+        $hookModel->body['assignees'] = [];
+        $hookModel->body['reviewers'] = 'invalid';
+
+        $mergeRequestUpdateService = new FakeMergeRequestUpdateServiceContract();
+        $projectUpdateService = new FakeProjectUpdateService();
+        $userUpdateService = new FakeUserUpdateService();
+
+        // run
+        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler->handle($hookModel);
+
+        // verify/assert
+        $this->assertNotEmpty($mergeRequestUpdateService->receivedData);
+        $this->assertNotEmpty($projectUpdateService->receivedData);
+        $this->assertEmpty($userUpdateService->receivedData);
+    }
 }

@@ -31,6 +31,7 @@ final class MergeRequestUpdateService implements MergeRequestUpdateServiceContra
         }
         $mergeRequest = $this->writeRepository->updateOrCreate($mergeRequestData['id'], $mergeRequestData);
         $this->handleAssignees($mergeRequestData);
+        $this->handleReviewers($mergeRequestData);
         $this->handleLabels($mergeRequestData);
         MergeRequestDataReceived::dispatch($mergeRequest);
     }
@@ -54,8 +55,7 @@ final class MergeRequestUpdateService implements MergeRequestUpdateServiceContra
             return;
         }
         if (
-            !array_key_exists('assignee', $mergeRequestData) &&
-            !array_key_exists('assignees', $mergeRequestData) &&
+            !array_key_exists('assignee_ids', $mergeRequestData) &&
             !array_key_exists('assignee_id', $mergeRequestData)
         ) {
             // for this hook we didn't have any data about assignees
@@ -76,5 +76,20 @@ final class MergeRequestUpdateService implements MergeRequestUpdateServiceContra
             $assigneeIds[] = $mergeRequestData['assignee_id'];
         }
         return $assigneeIds;
+    }
+
+    private function handleReviewers(array $mergeRequestData): void
+    {
+        if (!$this->config->get('gitlab-models.merge_request_relations.reviewers')) {
+            return;
+        }
+        if (
+            !array_key_exists('reviewer_ids', $mergeRequestData)
+        ) {
+            // for this hook we didn't have any data about assignees
+            return;
+        }
+
+        $this->writeRepository->syncReviewers($mergeRequestData['id'], $mergeRequestData['reviewer_ids']);
     }
 }

@@ -33,6 +33,7 @@ return [
     'merge_request_relations' => [
         'assignees' => env('GITLAB_MODELS_STORE_MERGE_REQUESTS_ASSIGNEES', true),
         'labels' => env('GITLAB_MODELS_STORE_MERGE_REQUESTS_LABELS', true),
+        'reviewers' => env('GITLAB_MODELS_STORE_MERGE_REQUESTS_REVIEWERS', true),
     ],
 
     /**
