@@ -16,6 +16,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Repositories\PipelineWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectReadRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\TagWriteRepository;
+use TJVB\GitlabModelsForLaravel\Contracts\Repositories\UserWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentHookHandlerContract;
@@ -33,6 +34,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PushHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagPushHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\UserUpdateServiceContract;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -76,6 +78,7 @@ class GitlabModelsProvider extends ServiceProvider
             ProjectReadRepository::class,
             ProjectWriteRepository::class,
             TagWriteRepository::class,
+            UserWriteRepository::class,
 
             // services
             // hook handler services
@@ -97,6 +100,7 @@ class GitlabModelsProvider extends ServiceProvider
             PipelineUpdateServiceContract::class,
             ProjectUpdateServiceContract::class,
             TagUpdateServiceContract::class,
+            UserUpdateServiceContract::class,
         ];
     }
 
@@ -112,6 +116,7 @@ class GitlabModelsProvider extends ServiceProvider
         $this->app->bind(ProjectReadRepository::class, config('gitlab-models.repositories.project_read'));
         $this->app->bind(ProjectWriteRepository::class, config('gitlab-models.repositories.project_write'));
         $this->app->bind(TagWriteRepository::class, config('gitlab-models.repositories.tag_write'));
+        $this->app->bind(UserWriteRepository::class, config('gitlab-models.repositories.user_write'));
     }
 
     private function registerServices(): void
@@ -142,5 +147,6 @@ class GitlabModelsProvider extends ServiceProvider
         $this->app->bind(PipelineUpdateServiceContract::class, config('gitlab-models.services.pipeline_update'));
         $this->app->bind(ProjectUpdateServiceContract::class, config('gitlab-models.services.project_update'));
         $this->app->bind(TagUpdateServiceContract::class, config('gitlab-models.services.tag_update'));
+        $this->app->bind(UserUpdateServiceContract::class, config('gitlab-models.services.user_update'));
     }
 }

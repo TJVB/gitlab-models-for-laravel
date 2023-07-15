@@ -11,6 +11,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteReposito
 use TJVB\GitlabModelsForLaravel\DTOs\LabelDTO;
 use TJVB\GitlabModelsForLaravel\Models\Label;
 use TJVB\GitlabModelsForLaravel\Models\MergeRequest;
+use TJVB\GitlabModelsForLaravel\Models\User;
 
 final class MergeRequestRepository implements MergeRequestWriteRepository
 {
@@ -58,6 +59,7 @@ final class MergeRequestRepository implements MergeRequestWriteRepository
                 $labelIds[] = $label->labelId;
             }
         }
+        /** @var MergeRequest|null $mergeRequest */
         $mergeRequest = MergeRequest::query()
             ->where('merge_request_id', $mergeRequestId)
             ->first();
@@ -66,5 +68,29 @@ final class MergeRequestRepository implements MergeRequestWriteRepository
         }
         $mergeRequest->labels()->sync(Label::whereIn('label_id', $labelIds)->get());
         return $mergeRequest;
+    }
+
+    public function syncAssignees(int $mergeRequestId, array $assigneeIds): void
+    {
+        /** @var MergeRequest|null $mergeRequest */
+        $mergeRequest = MergeRequest::query()
+            ->where('merge_request_id', $mergeRequestId)
+            ->first();
+        if ($mergeRequest === null) {
+            return;
+        }
+        $mergeRequest->assignees()->sync(User::whereIn('user_id', $assigneeIds)->get());
+    }
+
+    public function syncReviewers(int $mergeRequestId, array $reviewerIds): void
+    {
+        /** @var MergeRequest|null $mergeRequest */
+        $mergeRequest = MergeRequest::query()
+            ->where('merge_request_id', $mergeRequestId)
+            ->first();
+        if ($mergeRequest === null) {
+            return;
+        }
+        $mergeRequest->reviewers()->sync(User::whereIn('user_id', $reviewerIds)->get());
     }
 }

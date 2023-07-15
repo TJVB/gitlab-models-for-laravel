@@ -17,6 +17,8 @@ final class FakeMergeRequestWriteRepository implements MergeRequestWriteReposito
     public ?MergeRequest $result = null;
     public array $receivedSync = [];
     public ?MergeRequest $syncResult = null;
+    public array $receivedAssignees = [];
+    public array $receivedReviewers = [];
 
     public function updateOrCreate(int $mergeRequestId, array $mergeRequestData): MergeRequest
     {
@@ -47,5 +49,39 @@ final class FakeMergeRequestWriteRepository implements MergeRequestWriteReposito
             'labels' => $labels,
         ];
         return $this->syncResult;
+    }
+
+    public function syncAssignees(int $mergeRequestId, array $assigneeIds): void
+    {
+        $this->receivedAssignees[] = [
+            'mergeRequestId' => $mergeRequestId,
+            'assigneeIds' => $assigneeIds,
+        ];
+    }
+
+    public function hasReceivedAssignees(int $mergeRequestId, array $assigneeIds): bool
+    {
+        $search = [
+            'mergeRequestId' => $mergeRequestId,
+            'assigneeIds' => $assigneeIds,
+        ];
+        return in_array($search, $this->receivedAssignees, true);
+    }
+
+    public function syncReviewers(int $mergeRequestId, array $reviewerIds): void
+    {
+        $this->receivedReviewers[] = [
+            'mergeRequestId' => $mergeRequestId,
+            'reviewerIds' => $reviewerIds,
+        ];
+    }
+
+    public function hasReceivedReviewers(int $mergeRequestId, array $reviewerIds): bool
+    {
+        $search = [
+            'mergeRequestId' => $mergeRequestId,
+            'reviewerIds' => $reviewerIds,
+        ];
+        return in_array($search, $this->receivedReviewers, true);
     }
 }
