@@ -13,13 +13,16 @@ final class UserRepository implements UserWriteRepository
 {
     public function updateOrCreate(int $userId, array $userdata): User
     {
+        $keys = [
+            'name',
+            'username',
+            'avatar_url',
+        ];
         $values = [];
-        if (count($userdata) > 1) {
-            $values =  [
-                'name' => (string) Arr::get($userdata, 'name'),
-                'username' => (string) Arr::get($userdata, 'username'),
-                'avatar_url' => (string) Arr::get($userdata, 'avatar_url'),
-            ];
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $userdata)) {
+                $values[$key] = $userdata[$key];
+            }
         }
         return User::updateOrCreate(['user_id' => $userId], $values);
     }

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use TJVB\GitlabModelsForLaravel\Contracts\Models\User as UserContract;
 
 /**
+ * @property integer $id
  * @property integer $user_id
  * @property string $name
  * @property string $username

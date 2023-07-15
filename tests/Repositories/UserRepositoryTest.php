@@ -90,4 +90,27 @@ final class UserRepositoryTest extends TestCase
         $validationData['user_id'] = $userId;
         $this->assertDatabaseHas('gitlab_users', $validationData);
     }
+
+    /**
+     * @test
+     */
+    public function weCanUpdateAnUserWithOnlyAnId(): void
+    {
+        // setup / mock
+        $userId = random_int(1, PHP_INT_MAX);
+        $data = [
+            'user_id' => $userId,
+            'name' => $this->faker->name(),
+            'username' => $this->faker->userName(),
+            'avatar_url' => $this->faker->imageUrl(),
+        ];
+        User::create($data);
+
+        // run
+        $repository = new UserRepository();
+        $repository->updateOrCreate($userId, []);
+
+        // verify/assert
+        $this->assertDatabaseHas('gitlab_users', $data);
+    }
 }

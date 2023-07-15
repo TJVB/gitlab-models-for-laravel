@@ -179,7 +179,7 @@ class MergeRequestUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
-    public function weSyncTheAssignees(bool $enabled): void
+    public function weSyncTheAssignee(bool $enabled): void
     {
         // setup / mock
         Event::fake();
@@ -196,9 +196,7 @@ class MergeRequestUpdateServiceTest extends TestCase
         $data = [
             'id' => $id,
             'key' => 'value',
-            'assignee_ids' => [
-                $assigneeId,
-            ],
+            'assignee_id' => $assigneeId,
         ];
 
         /**
@@ -226,6 +224,64 @@ class MergeRequestUpdateServiceTest extends TestCase
         if ($enabled) {
             $this->assertNotEmpty($fakeRepository->receivedAssignees);
             $this->assertTrue($fakeRepository->hasReceivedAssignees($id, [$assigneeId]));
+            return;
+        }
+        $this->assertEmpty($fakeRepository->receivedAssignees);
+    }
+
+    /**
+     * @test
+     * @dataProvider trueFalseProvider
+     */
+    public function weSyncTheAssignees(bool $enabled): void
+    {
+        // setup / mock
+        Event::fake();
+        $fakeRepository = new FakeMergeRequestWriteRepository();
+        $this->app->bind(
+            MergeRequestWriteRepository::class,
+            static function () use ($fakeRepository): MergeRequestWriteRepository {
+                return $fakeRepository;
+            }
+        );
+
+        $id = random_int(1, PHP_INT_MAX);
+        $assigneeId1 = random_int(1, PHP_INT_MAX);
+        $assigneeId2 = random_int(1, PHP_INT_MAX);
+        $data = [
+            'id' => $id,
+            'key' => 'value',
+            'assignee_ids' => [
+                $assigneeId1,
+                $assigneeId2,
+            ],
+        ];
+
+        /**
+         * @var Repository $config
+         */
+        $config = $this->app->make(Repository::class);
+        $config->set('gitlab-models.model_to_store.merge_requests', true);
+        $config->set('gitlab-models.merge_request_relations.assignees', $enabled);
+
+        // run
+        $service = $this->app->make(MergeRequestUpdateService::class, [
+            'config' => $config,
+        ]);
+        $service->updateOrCreate($data);
+
+        // verify/assert
+        $this->assertNotEmpty($fakeRepository->receivedData);
+        $this->assertTrue(
+            $fakeRepository->hasReceivedData($id, $data),
+            'We didn\'t received the correct data on the repository'
+        );
+        Event::assertDispatched(static function (MergeRequestDataReceived $event) use ($id) {
+            return $event->getMergeRequest()->getMergeRequestId() === $id;
+        });
+        if ($enabled) {
+            $this->assertNotEmpty($fakeRepository->receivedAssignees);
+            $this->assertTrue($fakeRepository->hasReceivedAssignees($id, [$assigneeId1, $assigneeId2]));
             return;
         }
         $this->assertEmpty($fakeRepository->receivedAssignees);
