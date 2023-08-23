@@ -11,4 +11,6 @@ interface IssueWriteRepository
     public function updateOrCreate(int $issueId, array $issueData): Issue;
 
     public function syncLabels(int $issueId, array $labels): ?Issue;
+
+    public function syncAssignees(int $issueId, array $assigneeIds);
 }

@@ -46,4 +46,9 @@ final class FakeIssueWriteRepository implements IssueWriteRepository
         ];
         return $this->syncResult;
     }
+
+    public function syncAssignees(int $issueId, array $assigneeIds)
+    {
+        // TODO: Implement syncAssignees() method.
+    }
 }

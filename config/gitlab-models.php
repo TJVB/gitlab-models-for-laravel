@@ -30,6 +30,11 @@ return [
 //        'Snippet',
     ],
 
+    'issue_relations' => [
+        'assignees' => env('GITLAB_MODELS_STORE_ISSUES_ASSIGNEES', true),
+        'labels' => env('GITLAB_MODELS_STORE_ISSUES_LABELS', true),
+    ],
+
     'merge_request_relations' => [
         'assignees' => env('GITLAB_MODELS_STORE_MERGE_REQUESTS_ASSIGNEES', true),
         'labels' => env('GITLAB_MODELS_STORE_MERGE_REQUESTS_LABELS', true),

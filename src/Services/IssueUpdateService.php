@@ -29,17 +29,50 @@ final class IssueUpdateService implements IssueUpdateServiceContract
             throw MissingData::missingDataForAction('id', ' updateOrCreateIssue');
         }
         $issue = $this->writeRepository->updateOrCreate($issueData['id'], $issueData);
+        $this->handleAssignees($issueData);
         $this->handleLabels($issueData);
         IssueDataReceived::dispatch($issue);
     }
 
     private function handleLabels(array $issueData): void
     {
+        if (!$this->config->get('gitlab-models.issue_relations.labels')) {
+            return;
+        }
         $labels = [];
         foreach ($issueData['labels'] ?? [] as $labelData) {
             $labels[] = $this->labelUpdateService->updateOrCreate($labelData);
         }
         array_filter($labels);
         $this->writeRepository->syncLabels($issueData['id'], $labels);
+    }
+
+    private function handleAssignees(array $issueData): void
+    {
+        if (!$this->config->get('gitlab-models.issue_relations.assignees')) {
+            return;
+        }
+        if (
+            !array_key_exists('assignee_ids', $issueData) &&
+            !array_key_exists('assignee_id', $issueData)
+        ) {
+            // for this hook we didn't have any data about assignees
+            return;
+        }
+
+        $assigneeIds = $this->getBasicAssigneesIds($issueData);
+        $this->writeRepository->syncAssignees($issueData['id'], $assigneeIds);
+    }
+
+    private function getBasicAssigneesIds(array $issueData): array
+    {
+        $assigneeIds = [];
+        if (isset($issueData['assignee_ids']) && is_array($issueData['assignee_ids'])) {
+            $assigneeIds = $issueData['assignee_ids'];
+        }
+        if (isset($issueData['assignee_id']) && is_numeric($issueData['assignee_id'])) {
+            $assigneeIds[] = $issueData['assignee_id'];
+        }
+        return $assigneeIds;
     }
 }

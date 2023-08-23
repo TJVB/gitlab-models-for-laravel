@@ -89,4 +89,13 @@ class Issue extends Model implements IssueContract
             'gitlab_issue_gitlab_label',
         );
     }
+
+
+    public function assignees(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            'gitlab_issue_assignees',
+        );
+    }
 }
