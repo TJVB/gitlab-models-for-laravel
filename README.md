@@ -49,16 +49,18 @@ The package dispatched multiple events after saving the received data (a create 
 ### Env variables
 There are a couple of env variables that can be used to change the data that shoulds be stored.
 
-| Key | Default | Description                                               |
-|-----|---------|-----------------------------------------------------------|
-|`GITLAB_MODELS_STORE_BUILDS`| true| That we want to store the data from the builds.           |
-|`GITLAB_MODELS_STORE_DEPLOYMENTS`| true| That we want to store the data from the deployments.      |
-|`GITLAB_MODELS_STORE_ISSUES`| true| That we want to store the data from the issues.           |
-|`GITLAB_MODELS_STORE_MERGE_REQUESTS`| true| That we want to store the data from the merge requests.   |
-|`GITLAB_MODELS_STORE_NOTES`| true| That we want to store the data from the notes (comments). |
-|`GITLAB_MODELS_STORE_PIPELINES`| true| That we want to store the data from the pipelines,        |
-|`GITLAB_MODELS_STORE_PROJECTS`| true| That we want to store the data from the projects.         |
-|`GITLAB_MODELS_STORE_TAGS`| true| That we want to store the data from the tags.             |
+| Key | Default | Description                                                                                       |
+|-----|---------|---------------------------------------------------------------------------------------------------|
+|`GITLAB_MODELS_QUEUE_CONNECTION`| null    | The queue connection for the HookStoredListener, if not provided it will use the project default. |
+|`GITLAB_MODELS_QUEUE_QUEUE`| null    | The queue for the HookStoredListener, if not provided it will use the project default.      |
+|`GITLAB_MODELS_STORE_BUILDS`| true    | That we want to store the data from the builds.                                                   |
+|`GITLAB_MODELS_STORE_DEPLOYMENTS`| true    | That we want to store the data from the deployments.                                              |
+|`GITLAB_MODELS_STORE_ISSUES`| true    | That we want to store the data from the issues.                                                   |
+|`GITLAB_MODELS_STORE_MERGE_REQUESTS`| true    | That we want to store the data from the merge requests.                                           |
+|`GITLAB_MODELS_STORE_NOTES`| true    | That we want to store the data from the notes (comments).                                         |
+|`GITLAB_MODELS_STORE_PIPELINES`| true    | That we want to store the data from the pipelines,                                                |
+|`GITLAB_MODELS_STORE_PROJECTS`| true    | That we want to store the data from the projects.                                                 |
+|`GITLAB_MODELS_STORE_TAGS`| true    | That we want to store the data from the tags.                                                     |
 
 ### Customization
 You can publish the config file with:

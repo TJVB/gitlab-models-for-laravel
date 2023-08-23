@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Listeners;
 
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Foundation\Testing\WithFaker;
 use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
 use TJVB\GitlabModelsForLaravel\Listeners\HookStoredListener;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
@@ -18,8 +20,10 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeTagPushHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 use TJVB\GitLabWebhooks\Events\HookStored;
 
-class HookStoredListenerTest extends TestCase
+final class HookStoredListenerTest extends TestCase
 {
+    use WithFaker;
+
     /**
      * @test
      */
@@ -46,6 +50,7 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        /** @var HookStoredListener $listener */
         $listener = $this->app->make(HookStoredListener::class, [
             'pushHookHandler' => $pushHookHandler,
         ]);
@@ -69,6 +74,7 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        /** @var HookStoredListener $listener */
         $listener = $this->app->make(HookStoredListener::class, [
             'tagPushHookHandler' => $tagPushHookHandler,
         ]);
@@ -92,6 +98,7 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        /** @var HookStoredListener $listener */
         $listener = $this->app->make(HookStoredListener::class, [
             'issueHookHandler' => $issueHookHandler,
         ]);
@@ -117,6 +124,7 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        /** @var HookStoredListener $listener */
         $listener = $this->app->make(HookStoredListener::class, [
             'noteHookHandler' => $noteHookHandler,
         ]);
@@ -142,6 +150,7 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        /** @var HookStoredListener $listener */
         $listener = $this->app->make(HookStoredListener::class, [
             'noteHookHandler' => $noteHookHandler,
         ]);
@@ -167,6 +176,7 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        /** @var HookStoredListener $listener */
         $listener = $this->app->make(HookStoredListener::class, [
             'noteHookHandler' => $noteHookHandler,
         ]);
@@ -192,6 +202,7 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        /** @var HookStoredListener $listener */
         $listener = $this->app->make(HookStoredListener::class, [
             'noteHookHandler' => $noteHookHandler,
         ]);
@@ -218,6 +229,7 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        /** @var HookStoredListener $listener */
         $listener = $this->app->make(HookStoredListener::class, [
             'mergeRequestHookHandler' => $mergeRequestHookHandler,
         ]);
@@ -241,6 +253,7 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        /** @var HookStoredListener $listener */
         $listener = $this->app->make(HookStoredListener::class, [
             'pipelineHookHandler' => $pipelineHookHandler,
         ]);
@@ -264,6 +277,7 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        /** @var HookStoredListener $listener */
         $listener = $this->app->make(HookStoredListener::class, [
             'buildHookHandler' => $buildHookHandler,
         ]);
@@ -287,6 +301,7 @@ class HookStoredListenerTest extends TestCase
         $event = new HookStored($hookModel);
 
         // run
+        /** @var HookStoredListener $listener */
         $listener = $this->app->make(HookStoredListener::class, [
             'deploymentHookHandler' => $deploymentHookHandler,
         ]);
@@ -310,23 +325,27 @@ class HookStoredListenerTest extends TestCase
         $pipelineHookHandler = new FakePipelineHookHandler();
         $pushHookHandler = new FakePushHookHandler();
         $tagPushHookHandler = new FakeTagPushHookHandler();
+        /** @var Repository $config */
+        $config = $this->app->make(Repository::class);
 
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = [];
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'unknown';
         $event = new HookStored($hookModel);
 
+
         // run
-        $listener = $this->app->make(HookStoredListener::class, [
-            'buildHookHandler' => $buildHookHandler,
-            'deploymentHookHandler' => $deploymentHookHandler,
-            'issueHookHandler' => $issueHookHandler,
-            'mergeRequestHookHandler' => $mergeRequestHookHandler,
-            'noteHookHandler' => $noteHookHandler,
-            'pipelineHookHandler' => $pipelineHookHandler,
-            'pushHookHandler' => $pushHookHandler,
-            'tagPushHookHandler' => $tagPushHookHandler,
-        ]);
+        $listener = new HookStoredListener(
+            $buildHookHandler,
+            $deploymentHookHandler,
+            $issueHookHandler,
+            $mergeRequestHookHandler,
+            $noteHookHandler,
+            $pipelineHookHandler,
+            $pushHookHandler,
+            $tagPushHookHandler,
+            $config,
+        );
         $listener->handle($event);
 
         // verify/assert
@@ -338,5 +357,93 @@ class HookStoredListenerTest extends TestCase
         $this->assertEmpty($pipelineHookHandler->receivedData);
         $this->assertEmpty($pushHookHandler->receivedData);
         $this->assertEmpty($tagPushHookHandler->receivedData);
+    }
+
+    /**
+     * @test
+     */
+    public function weGetTheQueueConnection(): void
+    {
+        // setup / mock
+        $connection = $this->faker->word();
+
+        /** @var Repository $config */
+        $config = $this->app->make(Repository::class);
+        $config->set('gitlab-models.listener_queue.connection', $connection);
+
+        // run
+        /** @var HookStoredListener $listener */
+        $listener = $this->app->make(HookStoredListener::class, [
+            'config' => $config,
+        ]);
+        $result = $listener->viaConnection();
+
+        // verify/assert
+        $this->assertSame($connection, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function weGetNullAsTheQueueConnection(): void
+    {
+        // setup / mock
+        /** @var Repository $config */
+        $config = $this->app->make(Repository::class);
+        $config->set('gitlab-models.listener_queue.connection', null);
+
+        // run
+        /** @var HookStoredListener $listener */
+        $listener = $this->app->make(HookStoredListener::class, [
+            'config' => $config,
+        ]);
+        $result = $listener->viaConnection();
+
+        // verify/assert
+        $this->assertNull($result);
+    }
+
+    /**
+     * @test
+     */
+    public function weGetTheQueueQueue(): void
+    {
+        // setup / mock
+        $queue = $this->faker->word();
+
+        /** @var Repository $config */
+        $config = $this->app->make(Repository::class);
+        $config->set('gitlab-models.listener_queue.queue', $queue);
+
+        // run
+        /** @var HookStoredListener $listener */
+        $listener = $this->app->make(HookStoredListener::class, [
+            'config' => $config,
+        ]);
+        $result = $listener->viaQueue();
+
+        // verify/assert
+        $this->assertSame($queue, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function weGetNullAsTheQueueQueue(): void
+    {
+        // setup / mock
+        /** @var Repository $config */
+        $config = $this->app->make(Repository::class);
+        $config->set('gitlab-models.listener_queue.queue', null);
+
+        // run
+        /** @var HookStoredListener $listener */
+        $listener = $this->app->make(HookStoredListener::class, [
+            'config' => $config,
+        ]);
+        $result = $listener->viaQueue();
+
+        // verify/assert
+        $this->assertNull($result);
     }
 }

@@ -50,6 +50,11 @@ return [
      */
     'listener' => \TJVB\GitlabModelsForLaravel\Listeners\HookStoredListener::class,
 
+    'listener_queue' => [
+        'connection' => env('GITLAB_MODELS_QUEUE_CONNECTION'),
+        'queue' => env('GITLAB_MODELS_QUEUE_QUEUE'),
+    ],
+
     /**
      * These are the bindings for the repositories, these need to implement the corresponding interfaces.
      */
