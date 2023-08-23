@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Listeners;
 
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentHookHandlerContract;
@@ -15,7 +17,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Services\PushHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagPushHookHandlerContract;
 use TJVB\GitLabWebhooks\Contracts\Events\GitLabHookStored;
 
-final class HookStoredListener implements GitLabHookStoredListener
+final class HookStoredListener implements GitLabHookStoredListener, ShouldQueue
 {
     public function __construct(
         private BuildHookHandlerContract $buildHookHandler,
@@ -26,6 +28,7 @@ final class HookStoredListener implements GitLabHookStoredListener
         private PipelineHookHandlerContract $pipelineHookHandler,
         private PushHookHandlerContract $pushHookHandler,
         private TagPushHookHandlerContract $tagPushHookHandler,
+        private Repository $config,
     ) {
     }
 
@@ -44,5 +47,15 @@ final class HookStoredListener implements GitLabHookStoredListener
             'tag_push' => $this->tagPushHookHandler->handle($gitLabHookModel),
             default => null,
         };
+    }
+
+    public function viaConnection(): ?string
+    {
+        return $this->config->get('gitlab-models.listener_queue.connection');
+    }
+
+    public function viaQueue(): ?string
+    {
+        return $this->config->get('gitlab-models.listener_queue.queue');
     }
 }
