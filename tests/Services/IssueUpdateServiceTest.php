@@ -167,4 +167,149 @@ class IssueUpdateServiceTest extends TestCase
         }
         $this->assertEmpty($fakeRepository->receivedSync);
     }
+
+    /**
+     * @test
+     * @dataProvider trueFalseProvider
+     */
+    public function weStoreTheAllAssigneesIfEnabled(bool $enabled): void
+    {
+        // setup / mock
+        Event::fake();
+        $fakeRepository = new FakeIssueWriteRepository();
+        $this->app->bind(IssueWriteRepository::class, static function () use ($fakeRepository): IssueWriteRepository {
+            return $fakeRepository;
+        });
+        $assigneeId1 = random_int(1, PHP_INT_MAX);
+        $assigneeId2 = random_int(1, PHP_INT_MAX);
+        $assigneeId3 = random_int(1, PHP_INT_MAX);
+        $id = random_int(1, PHP_INT_MAX);
+        $data = [
+            'id' => $id,
+            'key' => 'value',
+            'assignee_ids' => [
+                $assigneeId1,
+                $assigneeId2,
+            ],
+            'assignee_id' => $assigneeId3,
+        ];
+
+        /**
+         * @var Repository $config
+         */
+        $config = $this->app->make(Repository::class);
+        $config->set('gitlab-models.model_to_store.issues', true);
+        $config->set('gitlab-models.issue_relations.assignees', $enabled);
+
+        // run
+        $service = $this->app->make(IssueUpdateService::class, [
+            'config' => $config,
+        ]);
+        $service->updateOrCreate($data);
+
+        // verify/assert
+        if ($enabled) {
+            $this->assertNotEmpty($fakeRepository->receivedSyncAssignees);
+            $this->assertTrue(
+                $fakeRepository->hasReceivedAssignees($id, [$assigneeId1, $assigneeId2, $assigneeId3]),
+                'We didn\'t received the correct assignee ids on the repository'
+            );
+            return;
+        }
+        $this->assertEmpty($fakeRepository->receivedSyncAssignees);
+    }
+
+    /**
+     * @test
+     * @dataProvider trueFalseProvider
+     */
+    public function weStoreTheAssigneeIfEnabled(bool $enabled): void
+    {
+        // setup / mock
+        Event::fake();
+        $fakeRepository = new FakeIssueWriteRepository();
+        $this->app->bind(IssueWriteRepository::class, static function () use ($fakeRepository): IssueWriteRepository {
+            return $fakeRepository;
+        });
+        $assigneeId = random_int(1, PHP_INT_MAX);
+        $id = random_int(1, PHP_INT_MAX);
+        $data = [
+            'id' => $id,
+            'key' => 'value',
+            'assignee_id' => $assigneeId,
+        ];
+
+        /**
+         * @var Repository $config
+         */
+        $config = $this->app->make(Repository::class);
+        $config->set('gitlab-models.model_to_store.issues', true);
+        $config->set('gitlab-models.issue_relations.assignees', $enabled);
+
+        // run
+        $service = $this->app->make(IssueUpdateService::class, [
+            'config' => $config,
+        ]);
+        $service->updateOrCreate($data);
+
+        // verify/assert
+        if ($enabled) {
+            $this->assertNotEmpty($fakeRepository->receivedSyncAssignees);
+            $this->assertTrue(
+                $fakeRepository->hasReceivedAssignees($id, [$assigneeId]),
+                'We didn\'t received the correct assignee ids on the repository'
+            );
+            return;
+        }
+        $this->assertEmpty($fakeRepository->receivedSyncAssignees);
+    }
+
+    /**
+     * @test
+     * @dataProvider trueFalseProvider
+     */
+    public function weStoreTheAssigneesIfEnabled(bool $enabled): void
+    {
+        // setup / mock
+        Event::fake();
+        $fakeRepository = new FakeIssueWriteRepository();
+        $this->app->bind(IssueWriteRepository::class, static function () use ($fakeRepository): IssueWriteRepository {
+            return $fakeRepository;
+        });
+        $assigneeId1 = random_int(1, PHP_INT_MAX);
+        $assigneeId2 = random_int(1, PHP_INT_MAX);
+        $id = random_int(1, PHP_INT_MAX);
+        $data = [
+            'id' => $id,
+            'key' => 'value',
+            'assignee_ids' => [
+                $assigneeId1,
+                $assigneeId2,
+            ],
+        ];
+
+        /**
+         * @var Repository $config
+         */
+        $config = $this->app->make(Repository::class);
+        $config->set('gitlab-models.model_to_store.issues', true);
+        $config->set('gitlab-models.issue_relations.assignees', $enabled);
+
+        // run
+        $service = $this->app->make(IssueUpdateService::class, [
+            'config' => $config,
+        ]);
+        $service->updateOrCreate($data);
+
+        // verify/assert
+        if ($enabled) {
+            $this->assertNotEmpty($fakeRepository->receivedSyncAssignees);
+            $this->assertTrue(
+                $fakeRepository->hasReceivedAssignees($id, [$assigneeId1, $assigneeId2]),
+                'We didn\'t received the correct assignee ids on the repository'
+            );
+            return;
+        }
+        $this->assertEmpty($fakeRepository->receivedSyncAssignees);
+    }
 }
