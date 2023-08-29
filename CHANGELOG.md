@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added
 - Add option to save users.
 - Add option to save assignees for a merge request.
+- Add option to save assignees for an issue.
 
 ## Changed
 - Make the HookStoredListener queueable and add the config options for the prefered queue. 

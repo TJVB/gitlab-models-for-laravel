@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Integrations;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use TJVB\GitlabModelsForLaravel\Contracts\Repositories\UserWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\Issue;
 use TJVB\GitlabModelsForLaravel\Models\Project;
+use TJVB\GitlabModelsForLaravel\Models\User;
 use TJVB\GitlabModelsForLaravel\Services\IssueHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
@@ -28,6 +30,12 @@ final class IssueTest extends TestCase
         $hookModel = new FakeGitLabHookModel();
         $hookModel->body = $hookBody;
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'issue';
+
+        $userId = $hookBody['object_attributes']['assignee_id'];
+        /** @var UserWriteRepository $userRepository */
+        $userRepository = $this->app->make(UserWriteRepository::class);
+        /** @var User $user */
+        $user = $userRepository->updateOrCreate($userId, []);
 
         // run
         /** @var IssueHookHandler $issueHandler */
@@ -53,6 +61,10 @@ final class IssueTest extends TestCase
             'description' => $hookBody['project']['description'],
             'avatar_url' => (string)$hookBody['project']['avatar_url'],
             'visibility_level' => $hookBody['project']['visibility_level'],
+        ]);
+
+        $this->assertDatabaseHas('gitlab_issue_assignees', [
+            'user_id' => $user->id,
         ]);
     }
 }

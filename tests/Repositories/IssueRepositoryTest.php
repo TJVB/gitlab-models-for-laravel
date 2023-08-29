@@ -6,16 +6,19 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Repositories;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\WithFaker;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
 use TJVB\GitlabModelsForLaravel\DTOs\LabelDTO;
 use TJVB\GitlabModelsForLaravel\Models\Issue;
 use TJVB\GitlabModelsForLaravel\Models\Label;
+use TJVB\GitlabModelsForLaravel\Models\User;
 use TJVB\GitlabModelsForLaravel\Repositories\IssueRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
 class IssueRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
+    use WithFaker;
 
     /**
      * @test
@@ -223,5 +226,66 @@ class IssueRepositoryTest extends TestCase
         // verify/assert
         $this->assertNull($result);
         $this->assertDatabaseCount('gitlab_issue_gitlab_label', 0);
+    }
+
+    /**
+     * @test
+     */
+    public function weCanSyncTheAssignees(): void
+    {
+        // setup / mock
+        $id = random_int(1, PHP_INT_MAX);
+        $userId = random_int(1, PHP_INT_MAX);
+        $issue = Issue::create([
+            'issue_id' => $id,
+            'issue_iid' => random_int(1, PHP_INT_MAX),
+            'project_id' => random_int(1, PHP_INT_MAX),
+            'title' => 'title' . random_int(1, PHP_INT_MAX),
+            'url' => 'https://webtest' . mt_rand() . '.tld/url',
+            'description' => md5((string)mt_rand()),
+            'state' => array_rand([
+                'opened' => 'opened',
+                'closed' => 'closed',
+            ]),
+            'confidential' => random_int(0, 1),
+        ]);
+
+        $user = User::create([
+            'user_id' => $userId,
+            'name' => $this->faker->name(),
+            'username' => $this->faker->userName(),
+            'avatar_url' => $this->faker->url(),
+        ]);
+
+        // run
+        $repository = new IssueRepository();
+        $repository->syncAssignees($id, [$userId]);
+
+        // verify/assert
+        $this->assertDatabaseHas('gitlab_issue_assignees', [
+            'issue_id' => $issue->id,
+            'user_id' => $user->id,
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function weDonNotCrashIfWeTryToSyncAssigneesForAnMergeRequestThatIsNotStored(): void
+    {
+        // setup / mock
+        $user = User::create([
+            'user_id' => random_int(1, PHP_INT_MAX),
+            'name' => $this->faker->name(),
+            'username' => $this->faker->userName(),
+            'avatar_url' => $this->faker->url(),
+        ]);
+
+        // run
+        $repository = new IssueRepository();
+        $repository->syncAssignees(random_int(1, PHP_INT_MAX), [$user->getUserId()]);
+
+        // verify/assert
+        $this->assertDatabaseCount('gitlab_issue_assignees', 0);
     }
 }

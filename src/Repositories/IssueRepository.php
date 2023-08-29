@@ -10,6 +10,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
 use TJVB\GitlabModelsForLaravel\DTOs\LabelDTO;
 use TJVB\GitlabModelsForLaravel\Models\Issue;
 use TJVB\GitlabModelsForLaravel\Models\Label;
+use TJVB\GitlabModelsForLaravel\Models\User;
 
 final class IssueRepository implements IssueWriteRepository
 {
@@ -37,11 +38,24 @@ final class IssueRepository implements IssueWriteRepository
                 $labelIds[] = $label->labelId;
             }
         }
+        /** @var ?Issue $issue */
         $issue = Issue::query()->where('issue_id', $issueId)->first();
         if ($issue === null) {
             return null;
         }
         $issue->labels()->sync(Label::whereIn('label_id', $labelIds)->get());
         return $issue;
+    }
+
+    public function syncAssignees(int $issueId, array $assigneeIds): void
+    {
+        /** @var Issue|null $issue */
+        $issue = Issue::query()
+            ->where('issue_id', $issueId)
+            ->first();
+        if ($issue === null) {
+            return;
+        }
+        $issue->assignees()->sync(User::whereIn('user_id', $assigneeIds)->get());
     }
 }
