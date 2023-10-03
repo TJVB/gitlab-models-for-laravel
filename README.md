@@ -58,7 +58,7 @@ There are a couple of env variables that can be used to change the data that sho
 |`GITLAB_MODELS_STORE_ISSUES`| true    | That we want to store the data from the issues.                                                   |
 |`GITLAB_MODELS_STORE_MERGE_REQUESTS`| true    | That we want to store the data from the merge requests.                                           |
 |`GITLAB_MODELS_STORE_NOTES`| true    | That we want to store the data from the notes (comments).                                         |
-|`GITLAB_MODELS_STORE_PIPELINES`| true    | That we want to store the data from the pipelines,                                                |
+|`GITLAB_MODELS_STORE_PIPELINES`| true    | That we want to store the data from the pipelines.                                                |
 |`GITLAB_MODELS_STORE_PROJECTS`| true    | That we want to store the data from the projects.                                                 |
 |`GITLAB_MODELS_STORE_TAGS`| true    | That we want to store the data from the tags.                                                     |
 
