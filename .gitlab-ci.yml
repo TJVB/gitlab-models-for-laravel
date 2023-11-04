@@ -139,7 +139,7 @@ pages:
   image: daux/daux.io
   script:
     - cp README.md docs/_index.md
-    - cp CHANGELOG.md docs/+2CHANGELOG.md
+    - cp CHANGELOG.md docs/-1CHANGELOG.md
     - cp LICENSE.md docs/-LICENSE.md
     - cp CONTRIBUTING.md docs/-CONTRIBUTING.md
     - daux generate
