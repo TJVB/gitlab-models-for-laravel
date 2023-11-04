@@ -138,8 +138,7 @@ pages:
   interruptible: true
   image: daux/daux.io
   script:
-    - cp docs/Introduction.md docs/_index.md
-    - cp README.md docs/+1README.md
+    - cp README.md docs/_index.md
     - cp CHANGELOG.md docs/+2CHANGELOG.md
     - cp LICENSE.md docs/-LICENSE.md
     - cp CONTRIBUTING.md docs/-CONTRIBUTING.md

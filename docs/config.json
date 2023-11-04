@@ -5,7 +5,7 @@
 		"inherit_index": true,
 		"links": {
             "Made by Tobias van Beek": "https://tjvb.nl/about",
-			"Code coverage": "coverage/html/",
+			"Code coverage": "coverage/",
 			"Infection result": "infection.html",
             "GitLab Repo": "https://gitlab.com/tjvb/gitlab-models-for-laravel",
             "GitHub Repo": "https://github.com/TJVB/gitlab-models-for-laravel"
