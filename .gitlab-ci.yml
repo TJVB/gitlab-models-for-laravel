@@ -5,14 +5,13 @@ stages:
   - prepare # prepare the cache
   - check # check the codestyles
   - test
+  - documentation
 
 prepare_cache:
   stage: prepare
   script:
-    # Install composer
-    - curl -sS https://getcomposer.org/installer | php
-    - php composer.phar validate
-    - php composer.phar install
+    - composer validate
+    - composer install
   # we use this artifact for all the jobs
   artifacts:
     name: "vendor"
@@ -65,6 +64,8 @@ phpstan:
   stage: test
   coverage:  '/^\s*Lines:\s*\d+.\d+\%/'
   artifacts:
+    paths:
+      - phpunitresult/
     reports:
       junit: phpunitresult/junit.xml
       coverage_report:
@@ -81,8 +82,8 @@ test_lowest:
     # Install composer
     - rm -f composer.lock
     - curl -sS https://getcomposer.org/installer | php
-    - php composer.phar update --prefer-lowest
-    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+    - composer update --prefer-lowest
+    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml --coverage-html=phpunitresult/coverage
     - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
 
 
@@ -130,3 +131,26 @@ infection:
     - prepare_cache
   needs:
     - prepare_cache
+
+pages:
+  stage: documentation
+  interruptible: true
+  image: daux/daux.io
+  script:
+    - cp README.md docs/+1-README.md
+    - cp CHANGELOG.md docs/+2-CHANGELOG.md
+    - cp LICENSE.md docs/-LICENSE.md
+    - cp CONTRIBUTING.md docs/-CONTRIBUTING.md
+    - cp -R phpunitresult/coverage docs/coverage
+    - cp build/infection/infection.html docs/infection.html
+    - daux
+    - mv docs public
+  artifacts:
+    paths:
+      - public
+  dependencies:
+    - infection
+    - test_lowest
+  needs:
+    - test_lowest
+    - infection
