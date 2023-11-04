@@ -141,10 +141,10 @@ pages:
     - cp CHANGELOG.md docs/+2-CHANGELOG.md
     - cp LICENSE.md docs/-LICENSE.md
     - cp CONTRIBUTING.md docs/-CONTRIBUTING.md
-    - cp -R phpunitresult/coverage docs/coverage
-    - cp build/infection/infection.html docs/infection.html
-    - daux
-    - mv docs public
+    - daux generate
+    - mv static public
+    - cp -R phpunitresult/coverage public/coverage
+    - cp build/infection/infection.html public/infection.html
   artifacts:
     paths:
       - public
