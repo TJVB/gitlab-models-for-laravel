@@ -16,6 +16,6 @@
 			"name": "GitLab",
 			"basepath": "https://gitlab.com/tjvb/gitlab-models-for-laravel/-/tree/master/docs"
 		},
-        "auto_landing": false
+        "auto_landing": true
 	}
 }
