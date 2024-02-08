@@ -12,10 +12,13 @@ final class GitlabModelsEventServiceProvider extends EventServiceProvider
 {
     public function listens(): array
     {
+        // We need to have the implementation for the listener to use the queue if wanted else it will run in sync
+        $listener = $this->app->make(GitLabHookStoredListener::class);
+
         $listen = $this->listen;
         foreach (config('gitlab-models.events_to_listen', [GitLabHookStored::class]) as $event) {
             $listen[$event] = [
-                GitLabHookStoredListener::class,
+                $listener::class,
             ];
         }
         return $listen;
