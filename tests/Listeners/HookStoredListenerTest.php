@@ -344,7 +344,6 @@ final class HookStoredListenerTest extends TestCase
             $pipelineHookHandler,
             $pushHookHandler,
             $tagPushHookHandler,
-            $config,
         );
         $listener->handle($event);
 

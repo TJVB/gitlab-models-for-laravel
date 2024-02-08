@@ -28,7 +28,6 @@ final class HookStoredListener implements GitLabHookStoredListener, ShouldQueue
         private PipelineHookHandlerContract $pipelineHookHandler,
         private PushHookHandlerContract $pushHookHandler,
         private TagPushHookHandlerContract $tagPushHookHandler,
-        private Repository $config,
     ) {
     }
 
@@ -51,11 +50,11 @@ final class HookStoredListener implements GitLabHookStoredListener, ShouldQueue
 
     public function viaConnection(): ?string
     {
-        return $this->config->get('gitlab-models.listener_queue.connection');
+        return config('gitlab-models.listener_queue.connection');
     }
 
     public function viaQueue(): ?string
     {
-        return $this->config->get('gitlab-models.listener_queue.queue');
+        return config('gitlab-models.listener_queue.queue');
     }
 }

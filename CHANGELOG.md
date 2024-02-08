@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add PHP 8.3 support.
 
+### Fixed
+- Fix using the queue for the GitLabHookStored event.
+
+
 ## 0.3.0 - 2023-08-29
 
 ## Added
@@ -19,10 +23,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Changed
 - Make the HookStoredListener queueable and add the config options for the prefered queue. 
 
+
 ## 0.2.0 - 2023-03-04
 
 ### Fixed
 - Fixed the clearing of data for a build while handling a pipeline event.
+
 
 ## 0.1.1 - 2023-01-26
 
@@ -31,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed the deployment_id from the event data.
+
 
 ## 0.1.0 - 2023-01-23
 - Initial release
