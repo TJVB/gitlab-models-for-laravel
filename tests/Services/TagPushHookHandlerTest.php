@@ -10,7 +10,6 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeTagUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
-
 use function Safe\file_get_contents;
 use function Safe\json_decode;
 

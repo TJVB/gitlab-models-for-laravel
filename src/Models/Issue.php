@@ -6,7 +6,6 @@ namespace TJVB\GitlabModelsForLaravel\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue as IssueContract;
 
@@ -25,7 +24,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue as IssueContract;
  * @method static Issue updateOrCreate(array $attributes, array $values = [])
  * @method static Issue create(array $values)
  */
-class Issue extends Model implements IssueContract
+final class Issue extends Model implements IssueContract
 {
     use SoftDeletes;
 
@@ -64,7 +63,7 @@ class Issue extends Model implements IssueContract
 
     public function getDescription(): string
     {
-        return (string)$this->description;
+        return (string) $this->description;
     }
 
     public function getUrl(): string
@@ -89,7 +88,6 @@ class Issue extends Model implements IssueContract
             'gitlab_issue_gitlab_label',
         );
     }
-
 
     public function assignees(): BelongsToMany
     {

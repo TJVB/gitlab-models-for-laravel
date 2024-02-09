@@ -15,7 +15,6 @@ final class TagDataReceived
     use InteractsWithSockets;
     use SerializesModels;
 
-
     public function __construct(public Tag $tag)
     {
     }

@@ -1,7 +1,23 @@
 # GitLab Models for Laravel
 
-[![pipeline status](https://gitlab.com/tjvb/gitlab-models-for-laravel/badges/master/pipeline.svg)](https://gitlab.com/tjvb/gitlab-models-for-laravel/commits/master)
-[![coverage report](https://gitlab.com/tjvb/gitlab-models-for-laravel/badges/master/coverage.svg)](https://gitlab.com/tjvb/gitlab-models-for-laravel/commits/master)
+[![Latest Stable Version](https://poser.pugx.org/tjvb/gitlab-models-for-laravel/v)](https://packagist.org/packages/tjvb/gitlab-models-for-laravel)
+[![Pipeline status](https://gitlab.com/tjvb/gitlab-models-for-laravel/badges/master/pipeline.svg)](https://gitlab.com/tjvb/gitlab-models-for-laravel/-/pipelines?page=1&scope=all&ref=master)
+[![Coverage report](https://gitlab.com/tjvb/gitlab-models-for-laravel/badges/master/coverage.svg)](https://gitlab.com/tjvb/gitlab-models-for-laravel/-/pipelines?page=1&scope=all&ref=master)
+[![Tested on PHP 8.1 to 8.3](https://img.shields.io/badge/Tested%20on-PHP%208.1%20|%208.2%20|%208.3-brightgreen.svg?maxAge=2419200)](https://gitlab.com/tjvb/gitlab-models-for-laravel/-/pipelines?page=1&scope=all&ref=master)
+[![Tested on Laravel 9 to 10](https://img.shields.io/badge/Tested%20on-Laravel%209%20|%2010-brightgreen.svg?maxAge=2419200)](https://gitlab.com/tjvb/laravel-mail-catchall/-/pipelines?page=1&scope=all&ref=master)
+[![Latest Unstable Version](https://poser.pugx.org/tjvb/gitlab-models-for-laravel/v/unstable)](https://packagist.org/packages/tjvb/gitlab-models-for-laravel)
+
+
+[![PHP Version Require](https://poser.pugx.org/tjvb/gitlab-models-for-laravel/require/php)](https://packagist.org/packages/tjvb/gitlab-models-for-laravel)
+[![Laravel Version Require](https://poser.pugx.org/tjvb/gitlab-models-for-laravel/require/laravel/framework)](https://packagist.org/packages/tjvb/laravel-mail-catchall)
+[![PHPMD](https://img.shields.io/badge/PHPMD-checked-brightgreen.svg)](https://gitlab.com/tjvb/gitlab-models-for-laravel/-/blob/master/phpmd.xml.dist)
+[![PHPStan](https://img.shields.io/badge/PHPStan-checked-brightgreen.svg)](https://gitlab.com/tjvb/gitlab-models-for-laravel/-/blob/master/phpstan.neon.dist)
+[![ECS](https://img.shields.io/badge/ECS-PSR12-brightgreen.svg)](https://gitlab.com/tjvb/gitlab-models-for-laravel/-/blob/master/ecs.php)
+
+
+[![License](https://poser.pugx.org/tjvb/gitlab-models-for-laravel/license)](https://packagist.org/packages/tjvb/gitlab-models-for-laravel)
+
+## Purpose
 
 GitLab push data for different objects with its webhook, this package provides the option to store that data in your database. Under the hood it use [tjvb/gitlab-webhooks-receiver-for-laravel](https://gitlab.com/tjvb/gitlab-webhooks-receiver-for-laravel/) for receiving the webhook data. After storing the data it will dispatch an event that can be used to update other parts of your data or react on the new input.
 

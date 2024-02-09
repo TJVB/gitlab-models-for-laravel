@@ -1,5 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
+use TJVB\GitlabModelsForLaravel\Listeners\HookStoredListener;
+use TJVB\GitlabModelsForLaravel\Repositories\BuildRepository;
+use TJVB\GitlabModelsForLaravel\Repositories\DeploymentRepository;
+use TJVB\GitlabModelsForLaravel\Repositories\IssueRepository;
+use TJVB\GitlabModelsForLaravel\Repositories\LabelRepository;
+use TJVB\GitlabModelsForLaravel\Repositories\MergeRequestRepository;
+use TJVB\GitlabModelsForLaravel\Repositories\NoteRepository;
+use TJVB\GitlabModelsForLaravel\Repositories\PipelineRepository;
+use TJVB\GitlabModelsForLaravel\Repositories\ProjectRepository;
+use TJVB\GitlabModelsForLaravel\Repositories\TagRepository;
+use TJVB\GitlabModelsForLaravel\Repositories\UserRepository;
+use TJVB\GitlabModelsForLaravel\Services\BuildHookHandler;
+use TJVB\GitlabModelsForLaravel\Services\BuildUpdateService;
+use TJVB\GitlabModelsForLaravel\Services\DeploymentHookHandler;
+use TJVB\GitlabModelsForLaravel\Services\DeploymentUpdateService;
+use TJVB\GitlabModelsForLaravel\Services\IssueHookHandler;
+use TJVB\GitlabModelsForLaravel\Services\IssueUpdateService;
+use TJVB\GitlabModelsForLaravel\Services\LabelUpdateService;
+use TJVB\GitlabModelsForLaravel\Services\MergeRequestHookHandler;
+use TJVB\GitlabModelsForLaravel\Services\MergeRequestUpdateService;
+use TJVB\GitlabModelsForLaravel\Services\NoteHookHandler;
+use TJVB\GitlabModelsForLaravel\Services\NoteUpdateService;
+use TJVB\GitlabModelsForLaravel\Services\PipelineHookHandler;
+use TJVB\GitlabModelsForLaravel\Services\PipelineUpdateService;
+use TJVB\GitlabModelsForLaravel\Services\ProjectUpdateService;
+use TJVB\GitlabModelsForLaravel\Services\PushHookHandler;
+use TJVB\GitlabModelsForLaravel\Services\TagPushHookHandler;
+use TJVB\GitlabModelsForLaravel\Services\TagUpdateService;
+use TJVB\GitlabModelsForLaravel\Services\UserUpdateService;
+use TJVB\GitLabWebhooks\Contracts\Events\GitLabHookStored;
+
 return [
 
     /**
@@ -46,14 +79,14 @@ return [
      * This need to implement the GitLabHookStored interface
      */
     'events_to_listen' => [
-        \TJVB\GitLabWebhooks\Contracts\Events\GitLabHookStored::class,
+        GitLabHookStored::class,
     ],
 
     /**
      * The listener that listen to the event(s)
      * This need to implement the TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener interface
      */
-    'listener' => \TJVB\GitlabModelsForLaravel\Listeners\HookStoredListener::class,
+    'listener' => HookStoredListener::class,
 
     'listener_queue' => [
         'connection' => env('GITLAB_MODELS_QUEUE_CONNECTION'),
@@ -64,41 +97,41 @@ return [
      * These are the bindings for the repositories, these need to implement the corresponding interfaces.
      */
     'repositories' => [
-        'build_write' => \TJVB\GitlabModelsForLaravel\Repositories\BuildRepository::class,
-        'deployment_write' => \TJVB\GitlabModelsForLaravel\Repositories\DeploymentRepository::class,
-        'issue_write' => \TJVB\GitlabModelsForLaravel\Repositories\IssueRepository::class,
-        'label_write' => \TJVB\GitlabModelsForLaravel\Repositories\LabelRepository::class,
-        'merge_request_write' => \TJVB\GitlabModelsForLaravel\Repositories\MergeRequestRepository::class,
-        'note_write' => \TJVB\GitlabModelsForLaravel\Repositories\NoteRepository::class,
-        'pipeline_write' => \TJVB\GitlabModelsForLaravel\Repositories\PipelineRepository::class,
-        'project_read' => \TJVB\GitlabModelsForLaravel\Repositories\ProjectRepository::class,
-        'project_write' => \TJVB\GitlabModelsForLaravel\Repositories\ProjectRepository::class,
-        'tag_write' => \TJVB\GitlabModelsForLaravel\Repositories\TagRepository::class,
-        'user_write' => \TJVB\GitlabModelsForLaravel\Repositories\UserRepository::class,
+        'build_write' => BuildRepository::class,
+        'deployment_write' => DeploymentRepository::class,
+        'issue_write' => IssueRepository::class,
+        'label_write' => LabelRepository::class,
+        'merge_request_write' => MergeRequestRepository::class,
+        'note_write' => NoteRepository::class,
+        'pipeline_write' => PipelineRepository::class,
+        'project_read' => ProjectRepository::class,
+        'project_write' => ProjectRepository::class,
+        'tag_write' => TagRepository::class,
+        'user_write' => UserRepository::class,
     ],
 
     /**
      * These are the bindings for the services, these need to implement the corresponding interfaces.
      */
     'services' => [
-        'build_handler' => \TJVB\GitlabModelsForLaravel\Services\BuildHookHandler::class,
-        'deployment_handler' => \TJVB\GitlabModelsForLaravel\Services\DeploymentHookHandler::class,
-        'issue_handler' => \TJVB\GitlabModelsForLaravel\Services\IssueHookHandler::class,
-        'merge_request_handler' => \TJVB\GitlabModelsForLaravel\Services\MergeRequestHookHandler::class,
-        'note_handler' => \TJVB\GitlabModelsForLaravel\Services\NoteHookHandler::class,
-        'pipeline_handler' => \TJVB\GitlabModelsForLaravel\Services\PipelineHookHandler::class,
-        'push_handler' => \TJVB\GitlabModelsForLaravel\Services\PushHookHandler::class,
-        'tag_push_handler' => \TJVB\GitlabModelsForLaravel\Services\TagPushHookHandler::class,
+        'build_handler' => BuildHookHandler::class,
+        'deployment_handler' => DeploymentHookHandler::class,
+        'issue_handler' => IssueHookHandler::class,
+        'merge_request_handler' => MergeRequestHookHandler::class,
+        'note_handler' => NoteHookHandler::class,
+        'pipeline_handler' => PipelineHookHandler::class,
+        'push_handler' => PushHookHandler::class,
+        'tag_push_handler' => TagPushHookHandler::class,
 
-        'build_update' => \TJVB\GitlabModelsForLaravel\Services\BuildUpdateService::class,
-        'deployment_update' => \TJVB\GitlabModelsForLaravel\Services\DeploymentUpdateService::class,
-        'issue_update' => \TJVB\GitlabModelsForLaravel\Services\IssueUpdateService::class,
-        'label_update' => \TJVB\GitlabModelsForLaravel\Services\LabelUpdateService::class,
-        'merge_request_update' => \TJVB\GitlabModelsForLaravel\Services\MergeRequestUpdateService::class,
-        'note_update' => \TJVB\GitlabModelsForLaravel\Services\NoteUpdateService::class,
-        'pipeline_update' => \TJVB\GitlabModelsForLaravel\Services\PipelineUpdateService::class,
-        'project_update' => \TJVB\GitlabModelsForLaravel\Services\ProjectUpdateService::class,
-        'tag_update' => \TJVB\GitlabModelsForLaravel\Services\TagUpdateService::class,
-        'user_update' => \TJVB\GitlabModelsForLaravel\Services\UserUpdateService::class,
+        'build_update' => BuildUpdateService::class,
+        'deployment_update' => DeploymentUpdateService::class,
+        'issue_update' => IssueUpdateService::class,
+        'label_update' => LabelUpdateService::class,
+        'merge_request_update' => MergeRequestUpdateService::class,
+        'note_update' => NoteUpdateService::class,
+        'pipeline_update' => PipelineUpdateService::class,
+        'project_update' => ProjectUpdateService::class,
+        'tag_update' => TagUpdateService::class,
+        'user_update' => UserUpdateService::class,
     ],
 ];

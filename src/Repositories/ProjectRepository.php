@@ -16,12 +16,12 @@ final class ProjectRepository implements ProjectWriteRepository, ProjectReadRepo
     public function updateOrCreate(int $projectId, array $projectData): ProjectContract
     {
         return Project::updateOrCreate(['project_id' => $projectId], [
-                'name' => Arr::get($projectData, 'name', ''),
-                'web_url' => Arr::get($projectData, 'web_url', ''),
-                'description' => (string) Arr::get($projectData, 'description', ''),
-                'avatar_url' => (string) Arr::get($projectData, 'avatar_url', ''),
-                'visibility_level' => Arr::get($projectData, 'visibility_level', 0),
-            ]);
+            'name' => Arr::get($projectData, 'name', ''),
+            'web_url' => Arr::get($projectData, 'web_url', ''),
+            'description' => (string) Arr::get($projectData, 'description', ''),
+            'avatar_url' => (string) Arr::get($projectData, 'avatar_url', ''),
+            'visibility_level' => Arr::get($projectData, 'visibility_level', 0),
+        ]);
     }
 
     public function find(int $projectId): ProjectContract

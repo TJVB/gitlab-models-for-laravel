@@ -8,7 +8,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\BuildWriteRepository;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateServiceContract as BuildUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\DTOs\BuildDTO;
 use TJVB\GitlabModelsForLaravel\Events\BuildDataReceived;
 use TJVB\GitlabModelsForLaravel\Services\BuildUpdateService;
@@ -16,7 +16,7 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakeBuildWriteRepositor
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 use TJVB\GitlabModelsForLaravel\Tests\TrueFalseProvider;
 
-class BuildUpdateServiceTest extends TestCase
+final class BuildUpdateServiceTest extends TestCase
 {
     use TrueFalseProvider;
 
@@ -49,16 +49,14 @@ class BuildUpdateServiceTest extends TestCase
             'build_id' => $id,
             'pipeline_id' => random_int(1, PHP_INT_MAX),
             'project_id' => random_int(1, PHP_INT_MAX),
-            'build_name' => md5((string)random_int(1, PHP_INT_MAX)),
-            'build_stage' => md5((string)random_int(1, PHP_INT_MAX)),
-            'build_status' => md5((string)random_int(1, PHP_INT_MAX)),
+            'build_name' => md5((string) random_int(1, PHP_INT_MAX)),
+            'build_stage' => md5((string) random_int(1, PHP_INT_MAX)),
+            'build_status' => md5((string) random_int(1, PHP_INT_MAX)),
             'build_allow_failure' => (bool) random_int(0, 1),
             'build_created_at' => CarbonImmutable::now()->toIso8601ZuluString(),
         ]);
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.builds', $enabled);
 

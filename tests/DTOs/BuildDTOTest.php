@@ -21,9 +21,9 @@ final class BuildDTOTest extends TestCase
 
         // run
         $dto = BuildDTO::fromBuildEventData([
-           'build_id' => (string) $id,
-           'pipeline_id' => (string) $pipelineId,
-           'project_id' => (string) $projectId,
+            'build_id' => (string) $id,
+            'pipeline_id' => (string) $pipelineId,
+            'project_id' => (string) $projectId,
             'build_created_at' => '2022-06-09 22:37',
         ]);
 
@@ -32,6 +32,7 @@ final class BuildDTOTest extends TestCase
         $this->assertEquals($pipelineId, $dto->pipelineId);
         $this->assertEquals($projectId, $dto->projectId);
     }
+
     /**
      * @test
      */

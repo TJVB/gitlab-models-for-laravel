@@ -25,7 +25,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Note as NoteContract;
  * @method static Note updateOrCreate(array $attributes, array $values = [])
  * @method static Note create(array $values)
  */
-class Note extends Model implements NoteContract
+final class Note extends Model implements NoteContract
 {
     use SoftDeletes;
 
@@ -84,7 +84,7 @@ class Note extends Model implements NoteContract
 
     public function getNote(): string
     {
-        return (string)$this->note;
+        return (string) $this->note;
     }
 
     public function getNoteId(): int

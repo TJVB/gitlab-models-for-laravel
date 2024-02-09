@@ -11,8 +11,10 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeMergeRequestUpdateServi
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeUserUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
+use function Safe\file_get_contents;
+use function Safe\json_decode;
 
-class MergeRequestHookHandlerTest extends TestCase
+final class MergeRequestHookHandlerTest extends TestCase
 {
     /**
      * @test
@@ -34,8 +36,8 @@ class MergeRequestHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(
-            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+        $hookModel->body = json_decode(
+            file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
             true
         );
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
@@ -45,7 +47,7 @@ class MergeRequestHookHandlerTest extends TestCase
         $userUpdateService = new FakeUserUpdateService();
 
         // run
-        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler = new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
         $handler->handle($hookModel);
 
         // verify/assert
@@ -60,8 +62,8 @@ class MergeRequestHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(
-            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+        $hookModel->body = json_decode(
+            file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
             true
         );
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
@@ -72,7 +74,7 @@ class MergeRequestHookHandlerTest extends TestCase
         $userUpdateService = new FakeUserUpdateService();
 
         // run
-        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler = new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
         $handler->handle($hookModel);
 
         // verify/assert
@@ -87,8 +89,8 @@ class MergeRequestHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(
-            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+        $hookModel->body = json_decode(
+            file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
             true
         );
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
@@ -99,7 +101,7 @@ class MergeRequestHookHandlerTest extends TestCase
         $userUpdateService = new FakeUserUpdateService();
 
         // run
-        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler = new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
         $handler->handle($hookModel);
 
         // verify/assert
@@ -114,8 +116,8 @@ class MergeRequestHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(
-            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+        $hookModel->body = json_decode(
+            file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
             true
         );
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
@@ -134,7 +136,7 @@ class MergeRequestHookHandlerTest extends TestCase
         $userUpdateService = new FakeUserUpdateService();
 
         // run
-        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler = new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
         $handler->handle($hookModel);
 
         // verify/assert
@@ -152,8 +154,8 @@ class MergeRequestHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(
-            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+        $hookModel->body = json_decode(
+            file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
             true
         );
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
@@ -165,7 +167,7 @@ class MergeRequestHookHandlerTest extends TestCase
         $userUpdateService = new FakeUserUpdateService();
 
         // run
-        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler = new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
         $handler->handle($hookModel);
 
         // verify/assert
@@ -181,8 +183,8 @@ class MergeRequestHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(
-            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+        $hookModel->body = json_decode(
+            file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
             true
         );
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
@@ -194,7 +196,7 @@ class MergeRequestHookHandlerTest extends TestCase
         $userUpdateService = new FakeUserUpdateService();
 
         // run
-        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler = new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
         $handler->handle($hookModel);
 
         // verify/assert
@@ -210,8 +212,8 @@ class MergeRequestHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(
-            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+        $hookModel->body = json_decode(
+            file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
             true
         );
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
@@ -230,7 +232,7 @@ class MergeRequestHookHandlerTest extends TestCase
         $userUpdateService = new FakeUserUpdateService();
 
         // run
-        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler = new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
         $handler->handle($hookModel);
 
         // verify/assert
@@ -248,8 +250,8 @@ class MergeRequestHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(
-            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+        $hookModel->body = json_decode(
+            file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
             true
         );
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
@@ -261,7 +263,7 @@ class MergeRequestHookHandlerTest extends TestCase
         $userUpdateService = new FakeUserUpdateService();
 
         // run
-        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler = new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
         $handler->handle($hookModel);
 
         // verify/assert
@@ -277,8 +279,8 @@ class MergeRequestHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(
-            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+        $hookModel->body = json_decode(
+            file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
             true
         );
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
@@ -290,7 +292,7 @@ class MergeRequestHookHandlerTest extends TestCase
         $userUpdateService = new FakeUserUpdateService();
 
         // run
-        $handler =  new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
+        $handler = new MergeRequestHookHandler($mergeRequestUpdateService, $projectUpdateService, $userUpdateService);
         $handler->handle($hookModel);
 
         // verify/assert

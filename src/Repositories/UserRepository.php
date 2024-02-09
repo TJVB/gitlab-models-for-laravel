@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Repositories;
 
-use Carbon\CarbonImmutable;
-use Illuminate\Support\Arr;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\UserWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\User;
 

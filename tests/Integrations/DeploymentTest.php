@@ -10,7 +10,6 @@ use TJVB\GitlabModelsForLaravel\Models\Project;
 use TJVB\GitlabModelsForLaravel\Services\DeploymentHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
-
 use function Safe\file_get_contents;
 use function Safe\json_decode;
 
@@ -47,7 +46,7 @@ final class DeploymentTest extends TestCase
             'name' => $hookBody['project']['name'],
             'web_url' => $hookBody['project']['web_url'],
             'description' => $hookBody['project']['description'],
-            'avatar_url' => (string)$hookBody['project']['avatar_url'],
+            'avatar_url' => (string) $hookBody['project']['avatar_url'],
             'visibility_level' => $hookBody['project']['visibility_level'],
         ]);
     }

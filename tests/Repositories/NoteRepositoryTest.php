@@ -6,14 +6,13 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Repositories;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\NoteWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\MergeRequest;
 use TJVB\GitlabModelsForLaravel\Repositories\MergeRequestRepository;
 use TJVB\GitlabModelsForLaravel\Repositories\NoteRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
-class NoteRepositoryTest extends TestCase
+final class NoteRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -39,10 +38,10 @@ class NoteRepositoryTest extends TestCase
 
         $data = [
             'author_id' => random_int(1, PHP_INT_MAX),
-            'noteable_type' => md5((string)mt_rand()),
+            'noteable_type' => md5((string) mt_rand()),
             'created_at' => CarbonImmutable::now()->subMinutes(random_int(10, 20)),
             'updated_at' => CarbonImmutable::now()->subMinutes(random_int(1, 9)),
-            'note' => md5((string)mt_rand()),
+            'note' => md5((string) mt_rand()),
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
         ];
 
@@ -78,12 +77,12 @@ class NoteRepositoryTest extends TestCase
 
         $data = [
             'author_id' => random_int(1, PHP_INT_MAX),
-            'commit_id' => md5((string)mt_rand()),
-            'line_code' => md5((string)mt_rand()),
-            'noteable_type' => md5((string)mt_rand()),
+            'commit_id' => md5((string) mt_rand()),
+            'line_code' => md5((string) mt_rand()),
+            'noteable_type' => md5((string) mt_rand()),
             'created_at' => CarbonImmutable::now()->subMinutes(random_int(10, 20)),
             'updated_at' => CarbonImmutable::now()->subMinutes(random_int(1, 9)),
-            'note' => md5((string)mt_rand()),
+            'note' => md5((string) mt_rand()),
             'project_id' => random_int(1, PHP_INT_MAX),
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
         ];
@@ -119,16 +118,16 @@ class NoteRepositoryTest extends TestCase
         $data = [
             'author_id' => random_int(1, PHP_INT_MAX),
             'blocking_discussions_resolved' => random_int(0, 1),
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'created_at' => CarbonImmutable::now()->subMinutes(3),
             'updated_at' => CarbonImmutable::now()->subMinutes(2),
             'iid' => random_int(1, PHP_INT_MAX),
-            'merge_status' => md5((string)mt_rand()),
-            'state' => md5((string)mt_rand()),
+            'merge_status' => md5((string) mt_rand()),
+            'state' => md5((string) mt_rand()),
             'source_project_id' => random_int(0, 1),
-            'source_branch' => md5((string)mt_rand()),
+            'source_branch' => md5((string) mt_rand()),
             'target_project_id' => random_int(0, 1),
-            'target_branch' => md5((string)mt_rand()),
+            'target_branch' => md5((string) mt_rand()),
             'title' => 'title' . random_int(1, PHP_INT_MAX),
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
             'work_in_progress' => random_int(0, 1),
@@ -137,16 +136,16 @@ class NoteRepositoryTest extends TestCase
             'merge_request_id' => $id,
             'author_id' => random_int(1, PHP_INT_MAX),
             'blocking_discussions_resolved' => random_int(0, 1),
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'merge_request_created_at' => CarbonImmutable::now()->subMinutes(3),
             'merge_request_updated_at' => CarbonImmutable::now()->subMinutes(2),
             'merge_request_iid' => random_int(1, PHP_INT_MAX),
-            'merge_status' => md5((string)mt_rand()),
-            'state' => md5((string)mt_rand()),
+            'merge_status' => md5((string) mt_rand()),
+            'state' => md5((string) mt_rand()),
             'source_project_id' => random_int(0, 1),
-            'source_branch' => md5((string)mt_rand()),
+            'source_branch' => md5((string) mt_rand()),
             'target_project_id' => random_int(0, 1),
-            'target_branch' => md5((string)mt_rand()),
+            'target_branch' => md5((string) mt_rand()),
             'title' => 'title' . random_int(1, PHP_INT_MAX),
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
             'work_in_progress' => random_int(0, 1),

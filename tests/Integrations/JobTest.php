@@ -9,7 +9,6 @@ use TJVB\GitlabModelsForLaravel\Models\Build;
 use TJVB\GitlabModelsForLaravel\Services\BuildHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
-
 use function Safe\file_get_contents;
 use function Safe\json_decode;
 

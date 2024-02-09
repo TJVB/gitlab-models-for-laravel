@@ -8,14 +8,12 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use TJVB\GitlabModelsForLaravel\Contracts\Models\Deployment;
-use TJVB\GitlabModelsForLaravel\Contracts\Models\Project;
 
 final class DeploymentDataReceived
 {
     use Dispatchable;
     use InteractsWithSockets;
     use SerializesModels;
-
 
     public function __construct(public Deployment $deployment)
     {

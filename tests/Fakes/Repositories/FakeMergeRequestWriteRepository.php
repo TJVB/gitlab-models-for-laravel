@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories;
 
-use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue;
 use TJVB\GitlabModelsForLaravel\Contracts\Models\MergeRequest;
-use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
-use TJVB\GitlabModelsForLaravel\Models\Issue as IssueModel;
 use TJVB\GitlabModelsForLaravel\Models\MergeRequest as MergeRequestModel;
 
 final class FakeMergeRequestWriteRepository implements MergeRequestWriteRepository

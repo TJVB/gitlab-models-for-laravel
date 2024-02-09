@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGitlabIssueGitlabLabelTable extends Migration
+final class CreateGitlabIssueGitlabLabelTable extends Migration
 {
     /**
      * Run the migrations.

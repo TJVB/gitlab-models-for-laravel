@@ -8,7 +8,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Note;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\NoteWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\Note as NoteModel;
 
-class FakeNoteWriteRepository implements NoteWriteRepository
+final class FakeNoteWriteRepository implements NoteWriteRepository
 {
     public array $receivedData = [];
     public ?Note $result = null;

@@ -15,10 +15,9 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakeDeploymentWritRepos
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 use TJVB\GitlabModelsForLaravel\Tests\TrueFalseProvider;
 
-class DeploymentUpdateServiceTest extends TestCase
+final class DeploymentUpdateServiceTest extends TestCase
 {
     use TrueFalseProvider;
-
 
     /**
      * @test
@@ -49,9 +48,7 @@ class DeploymentUpdateServiceTest extends TestCase
             'key' => 'value',
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.deployments', $enabled);
 
@@ -67,7 +64,6 @@ class DeploymentUpdateServiceTest extends TestCase
                 'We didn\'t received the correct data on the repository'
             );
             Event::assertDispatched(static function (DeploymentDataReceived $event) use ($id) {
-
                 return $event->getDeployment()->getDeploymentId() === $id;
             });
             return;

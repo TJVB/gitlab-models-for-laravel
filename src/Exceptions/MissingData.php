@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Exceptions;
 
-class MissingData extends GitLabModelsException
+final class MissingData extends GitLabModelsException
 {
     public static function missingDataForAction(string $field, string $action): MissingData
     {

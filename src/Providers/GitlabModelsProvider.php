@@ -22,12 +22,12 @@ use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentUpdateService;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueHookHandlerContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\LabelUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestHookHandlerContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateServiceContract;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateServiceContract;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract;
@@ -35,16 +35,17 @@ use TJVB\GitlabModelsForLaravel\Contracts\Services\PushHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagPushHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\UserUpdateServiceContract;
+use function config_path;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class GitlabModelsProvider extends ServiceProvider
+final class GitlabModelsProvider extends ServiceProvider
 {
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../../config/gitlab-models.php' => \config_path('gitlab-models.php'),
+            __DIR__ . '/../../config/gitlab-models.php' => config_path('gitlab-models.php'),
         ], 'config');
         $this->publishes([
             __DIR__ . '/../../database/migrations/' => database_path('migrations')

@@ -12,7 +12,7 @@ use TJVB\GitlabModelsForLaravel\Models\Project;
 use TJVB\GitlabModelsForLaravel\Repositories\ProjectRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
-class ProjectRepositoryTest extends TestCase
+final class ProjectRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -37,9 +37,9 @@ class ProjectRepositoryTest extends TestCase
         // setup / mock
         $id = random_int(1, PHP_INT_MAX);
         $data = [
-            'name' => md5((string)mt_rand()),
+            'name' => md5((string) mt_rand()),
             'web_url' => 'https://webtest' . mt_rand() . '.tld/web',
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'avatar_url' => 'https://test' . mt_rand() . '.tld/avatar',
             'visibility_level' => array_rand([
                 0, // private
@@ -83,9 +83,9 @@ class ProjectRepositoryTest extends TestCase
         // setup / mock
         $id = random_int(1, PHP_INT_MAX);
         $data = [
-            'name' => md5((string)mt_rand()),
+            'name' => md5((string) mt_rand()),
             'web_url' => 'https://webtest' . mt_rand() . '.tld/web',
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'avatar_url' => 'https://test' . mt_rand() . '.tld/avatar',
             'visibility_level' => array_rand([
                 0, // private
@@ -96,9 +96,9 @@ class ProjectRepositoryTest extends TestCase
         ];
         Project::create([
             'project_id' => $id,
-            'name' => md5((string)mt_rand()),
+            'name' => md5((string) mt_rand()),
             'web_url' => 'https://webtest' . mt_rand() . '.tld/web',
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'avatar_url' => 'https://test' . mt_rand() . '.tld/avatar',
             'visibility_level' => array_rand([
                 0, // private
@@ -126,9 +126,9 @@ class ProjectRepositoryTest extends TestCase
         $id = random_int(1, PHP_INT_MAX);
         $data = [
             'project_id' => $id,
-            'name' => md5((string)mt_rand()),
+            'name' => md5((string) mt_rand()),
             'web_url' => 'https://webtest' . mt_rand() . '.tld/web',
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'avatar_url' => 'https://test' . mt_rand() . '.tld/avatar',
             'visibility_level' => array_rand([
                 0, // private

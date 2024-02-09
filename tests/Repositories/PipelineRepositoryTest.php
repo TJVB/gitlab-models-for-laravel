@@ -10,8 +10,9 @@ use TJVB\GitlabModelsForLaravel\Contracts\Repositories\PipelineWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\Pipeline;
 use TJVB\GitlabModelsForLaravel\Repositories\PipelineRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
+use function Safe\json_encode;
 
-class PipelineRepositoryTest extends TestCase
+final class PipelineRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -38,14 +39,14 @@ class PipelineRepositoryTest extends TestCase
             'duration' => random_int(1, 500),
             'created_at' => CarbonImmutable::now()->subMinutes(3),
             'finished_at' => CarbonImmutable::now()->subMinutes(2),
-            'ref' => md5((string)mt_rand()),
-            'sha' => md5((string)mt_rand()),
-            'source' => md5((string)mt_rand()),
+            'ref' => md5((string) mt_rand()),
+            'sha' => md5((string) mt_rand()),
+            'source' => md5((string) mt_rand()),
             'stages' => [
-                md5((string)mt_rand()),
-                md5((string)mt_rand()),
+                md5((string) mt_rand()),
+                md5((string) mt_rand()),
             ],
-            'status' => md5((string)mt_rand()),
+            'status' => md5((string) mt_rand()),
             'tag' => random_int(0, 1),
             'project' => [
                 'id' => random_int(1, PHP_INT_MAX)
@@ -60,7 +61,7 @@ class PipelineRepositoryTest extends TestCase
         $validationData = $data;
         $validationData['pipeline_id'] = $id;
         $validationData['project_id'] = $data['project']['id'];
-        $validationData['stages'] = \Safe\json_encode($data['stages']);
+        $validationData['stages'] = json_encode($data['stages']);
         unset($validationData['created_at'], $validationData['finished_at'], $validationData['project']);
         $this->assertEquals($id, $result->getPipelineId());
         $this->assertDatabaseHas('gitlab_pipelines', $validationData);
@@ -89,14 +90,14 @@ class PipelineRepositoryTest extends TestCase
             'duration' => random_int(1, 500),
             'created_at' => CarbonImmutable::now()->subMinutes(3),
             'finished_at' => CarbonImmutable::now()->subMinutes(2),
-            'ref' => md5((string)mt_rand()),
-            'sha' => md5((string)mt_rand()),
-            'source' => md5((string)mt_rand()),
+            'ref' => md5((string) mt_rand()),
+            'sha' => md5((string) mt_rand()),
+            'source' => md5((string) mt_rand()),
             'stages' => [
-                md5((string)mt_rand()),
-                md5((string)mt_rand()),
+                md5((string) mt_rand()),
+                md5((string) mt_rand()),
             ],
-            'status' => md5((string)mt_rand()),
+            'status' => md5((string) mt_rand()),
             'tag' => random_int(0, 1),
             'project' => [
                 'id' => random_int(1, PHP_INT_MAX),
@@ -108,14 +109,14 @@ class PipelineRepositoryTest extends TestCase
             'pipeline_created_at' => CarbonImmutable::now()->subMinutes(3),
             'pipeline_finished_at' => CarbonImmutable::now()->subMinutes(2),
             'project_id' => random_int(1, PHP_INT_MAX),
-            'ref' => md5((string)mt_rand()),
-            'sha' => md5((string)mt_rand()),
-            'source' => md5((string)mt_rand()),
+            'ref' => md5((string) mt_rand()),
+            'sha' => md5((string) mt_rand()),
+            'source' => md5((string) mt_rand()),
             'stages' => [
-                md5((string)mt_rand()),
-                md5((string)mt_rand()),
+                md5((string) mt_rand()),
+                md5((string) mt_rand()),
             ],
-            'status' => md5((string)mt_rand()),
+            'status' => md5((string) mt_rand()),
             'tag' => random_int(0, 1),
         ]);
 
@@ -127,7 +128,7 @@ class PipelineRepositoryTest extends TestCase
         $validationData = $data;
         $validationData['pipeline_id'] = $id;
         $validationData['project_id'] = $validationData['project']['id'];
-        $validationData['stages'] = \Safe\json_encode($data['stages']);
+        $validationData['stages'] = json_encode($data['stages']);
         unset(
             $validationData['created_at'],
             $validationData['finished_at'],

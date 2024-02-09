@@ -15,7 +15,6 @@ final class ProjectDataReceived
     use InteractsWithSockets;
     use SerializesModels;
 
-
     public function __construct(public Project $project)
     {
     }

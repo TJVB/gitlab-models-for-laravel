@@ -8,7 +8,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Deployment;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\DeploymentWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\Deployment as DeploymentModel;
 
-class FakeDeploymentWritRepository implements DeploymentWriteRepository
+final class FakeDeploymentWritRepository implements DeploymentWriteRepository
 {
     public array $receivedData = [];
     public ?Deployment $result = null;
