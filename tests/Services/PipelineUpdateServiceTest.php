@@ -7,7 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\PipelineWriteRepository;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateServiceContract as PipelineUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\PipelineDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 use TJVB\GitlabModelsForLaravel\Services\PipelineUpdateService;
@@ -15,7 +15,7 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakePipelineWriteReposi
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 use TJVB\GitlabModelsForLaravel\Tests\TrueFalseProvider;
 
-class PipelineUpdateServiceTest extends TestCase
+final class PipelineUpdateServiceTest extends TestCase
 {
     use TrueFalseProvider;
 
@@ -43,7 +43,6 @@ class PipelineUpdateServiceTest extends TestCase
         $this->app->bind(
             PipelineWriteRepository::class,
             static function () use ($fakeRepository): PipelineWriteRepository {
-
                 return $fakeRepository;
             }
         );
@@ -53,9 +52,7 @@ class PipelineUpdateServiceTest extends TestCase
             'key' => 'value',
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.pipelines', $enabled);
 

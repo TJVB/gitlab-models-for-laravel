@@ -19,6 +19,8 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakePushHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeTagPushHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 use TJVB\GitLabWebhooks\Events\HookStored;
+use function Safe\file_get_contents;
+use function Safe\json_decode;
 
 final class HookStoredListenerTest extends TestCase
 {
@@ -45,7 +47,7 @@ final class HookStoredListenerTest extends TestCase
         $pushHookHandler = new FakePushHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'push.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'push.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'push';
         $event = new HookStored($hookModel);
 
@@ -69,7 +71,7 @@ final class HookStoredListenerTest extends TestCase
         $tagPushHookHandler = new FakeTagPushHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'tag.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'tag.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'tag_push';
         $event = new HookStored($hookModel);
 
@@ -93,7 +95,7 @@ final class HookStoredListenerTest extends TestCase
         $issueHookHandler = new FakeIssueHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'issue.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'issue.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'issue';
         $event = new HookStored($hookModel);
 
@@ -117,7 +119,7 @@ final class HookStoredListenerTest extends TestCase
         $noteHookHandler = new FakeNoteHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
+        $hookModel->body = json_decode(file_get_contents(
             self::EXAMPLE_PAYLOADS . 'comment_commit.json'
         ), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'note';
@@ -143,7 +145,7 @@ final class HookStoredListenerTest extends TestCase
         $noteHookHandler = new FakeNoteHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
+        $hookModel->body = json_decode(file_get_contents(
             self::EXAMPLE_PAYLOADS . 'comment_merge_request.json'
         ), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'note';
@@ -169,7 +171,7 @@ final class HookStoredListenerTest extends TestCase
         $noteHookHandler = new FakeNoteHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
+        $hookModel->body = json_decode(file_get_contents(
             self::EXAMPLE_PAYLOADS . 'comment_issue.json'
         ), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'note';
@@ -195,7 +197,7 @@ final class HookStoredListenerTest extends TestCase
         $noteHookHandler = new FakeNoteHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(
+        $hookModel->body = json_decode(file_get_contents(
             self::EXAMPLE_PAYLOADS . 'comment_code_snippet.json'
         ), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'note';
@@ -221,8 +223,8 @@ final class HookStoredListenerTest extends TestCase
         $mergeRequestHookHandler = new FakeMergeRequestHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(
-            \Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
+        $hookModel->body = json_decode(
+            file_get_contents(self::EXAMPLE_PAYLOADS . 'merge_request.json'),
             true
         );
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'merge_request';
@@ -248,7 +250,7 @@ final class HookStoredListenerTest extends TestCase
         $pipelineHookHandler = new FakePipelineHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'pipeline.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'pipeline';
         $event = new HookStored($hookModel);
 
@@ -272,7 +274,7 @@ final class HookStoredListenerTest extends TestCase
         $buildHookHandler = new FakeBuildHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'job.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'job.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'build';
         $event = new HookStored($hookModel);
 
@@ -296,7 +298,7 @@ final class HookStoredListenerTest extends TestCase
         $deploymentHookHandler = new FakeDeploymentHookHandler();
 
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'deployment.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'deployment.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'deployment';
         $event = new HookStored($hookModel);
 
@@ -332,7 +334,6 @@ final class HookStoredListenerTest extends TestCase
         $hookModel->body = [];
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'unknown';
         $event = new HookStored($hookModel);
-
 
         // run
         $listener = new HookStoredListener(

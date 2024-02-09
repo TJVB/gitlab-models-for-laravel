@@ -7,7 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use TJVB\GitlabModelsForLaravel\Providers\GitlabModelsProvider;
 
-class TestCase extends OrchestraTestCase
+abstract class TestCase extends OrchestraTestCase
 {
     public const EXAMPLE_PAYLOADS = __DIR__ . '/example_payloads/';
 
@@ -23,9 +23,9 @@ class TestCase extends OrchestraTestCase
         # Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
     }
 }

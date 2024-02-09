@@ -15,8 +15,6 @@
             "homepage": "https://tjvb.nl"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "support": {
         "issues": "https://gitlab.com/tjvb/gitlab-models-for-laravel/-/issues",
         "source": "https://gitlab.com/tjvb/gitlab-models-for-laravel/-/tree/master"
@@ -40,6 +38,7 @@
         "doctrine/dbal": "^3.6",
         "laravel/framework": "^9.0 || ^10.0",
         "nesbot/carbon": "^2.57",
+        "thecodingmachine/safe": "^2.5",
         "tjvb/gitlab-webhooks-receiver-for-laravel": "^2.0.0"
     },
     "require-dev": {
@@ -48,8 +47,13 @@
         "phpmd/phpmd": "^2.13",
         "phpstan/phpstan": "^1.9",
         "phpunit/phpunit": "^9.5",
-        "squizlabs/php_codesniffer": "^3.7"
+        "slevomat/coding-standard": "^8.14",
+        "squizlabs/php_codesniffer": "^3.7",
+        "symplify/easy-coding-standard": "^12.1",
+        "thecodingmachine/phpstan-safe-rule": "^1.2"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "TJVB\\GitlabModelsForLaravel\\": "src/"
@@ -62,6 +66,7 @@
     },
     "config": {
         "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
             "infection/extension-installer": true
         },
         "sort-packages": true
@@ -74,20 +79,35 @@
         }
     },
     "scripts": {
-        "check-all": [
-            "@format",
-            "@codestyle",
-            "@test-coverage",
+        "analyse": [
             "@phpstan",
-            "@phpmd",
+            "@phpmd"
+        ],
+        "analyze": "@analyse",
+        "check": [
+            "@cs-fix",
+            "@test-coverage",
+            "@analyse",
             "@infection"
         ],
-        "codestyle": "@php vendor/bin/phpcs",
-        "format": "@php vendor/bin/phpcbf",
+        "cs": "vendor/bin/ecs",
+        "cs-fix": "vendor/bin/ecs --fix",
         "infection": "@php vendor/bin/infection",
         "phpmd": "@php vendor/bin/phpmd src/ text phpmd.xml.dist",
         "phpstan": "@php vendor/bin/phpstan",
         "test": "@php vendor/bin/phpunit --no-coverage",
         "test-coverage": "@php vendor/bin/phpunit --coverage-html build/coverage"
+    },
+    "scripts-descriptions": {
+        "analyse": "Run the analyse steps (PHPStan and PHPMD)",
+        "analyze": "See analyse",
+        "check": "Runs @analyse, @cs-fix, @test-coverage and @infection.",
+        "cs": "Check the codestyle with ecs.",
+        "cs-fix": "Check the codestyle with ecs and if possible fix the found issues.",
+        "infection": "Run infection.",
+        "phpmd": "Analyse the code with PHPMD",
+        "phpstan": "Analyse the code with PHPStan.",
+        "test": "Run the PHPUnit tests without coverage.",
+        "test-coverage": "Run the PHPUnit tests with coverage."
     }
 }

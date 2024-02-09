@@ -53,9 +53,7 @@ final class UserUpdateServiceTest extends TestCase
             'avatar_url' => $this->faker->url(),
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.users', $enabled);
 
@@ -103,7 +101,8 @@ final class UserUpdateServiceTest extends TestCase
                 'name' => 'the name',
                 'username' => 'username123',
                 'avatar_url' => 'https://example.example/avatar.extension',
-            ]],
+            ]
+            ],
         ];
     }
 }

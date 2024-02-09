@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Exceptions;
 
-class DataNotFound extends GitLabModelsException
+final class DataNotFound extends GitLabModelsException
 {
     /**
      * @SuppressWarnings(PHPMD.ShortVariable)

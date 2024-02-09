@@ -8,7 +8,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateServiceContract as IssueUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\LabelUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\DTOs\LabelDTO;
 use TJVB\GitlabModelsForLaravel\Events\IssueDataReceived;
@@ -19,7 +19,7 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeLabelUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 use TJVB\GitlabModelsForLaravel\Tests\TrueFalseProvider;
 
-class IssueUpdateServiceTest extends TestCase
+final class IssueUpdateServiceTest extends TestCase
 {
     use TrueFalseProvider;
 
@@ -53,9 +53,7 @@ class IssueUpdateServiceTest extends TestCase
             'key' => 'value',
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.issues', $enabled);
 
@@ -119,13 +117,13 @@ class IssueUpdateServiceTest extends TestCase
         );
         $fakeLabelUpdateService->result = new LabelDTO(
             random_int(1, PHP_INT_MAX),
-            md5((string)mt_rand()),
-            md5((string)mt_rand()),
+            md5((string) mt_rand()),
+            md5((string) mt_rand()),
             random_int(1, PHP_INT_MAX),
             CarbonImmutable::now()->subMinutes(random_int(10, 20)),
             CarbonImmutable::now(),
-            md5((string)mt_rand()),
-            md5((string)mt_rand()),
+            md5((string) mt_rand()),
+            md5((string) mt_rand()),
             random_int(1, PHP_INT_MAX),
         );
         $id = random_int(1, PHP_INT_MAX);
@@ -139,9 +137,7 @@ class IssueUpdateServiceTest extends TestCase
             ],
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.issues', true);
         $config->set('gitlab-models.issue_relations.labels', $enabled);
@@ -194,9 +190,7 @@ class IssueUpdateServiceTest extends TestCase
             'assignee_id' => $assigneeId3,
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.issues', true);
         $config->set('gitlab-models.issue_relations.assignees', $enabled);
@@ -239,9 +233,7 @@ class IssueUpdateServiceTest extends TestCase
             'assignee_id' => $assigneeId,
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.issues', true);
         $config->set('gitlab-models.issue_relations.assignees', $enabled);
@@ -288,9 +280,7 @@ class IssueUpdateServiceTest extends TestCase
             ],
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.issues', true);
         $config->set('gitlab-models.issue_relations.assignees', $enabled);

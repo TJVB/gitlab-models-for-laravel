@@ -24,7 +24,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Build as BuildContract;
  * @method static Build updateOrCreate(array $attributes, array $values = [])
  * @method static Build create(array $values)
  */
-class Build extends Model implements BuildContract
+final class Build extends Model implements BuildContract
 {
     use SoftDeletes;
 

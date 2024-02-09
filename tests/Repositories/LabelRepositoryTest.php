@@ -14,16 +14,15 @@ final class LabelRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
 
-/**
-     * @test
-     */
-
+    /**
+         * @test
+         */
 
     public function weImplementTheContract(): void
     {
         // run
         $repository = new LabelRepository();
-    // verify/assert
+        // verify/assert
         $this->assertInstanceOf(LabelWriteRepository::class, $repository);
     }
 
@@ -36,13 +35,13 @@ final class LabelRepositoryTest extends TestCase
         $id = random_int(1, PHP_INT_MAX);
         $data = [
             'label_id' => $id,
-            'title' => md5((string)mt_rand()),
-            'color' => md5((string)mt_rand()),
+            'title' => md5((string) mt_rand()),
+            'color' => md5((string) mt_rand()),
             'project_id' => random_int(1, PHP_INT_MAX),
             'created_at' => CarbonImmutable::now()->subMinutes(random_int(10, 20)),
             'updated_at' => CarbonImmutable::now(),
-            'description' => md5((string)mt_rand()),
-            'type' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
+            'type' => md5((string) mt_rand()),
             'group_id' => random_int(1, PHP_INT_MAX),
         ];
 

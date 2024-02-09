@@ -10,8 +10,10 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeDeploymentUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
+use function Safe\file_get_contents;
+use function Safe\json_decode;
 
-class DeploymentHookHandlerTest extends TestCase
+final class DeploymentHookHandlerTest extends TestCase
 {
     /**
      * @test
@@ -33,7 +35,7 @@ class DeploymentHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'deployment.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'deployment.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'deployment';
         $deploymentUpdateService = new FakeDeploymentUpdateService();
         $projectUpdateService = new FakeProjectUpdateService();
@@ -54,7 +56,7 @@ class DeploymentHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'deployment.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'deployment.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'deployment';
 
         $hookModel->body['project'] = 'invalid project data';

@@ -15,7 +15,6 @@ final class MergeRequestDataReceived
     use InteractsWithSockets;
     use SerializesModels;
 
-
     public function __construct(public MergeRequest $mergeRequest)
     {
     }

@@ -11,7 +11,7 @@ use TJVB\GitLabWebhooks\Contracts\Models\GitLabHookModel;
 
 final class BuildHookHandler implements BuildHookHandlerContract
 {
-    public function __construct(private BuildUpdateServiceContract $buildUpdateService,)
+    public function __construct(private BuildUpdateServiceContract $buildUpdateService)
     {
     }
 

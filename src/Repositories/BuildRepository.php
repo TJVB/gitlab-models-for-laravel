@@ -25,7 +25,7 @@ final class BuildRepository implements BuildWriteRepository
             'allow_failure' => $buildDTO->allowFailure,
         ];
         if ($buildDTO->duration !== null) {
-        // this isn't provided with all the events.
+            // this isn't provided with all the events.
             $data['duration'] = $buildDTO->duration;
         }
         return Build::updateOrCreate(['build_id' => $buildId], $data);

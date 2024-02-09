@@ -27,29 +27,11 @@ lint:
   dependencies: []
   needs: []
 
-phpcs:
-  stage: check
-  script:
-    - vendor/bin/phpcs
-  dependencies:
-    - prepare_cache
-  needs:
-    - prepare_cache
-
-phpmd:
-  stage: check
-  script:
-    - vendor/bin/phpmd src/ text phpmd.xml.dist
-  dependencies:
-    - prepare_cache
-  needs:
-    - prepare_cache
-
 phpstan:
   stage: check
   script:
     # check for phpstan errors
-    - php -d memory_limit=500M vendor/bin/phpstan analyse --error-format=gitlab > phpstan.json
+    - php -d memory_limit=500M vendor/bin/phpstan analyse --error-format=gitlab | tee phpstan.json
     - cat phpstan.json
   dependencies:
     - prepare_cache
@@ -59,6 +41,24 @@ phpstan:
     paths:
       - phpstan.json
     when: always
+
+phpmd:
+  stage: check
+  script:
+    - composer phpmd
+  dependencies:
+    - prepare_cache
+  needs:
+    - prepare_cache
+
+code-style:
+  stage: check
+  script:
+    - vendor/bin/ecs
+  dependencies:
+    - prepare_cache
+  needs:
+    - prepare_cache
 
 # this is a template for the test jobs and have the config that is used for all the test jobs
 .test_base:
@@ -121,11 +121,9 @@ infection:
     name: "Infection result ${CI_PROJECT_NAME}_${CI_PIPELINE_ID}"
     when: always
     paths:
-      - build/infection/infection.log
-      - build/infection/infection.html
-      - build/infection/infection-summary.log
-      - build/infection/infection-log.json
-      - build/infection/infection-per-mutator.md
+      - build/infection/
+    reports:
+      codequality: build/infection/code-climate-gitlab.json
     expire_in: 1 day
     expose_as: Infection log
   dependencies:

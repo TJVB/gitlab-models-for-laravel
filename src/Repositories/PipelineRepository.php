@@ -15,10 +15,10 @@ final class PipelineRepository implements PipelineWriteRepository
     public function updateOrCreate(int $pipelineId, array $pipelineData): PipelineContract
     {
         return Pipeline::updateOrCreate(['pipeline_id' => $pipelineId], [
-            'duration' => (int)Arr::get($pipelineData, 'duration'),
+            'duration' => (int) Arr::get($pipelineData, 'duration'),
             'pipeline_created_at' => CarbonImmutable::make(Arr::get($pipelineData, 'created_at')),
             'pipeline_finished_at' => CarbonImmutable::make(Arr::get($pipelineData, 'finished_at')),
-            'project_id' => (int)Arr::get($pipelineData, 'project.id'),
+            'project_id' => (int) Arr::get($pipelineData, 'project.id'),
             'ref' => (string) Arr::get($pipelineData, 'ref'),
             'sha' => (string) Arr::get($pipelineData, 'sha'),
             'source' => (string) Arr::get($pipelineData, 'source'),

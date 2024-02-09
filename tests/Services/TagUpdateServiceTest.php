@@ -7,7 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\TagWriteRepository;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateServiceContract as TagUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\TagDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 use TJVB\GitlabModelsForLaravel\Services\TagUpdateService;
@@ -15,7 +15,7 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakeTagWriteRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 use TJVB\GitlabModelsForLaravel\Tests\TrueFalseProvider;
 
-class TagUpdateServiceTest extends TestCase
+final class TagUpdateServiceTest extends TestCase
 {
     use TrueFalseProvider;
 
@@ -41,7 +41,6 @@ class TagUpdateServiceTest extends TestCase
         Event::fake();
         $fakeRepository = new FakeTagWriteRepository();
         $this->app->bind(TagWriteRepository::class, static function () use ($fakeRepository): TagWriteRepository {
-
             return $fakeRepository;
         });
 
@@ -54,9 +53,7 @@ class TagUpdateServiceTest extends TestCase
             'checkout_sha' => $checkoutSha,
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.tags', $enabled);
 

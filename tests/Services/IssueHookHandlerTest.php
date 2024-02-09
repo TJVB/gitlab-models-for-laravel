@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
+use stdClass;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Services\IssueHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeIssueUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
+use function Safe\file_get_contents;
+use function Safe\json_decode;
 
-class IssueHookHandlerTest extends TestCase
+final class IssueHookHandlerTest extends TestCase
 {
     /**
      * @test
@@ -33,7 +36,7 @@ class IssueHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'issue.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'issue.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'issue';
 
         $issueUpdateService = new FakeIssueUpdateService();
@@ -55,11 +58,11 @@ class IssueHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'issue.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'issue.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'issue';
 
         $hookModel->body['object_attributes'] = 123;
-        $hookModel->body['project'] = new \stdClass();
+        $hookModel->body['project'] = new stdClass();
 
         $issueUpdateService = new FakeIssueUpdateService();
         $projectUpdateService = new FakeProjectUpdateService();

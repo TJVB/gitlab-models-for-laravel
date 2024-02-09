@@ -32,7 +32,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\MergeRequest as MergeRequestCon
  * @method static MergeRequest updateOrCreate(array $attributes, array $values = [])
  * @method static MergeRequest create(array $values)
  */
-class MergeRequest extends Model implements MergeRequestContract
+final class MergeRequest extends Model implements MergeRequestContract
 {
     use SoftDeletes;
 
@@ -94,7 +94,7 @@ class MergeRequest extends Model implements MergeRequestContract
 
     public function getDescription(): string
     {
-        return (string)$this->description;
+        return (string) $this->description;
     }
 
     public function getMergeRequestId(): int

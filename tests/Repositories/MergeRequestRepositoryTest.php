@@ -9,14 +9,13 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\DTOs\LabelDTO;
-use TJVB\GitlabModelsForLaravel\Models\Issue;
 use TJVB\GitlabModelsForLaravel\Models\Label;
 use TJVB\GitlabModelsForLaravel\Models\MergeRequest;
 use TJVB\GitlabModelsForLaravel\Models\User;
 use TJVB\GitlabModelsForLaravel\Repositories\MergeRequestRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
-class MergeRequestRepositoryTest extends TestCase
+final class MergeRequestRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
     use WithFaker;
@@ -41,16 +40,16 @@ class MergeRequestRepositoryTest extends TestCase
         // setup / mock
         $authorId = random_int(1, PHP_INT_MAX);
         $blockingDiscussionsResolved = random_int(0, 1);
-        $description = md5((string)mt_rand());
+        $description = md5((string) mt_rand());
         $createdAt = CarbonImmutable::now()->subMinutes(random_int(10, 20));
         $id = random_int(1, PHP_INT_MAX);
         $iid = random_int(1, PHP_INT_MAX);
-        $mergeStatus = md5((string)mt_rand());
-        $state = md5((string)mt_rand());
+        $mergeStatus = md5((string) mt_rand());
+        $state = md5((string) mt_rand());
         $sourceProjectId = random_int(1, PHP_INT_MAX);
-        $sourceBranch = md5((string)mt_rand());
+        $sourceBranch = md5((string) mt_rand());
         $targetProjectId = random_int(1, PHP_INT_MAX);
-        $targetBranch = md5((string)mt_rand());
+        $targetBranch = md5((string) mt_rand());
         $title = 'title' . random_int(1, PHP_INT_MAX);
         $updatedAt = CarbonImmutable::now()->subMinutes(random_int(1, 9));
         $url = 'https://webtest' . mt_rand() . '.tld/url';
@@ -113,16 +112,16 @@ class MergeRequestRepositoryTest extends TestCase
         $data = [
             'author_id' => random_int(1, PHP_INT_MAX),
             'blocking_discussions_resolved' => random_int(0, 1),
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'created_at' => CarbonImmutable::now()->subMinutes(3),
             'updated_at' => CarbonImmutable::now()->subMinutes(2),
             'iid' => random_int(1, PHP_INT_MAX),
-            'merge_status' => md5((string)mt_rand()),
-            'state' => md5((string)mt_rand()),
+            'merge_status' => md5((string) mt_rand()),
+            'state' => md5((string) mt_rand()),
             'source_project_id' => random_int(0, 1),
-            'source_branch' => md5((string)mt_rand()),
+            'source_branch' => md5((string) mt_rand()),
             'target_project_id' => random_int(0, 1),
-            'target_branch' => md5((string)mt_rand()),
+            'target_branch' => md5((string) mt_rand()),
             'title' => 'title' . random_int(1, PHP_INT_MAX),
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
             'work_in_progress' => random_int(0, 1),
@@ -131,16 +130,16 @@ class MergeRequestRepositoryTest extends TestCase
             'merge_request_id' => $id,
             'author_id' => random_int(1, PHP_INT_MAX),
             'blocking_discussions_resolved' => random_int(0, 1),
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'merge_request_created_at' => CarbonImmutable::now()->subMinutes(3),
             'merge_request_updated_at' => CarbonImmutable::now()->subMinutes(2),
             'merge_request_iid' => random_int(1, PHP_INT_MAX),
-            'merge_status' => md5((string)mt_rand()),
-            'state' => md5((string)mt_rand()),
+            'merge_status' => md5((string) mt_rand()),
+            'state' => md5((string) mt_rand()),
             'source_project_id' => random_int(0, 1),
-            'source_branch' => md5((string)mt_rand()),
+            'source_branch' => md5((string) mt_rand()),
             'target_project_id' => random_int(0, 1),
-            'target_branch' => md5((string)mt_rand()),
+            'target_branch' => md5((string) mt_rand()),
             'title' => 'title' . random_int(1, PHP_INT_MAX),
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
             'work_in_progress' => random_int(0, 1),
@@ -171,16 +170,16 @@ class MergeRequestRepositoryTest extends TestCase
             'merge_request_id' => $id,
             'author_id' => random_int(1, PHP_INT_MAX),
             'blocking_discussions_resolved' => random_int(0, 1),
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'merge_request_created_at' => CarbonImmutable::now()->subMinutes(3),
             'merge_request_updated_at' => CarbonImmutable::now()->subMinutes(2),
             'merge_request_iid' => random_int(1, PHP_INT_MAX),
-            'merge_status' => md5((string)mt_rand()),
-            'state' => md5((string)mt_rand()),
+            'merge_status' => md5((string) mt_rand()),
+            'state' => md5((string) mt_rand()),
             'source_project_id' => random_int(0, 1),
-            'source_branch' => md5((string)mt_rand()),
+            'source_branch' => md5((string) mt_rand()),
             'target_project_id' => random_int(0, 1),
-            'target_branch' => md5((string)mt_rand()),
+            'target_branch' => md5((string) mt_rand()),
             'title' => 'title' . random_int(1, PHP_INT_MAX),
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
             'work_in_progress' => random_int(0, 1),
@@ -188,13 +187,13 @@ class MergeRequestRepositoryTest extends TestCase
 
         $label = Label::create([
             'label_id' => random_int(1, PHP_INT_MAX),
-            'title' => md5((string)mt_rand()),
-            'color' => md5((string)mt_rand()),
+            'title' => md5((string) mt_rand()),
+            'color' => md5((string) mt_rand()),
             'project_id' => random_int(1, PHP_INT_MAX),
             'label_created_at' => CarbonImmutable::now()->subMinutes(random_int(10, 20)),
             'label_updated_at' => CarbonImmutable::now(),
-            'description' => md5((string)mt_rand()),
-            'type' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
+            'type' => md5((string) mt_rand()),
             'group_id' => random_int(1, PHP_INT_MAX),
         ]);
 
@@ -221,13 +220,13 @@ class MergeRequestRepositoryTest extends TestCase
         // setup / mock
         $label = Label::create([
             'label_id' => random_int(1, PHP_INT_MAX),
-            'title' => md5((string)mt_rand()),
-            'color' => md5((string)mt_rand()),
+            'title' => md5((string) mt_rand()),
+            'color' => md5((string) mt_rand()),
             'project_id' => random_int(1, PHP_INT_MAX),
             'label_created_at' => CarbonImmutable::now()->subMinutes(random_int(10, 20)),
             'label_updated_at' => CarbonImmutable::now(),
-            'description' => md5((string)mt_rand()),
-            'type' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
+            'type' => md5((string) mt_rand()),
             'group_id' => random_int(1, PHP_INT_MAX),
         ]);
 
@@ -252,16 +251,16 @@ class MergeRequestRepositoryTest extends TestCase
             'merge_request_id' => $id,
             'author_id' => random_int(1, PHP_INT_MAX),
             'blocking_discussions_resolved' => random_int(0, 1),
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'merge_request_created_at' => CarbonImmutable::now()->subMinutes(3),
             'merge_request_updated_at' => CarbonImmutable::now()->subMinutes(2),
             'merge_request_iid' => random_int(1, PHP_INT_MAX),
-            'merge_status' => md5((string)mt_rand()),
-            'state' => md5((string)mt_rand()),
+            'merge_status' => md5((string) mt_rand()),
+            'state' => md5((string) mt_rand()),
             'source_project_id' => random_int(0, 1),
-            'source_branch' => md5((string)mt_rand()),
+            'source_branch' => md5((string) mt_rand()),
             'target_project_id' => random_int(0, 1),
-            'target_branch' => md5((string)mt_rand()),
+            'target_branch' => md5((string) mt_rand()),
             'title' => 'title' . random_int(1, PHP_INT_MAX),
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
             'work_in_progress' => random_int(0, 1),
@@ -306,8 +305,6 @@ class MergeRequestRepositoryTest extends TestCase
         $this->assertDatabaseCount('gitlab_merge_request_assignees', 0);
     }
 
-
-
     /**
      * @test
      */
@@ -320,16 +317,16 @@ class MergeRequestRepositoryTest extends TestCase
             'merge_request_id' => $id,
             'author_id' => random_int(1, PHP_INT_MAX),
             'blocking_discussions_resolved' => random_int(0, 1),
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'merge_request_created_at' => CarbonImmutable::now()->subMinutes(3),
             'merge_request_updated_at' => CarbonImmutable::now()->subMinutes(2),
             'merge_request_iid' => random_int(1, PHP_INT_MAX),
-            'merge_status' => md5((string)mt_rand()),
-            'state' => md5((string)mt_rand()),
+            'merge_status' => md5((string) mt_rand()),
+            'state' => md5((string) mt_rand()),
             'source_project_id' => random_int(0, 1),
-            'source_branch' => md5((string)mt_rand()),
+            'source_branch' => md5((string) mt_rand()),
             'target_project_id' => random_int(0, 1),
-            'target_branch' => md5((string)mt_rand()),
+            'target_branch' => md5((string) mt_rand()),
             'title' => 'title' . random_int(1, PHP_INT_MAX),
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
             'work_in_progress' => random_int(0, 1),

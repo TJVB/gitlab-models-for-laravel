@@ -9,8 +9,10 @@ use TJVB\GitlabModelsForLaravel\Services\PushHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
+use function Safe\file_get_contents;
+use function Safe\json_decode;
 
-class PushHookHandlerTest extends TestCase
+final class PushHookHandlerTest extends TestCase
 {
     /**
      * @test
@@ -32,7 +34,7 @@ class PushHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'push.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'push.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'push';
         $projectUpdateService = new FakeProjectUpdateService();
 
@@ -51,7 +53,7 @@ class PushHookHandlerTest extends TestCase
     {
         // setup / mock
         $hookModel = new FakeGitLabHookModel();
-        $hookModel->body = \Safe\json_decode(\Safe\file_get_contents(self::EXAMPLE_PAYLOADS . 'push.json'), true);
+        $hookModel->body = json_decode(file_get_contents(self::EXAMPLE_PAYLOADS . 'push.json'), true);
         $hookModel->objectKind = $hookModel->eventType = $hookModel->eventName = 'push';
         $hookModel->body['project'] = 'invalid project data';
         $projectUpdateService = new FakeProjectUpdateService();

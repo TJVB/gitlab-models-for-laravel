@@ -7,7 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Providers;
 use TJVB\GitlabModelsForLaravel\Providers\GitlabModelsProvider;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
-class GitlabModelsProviderTest extends TestCase
+final class GitlabModelsProviderTest extends TestCase
 {
     /**
      * @test

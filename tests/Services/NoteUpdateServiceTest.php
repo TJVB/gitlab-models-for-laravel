@@ -7,20 +7,17 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\NoteWriteRepository;
-use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectWriteRepository;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateServiceContract as NoteUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\NoteDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 use TJVB\GitlabModelsForLaravel\Services\NoteUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakeNoteWriteRepository;
-use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakeProjectWriteRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 use TJVB\GitlabModelsForLaravel\Tests\TrueFalseProvider;
 
-class NoteUpdateServiceTest extends TestCase
+final class NoteUpdateServiceTest extends TestCase
 {
     use TrueFalseProvider;
-
 
     /**
      * @test
@@ -60,9 +57,7 @@ class NoteUpdateServiceTest extends TestCase
             'noteable_type' => $noteableType
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.notes', $enabled);
         $config->set('gitlab-models.comment_types_to_store', $noteableTypeConfig);
@@ -81,7 +76,6 @@ class NoteUpdateServiceTest extends TestCase
                 'We didn\'t received the correct data on the repository'
             );
             Event::assertDispatched(static function (NoteDataReceived $event) use ($id) {
-
                 return $event->getNote()->getNoteId() === $id;
             });
             return;
@@ -173,9 +167,7 @@ class NoteUpdateServiceTest extends TestCase
             'noteable_type' => 'Snippet'
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.notes', true);
         $config->set('gitlab-models.comment_types_to_store', ['Snippet']);
@@ -194,12 +186,11 @@ class NoteUpdateServiceTest extends TestCase
         if ($valid) {
             $this->assertNotEmpty($fakeRepository->receivedData);
             $this->assertTrue(
-                $fakeRepository->hasReceivedData((int)$id, $data),
+                $fakeRepository->hasReceivedData((int) $id, $data),
                 'We didn\'t received the correct data on the repository'
             );
             Event::assertDispatched(static function (NoteDataReceived $event) use ($id) {
-
-                return $event->getNote()->getNoteId() === (int)$id;
+                return $event->getNote()->getNoteId() === (int) $id;
             });
             return;
         }

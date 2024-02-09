@@ -9,12 +9,10 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\BuildWriteRepository;
 use TJVB\GitlabModelsForLaravel\DTOs\BuildDTO;
 use TJVB\GitlabModelsForLaravel\Models\Build;
-use TJVB\GitlabModelsForLaravel\Models\Issue;
 use TJVB\GitlabModelsForLaravel\Repositories\BuildRepository;
-use TJVB\GitlabModelsForLaravel\Repositories\IssueRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
-class BuildRepositoryTest extends TestCase
+final class BuildRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -42,7 +40,7 @@ class BuildRepositoryTest extends TestCase
         $name = 'job' . random_int(1, PHP_INT_MAX);
         $stage = 'stage' . mt_rand();
         $status = 'status' . mt_rand();
-        $allowFailure = (bool)random_int(0, 1);
+        $allowFailure = (bool) random_int(0, 1);
         $createdAt = CarbonImmutable::now()->subMinutes(random_int(10, 20));
 
         $dto = new BuildDTO(
@@ -55,7 +53,6 @@ class BuildRepositoryTest extends TestCase
             $allowFailure,
             $createdAt
         );
-
 
         // run
         $repository = new BuildRepository();
@@ -94,7 +91,7 @@ class BuildRepositoryTest extends TestCase
         $name = 'job' . random_int(1, PHP_INT_MAX);
         $stage = 'stage' . mt_rand();
         $status = 'status' . mt_rand();
-        $allowFailure = (bool)random_int(0, 1);
+        $allowFailure = (bool) random_int(0, 1);
         $createdAt = CarbonImmutable::now()->subMinutes(random_int(20, 29));
         $startedAt = CarbonImmutable::now()->subMinutes(random_int(10, 19));
         $finishedAt = CarbonImmutable::now()->subMinutes(random_int(1, 9));
@@ -154,7 +151,7 @@ class BuildRepositoryTest extends TestCase
         $name = 'job' . random_int(1, PHP_INT_MAX);
         $stage = 'stage' . mt_rand();
         $status = 'status' . mt_rand();
-        $allowFailure = (bool)random_int(0, 1);
+        $allowFailure = (bool) random_int(0, 1);
         $createdAt = CarbonImmutable::now()->subMinute();
         $duration = random_int(1, 1000) + 0.123;
 
@@ -181,7 +178,7 @@ class BuildRepositoryTest extends TestCase
             'build_created_at' => CarbonImmutable::now()->subHour(),
             'started_at' => null,
             'finished_at' => null,
-            'allow_failure' => (bool)random_int(0, 1),
+            'allow_failure' => (bool) random_int(0, 1),
         ]);
 
         // run

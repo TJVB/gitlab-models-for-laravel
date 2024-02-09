@@ -12,7 +12,6 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeMergeRequestUpdateServi
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeNoteUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeProjectUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
-
 use function Safe\file_get_contents;
 use function Safe\json_decode;
 

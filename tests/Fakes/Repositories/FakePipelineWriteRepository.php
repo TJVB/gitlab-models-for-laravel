@@ -8,7 +8,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Pipeline;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\PipelineWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\Pipeline as PipelineModel;
 
-class FakePipelineWriteRepository implements PipelineWriteRepository
+final class FakePipelineWriteRepository implements PipelineWriteRepository
 {
     public array $receivedData = [];
     public ?Pipeline $result = null;

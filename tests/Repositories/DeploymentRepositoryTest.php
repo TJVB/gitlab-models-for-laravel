@@ -11,7 +11,7 @@ use TJVB\GitlabModelsForLaravel\Models\Deployment;
 use TJVB\GitlabModelsForLaravel\Repositories\DeploymentRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
-class DeploymentRepositoryTest extends TestCase
+final class DeploymentRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
 

@@ -10,7 +10,7 @@ use TJVB\GitlabModelsForLaravel\Models\Tag;
 use TJVB\GitlabModelsForLaravel\Repositories\TagRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
-class TagRepositoryTest extends TestCase
+final class TagRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
 

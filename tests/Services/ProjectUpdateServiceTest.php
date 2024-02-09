@@ -7,7 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectWriteRepository;
-use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract as ProjectUpdateServiceContract;
+use TJVB\GitlabModelsForLaravel\Contracts\Services\ProjectUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\ProjectDataReceived;
 use TJVB\GitlabModelsForLaravel\Exceptions\MissingData;
 use TJVB\GitlabModelsForLaravel\Services\ProjectUpdateService;
@@ -15,7 +15,7 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Repositories\FakeProjectWriteReposit
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 use TJVB\GitlabModelsForLaravel\Tests\TrueFalseProvider;
 
-class ProjectUpdateServiceTest extends TestCase
+final class ProjectUpdateServiceTest extends TestCase
 {
     use TrueFalseProvider;
 
@@ -43,7 +43,6 @@ class ProjectUpdateServiceTest extends TestCase
         $this->app->bind(
             ProjectWriteRepository::class,
             static function () use ($fakeRepository): ProjectWriteRepository {
-
                 return $fakeRepository;
             }
         );
@@ -53,9 +52,7 @@ class ProjectUpdateServiceTest extends TestCase
             'key' => 'value',
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.projects', $enabled);
 

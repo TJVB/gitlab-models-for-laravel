@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
-use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\LabelWriteRepository;
@@ -42,7 +41,6 @@ final class LabelUpdateServiceTest extends TestCase
         Event::fake();
         $fakeRepository = new FakeLabelWriteRepository();
         $this->app->bind(LabelWriteRepository::class, static function () use ($fakeRepository): LabelWriteRepository {
-
             return $fakeRepository;
         });
         $id = random_int(1, PHP_INT_MAX);
@@ -51,9 +49,7 @@ final class LabelUpdateServiceTest extends TestCase
             'title' => 'the title',
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.labels', $enabled);
 

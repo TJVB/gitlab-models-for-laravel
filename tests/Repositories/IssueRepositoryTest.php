@@ -15,7 +15,7 @@ use TJVB\GitlabModelsForLaravel\Models\User;
 use TJVB\GitlabModelsForLaravel\Repositories\IssueRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
-class IssueRepositoryTest extends TestCase
+final class IssueRepositoryTest extends TestCase
 {
     use DatabaseMigrations;
     use WithFaker;
@@ -43,7 +43,7 @@ class IssueRepositoryTest extends TestCase
         $projectId = random_int(1, PHP_INT_MAX);
         $title = 'title' . random_int(1, PHP_INT_MAX);
         $url = 'https://webtest' . mt_rand() . '.tld/url';
-        $description = md5((string)mt_rand());
+        $description = md5((string) mt_rand());
         $state = array_rand([
             'opened' => 'opened',
             'closed' => 'closed',
@@ -119,7 +119,7 @@ class IssueRepositoryTest extends TestCase
             'project_id' => random_int(1, PHP_INT_MAX),
             'title' => 'title' . random_int(1, PHP_INT_MAX),
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'state' => array_rand([
                 'opened' => 'opened',
                 'closed' => 'closed',
@@ -132,7 +132,7 @@ class IssueRepositoryTest extends TestCase
             'project_id' => random_int(1, PHP_INT_MAX),
             'title' => 'title' . random_int(1, PHP_INT_MAX),
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'state' => array_rand([
                 'opened' => 'opened',
                 'closed' => 'closed',
@@ -166,7 +166,7 @@ class IssueRepositoryTest extends TestCase
             'project_id' => random_int(1, PHP_INT_MAX),
             'title' => 'title' . random_int(1, PHP_INT_MAX),
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'state' => array_rand([
                 'opened' => 'opened',
                 'closed' => 'closed',
@@ -176,13 +176,13 @@ class IssueRepositoryTest extends TestCase
 
         $label = Label::create([
             'label_id' => random_int(1, PHP_INT_MAX),
-            'title' => md5((string)mt_rand()),
-            'color' => md5((string)mt_rand()),
+            'title' => md5((string) mt_rand()),
+            'color' => md5((string) mt_rand()),
             'project_id' => random_int(1, PHP_INT_MAX),
             'label_created_at' => CarbonImmutable::now()->subMinutes(random_int(10, 20)),
             'label_updated_at' => CarbonImmutable::now(),
-            'description' => md5((string)mt_rand()),
-            'type' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
+            'type' => md5((string) mt_rand()),
             'group_id' => random_int(1, PHP_INT_MAX),
         ]);
 
@@ -209,13 +209,13 @@ class IssueRepositoryTest extends TestCase
         // setup / mock
         $label = Label::create([
             'label_id' => random_int(1, PHP_INT_MAX),
-            'title' => md5((string)mt_rand()),
-            'color' => md5((string)mt_rand()),
+            'title' => md5((string) mt_rand()),
+            'color' => md5((string) mt_rand()),
             'project_id' => random_int(1, PHP_INT_MAX),
             'label_created_at' => CarbonImmutable::now()->subMinutes(random_int(10, 20)),
             'label_updated_at' => CarbonImmutable::now(),
-            'description' => md5((string)mt_rand()),
-            'type' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
+            'type' => md5((string) mt_rand()),
             'group_id' => random_int(1, PHP_INT_MAX),
         ]);
 
@@ -242,7 +242,7 @@ class IssueRepositoryTest extends TestCase
             'project_id' => random_int(1, PHP_INT_MAX),
             'title' => 'title' . random_int(1, PHP_INT_MAX),
             'url' => 'https://webtest' . mt_rand() . '.tld/url',
-            'description' => md5((string)mt_rand()),
+            'description' => md5((string) mt_rand()),
             'state' => array_rand([
                 'opened' => 'opened',
                 'closed' => 'closed',

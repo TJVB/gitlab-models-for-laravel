@@ -19,7 +19,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Deployment as DeploymentContrac
  * @method static Deployment updateOrCreate(array $attributes, array $values = [])
  * @method static Deployment create(array $values)
  */
-class Deployment extends Model implements DeploymentContract
+final class Deployment extends Model implements DeploymentContract
 {
     use SoftDeletes;
 

@@ -19,7 +19,7 @@ use TJVB\GitlabModelsForLaravel\Tests\Fakes\Services\FakeLabelUpdateService;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 use TJVB\GitlabModelsForLaravel\Tests\TrueFalseProvider;
 
-class MergeRequestUpdateServiceTest extends TestCase
+final class MergeRequestUpdateServiceTest extends TestCase
 {
     use TrueFalseProvider;
 
@@ -57,9 +57,7 @@ class MergeRequestUpdateServiceTest extends TestCase
             'key' => 'value',
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.merge_requests', $enabled);
 
@@ -126,13 +124,13 @@ class MergeRequestUpdateServiceTest extends TestCase
         );
         $fakeLabelUpdateService->result = new LabelDTO(
             random_int(1, PHP_INT_MAX),
-            md5((string)mt_rand()),
-            md5((string)mt_rand()),
+            md5((string) mt_rand()),
+            md5((string) mt_rand()),
             random_int(1, PHP_INT_MAX),
             CarbonImmutable::now()->subMinutes(random_int(10, 20)),
             CarbonImmutable::now(),
-            md5((string)mt_rand()),
-            md5((string)mt_rand()),
+            md5((string) mt_rand()),
+            md5((string) mt_rand()),
             random_int(1, PHP_INT_MAX),
         );
         $id = random_int(1, PHP_INT_MAX);
@@ -146,9 +144,7 @@ class MergeRequestUpdateServiceTest extends TestCase
             ],
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.merge_requests', true);
         $config->set('gitlab-models.merge_request_relations.labels', $enabled);
@@ -199,9 +195,7 @@ class MergeRequestUpdateServiceTest extends TestCase
             'assignee_id' => $assigneeId,
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.merge_requests', true);
         $config->set('gitlab-models.merge_request_relations.assignees', $enabled);
@@ -257,9 +251,7 @@ class MergeRequestUpdateServiceTest extends TestCase
             ],
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.merge_requests', true);
         $config->set('gitlab-models.merge_request_relations.assignees', $enabled);
@@ -313,9 +305,7 @@ class MergeRequestUpdateServiceTest extends TestCase
             ],
         ];
 
-        /**
-         * @var Repository $config
-         */
+        /** @var Repository $config */
         $config = $this->app->make(Repository::class);
         $config->set('gitlab-models.model_to_store.merge_requests', true);
         $config->set('gitlab-models.merge_request_relations.reviewers', $enabled);

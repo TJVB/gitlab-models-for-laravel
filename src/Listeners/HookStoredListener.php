@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Listeners;
 
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildHookHandlerContract;
