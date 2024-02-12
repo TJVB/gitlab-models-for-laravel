@@ -89,6 +89,7 @@ return ECSConfig::configure()
     ->withSkip([
         FinalClassFixer::class => [
             __DIR__ . '/src/Exceptions/GitLabModelsException.php',
+            __DIR__ . '/src/Models',
         ],
     ])
 ;

@@ -24,7 +24,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Issue as IssueContract;
  * @method static Issue updateOrCreate(array $attributes, array $values = [])
  * @method static Issue create(array $values)
  */
-final class Issue extends Model implements IssueContract
+class Issue extends Model implements IssueContract
 {
     use SoftDeletes;
 

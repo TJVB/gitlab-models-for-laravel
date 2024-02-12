@@ -25,7 +25,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Pipeline as PipelineContract;
  * @method static Pipeline updateOrCreate(array $attributes, array $values = [])
  * @method static Pipeline create(array $values)
  */
-final class Pipeline extends Model implements PipelineContract
+class Pipeline extends Model implements PipelineContract
 {
     use SoftDeletes;
 

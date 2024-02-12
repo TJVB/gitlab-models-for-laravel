@@ -25,7 +25,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Note as NoteContract;
  * @method static Note updateOrCreate(array $attributes, array $values = [])
  * @method static Note create(array $values)
  */
-final class Note extends Model implements NoteContract
+class Note extends Model implements NoteContract
 {
     use SoftDeletes;
 

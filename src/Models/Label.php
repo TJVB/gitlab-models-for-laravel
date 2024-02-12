@@ -25,7 +25,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Label as LabelContract;
  * @method static Label create(array $values)
  * @method static Builder whereIn(string $field, array $values)
  */
-final class Label extends Model implements LabelContract
+class Label extends Model implements LabelContract
 {
     use SoftDeletes;
 

@@ -16,7 +16,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Tag as TagContract;
  * @method static Tag updateOrCreate(array $attributes, array $values = [])
  * @method static Tag create(array $values)
  */
-final class Tag extends Model implements TagContract
+class Tag extends Model implements TagContract
 {
     use SoftDeletes;
 

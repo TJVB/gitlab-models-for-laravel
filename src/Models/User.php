@@ -20,7 +20,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\User as UserContract;
  * @method static User create(array $values)
  * @method static Builder whereIn(string $field, array $values)
  */
-final class User extends Model implements UserContract
+class User extends Model implements UserContract
 {
     use SoftDeletes;
 

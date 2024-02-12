@@ -19,7 +19,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Project as ProjectContract;
  * @method static Project updateOrCreate(array $attributes, array $values = [])
  * @method static Project create(array $values)
  */
-final class Project extends Model implements ProjectContract
+class Project extends Model implements ProjectContract
 {
     use SoftDeletes;
 
