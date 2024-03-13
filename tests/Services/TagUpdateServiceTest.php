@@ -97,7 +97,7 @@ final class TagUpdateServiceTest extends TestCase
         $service->updateOrCreate($data);
     }
 
-    public function neededTagDataProvider(): array
+    public static function neededTagDataProvider(): array
     {
         return [
             'no data' => [[]],

@@ -121,6 +121,7 @@ infection:
   interruptible: true
   script:
     - composer install
+    - vendor/bin/phpunit --migrate-configuration
     - vendor/bin/infection
   artifacts:
     name: "Infection result ${CI_PROJECT_NAME}_${CI_PIPELINE_ID}"
