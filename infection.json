@@ -9,11 +9,12 @@
         ]
     },
     "logs": {
-        "text": "build/infection/infection.log",
-        "html": "build/infection/infection.html",
-        "summary": "build/infection/infection-summary.log",
         "json": "build/infection/infection-log.json",
-        "perMutator": "build/infection/infection-per-mutator.md"
+        "gitlab": "build/infection/infection-log-gitlab.json",
+        "html": "build/infection/infection.html",
+        "perMutator": "build/infection/infection-per-mutator.md",
+        "summary": "build/infection/infection-summary.log",
+        "text": "build/infection/infection.log"
     },
     "mutators": {
         "@default": true
