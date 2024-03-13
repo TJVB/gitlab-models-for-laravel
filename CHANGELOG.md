@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 
+## 0.5.0 - 2024-03-13
+
 ### Added
 - Add Laravel 11 support.
 
@@ -15,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Revert the final on the models and update the ECS config to support it.
+
 
 ## 0.4.0 - 2024-02-09
 
