@@ -93,7 +93,7 @@ final class UserUpdateServiceTest extends TestCase
         $service->updateOrCreate($data);
     }
 
-    public function neededUserDataProvider(): array
+    public static function neededUserDataProvider(): array
     {
         return [
             'no data' => [[]],

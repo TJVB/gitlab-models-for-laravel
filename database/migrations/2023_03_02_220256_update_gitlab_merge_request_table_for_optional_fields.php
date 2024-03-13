@@ -21,18 +21,4 @@ final class UpdateGitlabMergeRequestTableForOptionalFields extends Migration
             $table->dateTimeTz('merge_request_updated_at')->nullable()->change();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down(): void
-    {
-        Schema::table('gitlab_merge_requests', static function (Blueprint $table) {
-            $table->unsignedBigInteger('author_id')->change();
-            $table->dateTimeTz('merge_request_created_at')->change();
-            $table->dateTimeTz('merge_request_updated_at')->change();
-        });
-    }
 }

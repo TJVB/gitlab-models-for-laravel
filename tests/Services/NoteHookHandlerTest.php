@@ -100,7 +100,7 @@ final class NoteHookHandlerTest extends TestCase
         $this->assertEmpty($projectUpdateService->receivedData);
     }
 
-    public function noteTypesDataProvider(): array
+    public static function noteTypesDataProvider(): array
     {
         return [
             'comment_code_snippet' => [

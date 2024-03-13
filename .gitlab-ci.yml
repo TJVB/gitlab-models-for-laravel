@@ -101,6 +101,11 @@ test:
           - 81
           - 82
           - 83
+      - LARAVEL: 11
+        TESTBENCH: 9
+        PHP:
+          - 82
+          - 83
   extends: .test_base
   image: registry.gitlab.com/tjvb/phpimages:php$PHP
   script:
@@ -116,6 +121,7 @@ infection:
   interruptible: true
   script:
     - composer install
+    - vendor/bin/phpunit --migrate-configuration
     - vendor/bin/infection
   artifacts:
     name: "Infection result ${CI_PROJECT_NAME}_${CI_PIPELINE_ID}"
@@ -123,7 +129,8 @@ infection:
     paths:
       - build/infection/
     reports:
-      codequality: build/infection/code-climate-gitlab.json
+      codequality:
+        - build/infection/infection-log-gitlab.json
     expire_in: 1 day
     expose_as: Infection log
   dependencies:

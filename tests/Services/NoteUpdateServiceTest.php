@@ -88,7 +88,7 @@ final class NoteUpdateServiceTest extends TestCase
         Event::assertNotDispatched(NoteDataReceived::class);
     }
 
-    public function shouldHandleProvider(): array
+    public static function shouldHandleProvider(): array
     {
         $options = [];
         $types = [
@@ -202,7 +202,7 @@ final class NoteUpdateServiceTest extends TestCase
         Event::assertNotDispatched(NoteDataReceived::class);
     }
 
-    public function noteIdProvider(): array
+    public static function noteIdProvider(): array
     {
         return [
             'valid int' => [

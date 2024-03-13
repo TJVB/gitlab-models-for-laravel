@@ -6,7 +6,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests;
 
 trait TrueFalseProvider
 {
-    public function trueFalseProvider(): array
+    public static function trueFalseProvider(): array
     {
         return [
             'enabled' => [true],
