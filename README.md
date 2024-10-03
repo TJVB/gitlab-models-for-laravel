@@ -63,7 +63,7 @@ The package dispatched multiple events after saving the received data (a create 
 ## Configuration
 
 ### Env variables
-There are a couple of env variables that can be used to change the data that shoulds be stored.
+There are a couple of env variables that can be used to change the data that should be stored.
 
 | Key | Default | Description                                                                                       |
 |-----|---------|---------------------------------------------------------------------------------------------------|
@@ -91,7 +91,7 @@ The default configuration validates the `X-Gitlab-Token` in the header of the we
 We (try to) document all the changes in [CHANGELOG](CHANGELOG.md) so read it for more information.
 
 ## Contributing
-You are very welcome to contribute, read about it in [CONTRIBUTING](CONTRIBUTING.md)
+You are welcome to contribute, read about it in [CONTRIBUTING](CONTRIBUTING.md)
 
 ## Security
 If you discover any security related issues, please email info@tjvb.nl instead of using the issue tracker.
