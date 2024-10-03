@@ -1,7 +1,7 @@
 # Configuration
 
 ### Env variables
-There are a couple of env variables that can be used to change the data that shoulds be stored.
+There are a couple of env variables that can be used to change the data that should be stored.
 
 | Key | Default | Description                                               |
 |-----|---------|-----------------------------------------------------------|
