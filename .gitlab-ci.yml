@@ -118,6 +118,7 @@ test:
         PHP:
           - 82
           - 83
+          - 84
   extends: .test_base
   image: registry.gitlab.com/tjvb/phpimages:php$PHP
   script:
@@ -125,7 +126,7 @@ test:
     - echo "PHP $PHP"
     - echo "TESTBENCH $TESTBENCH"
     - composer require --dev "orchestra/testbench=^$TESTBENCH"
-    - vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
+    - XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text --colors=never --coverage-cobertura=phpunitresult/cobertura-coverage.xml --log-junit=phpunitresult/junit.xml
     - sed -i 's~ filename="~ filename="src/~' phpunitresult/cobertura-coverage.xml
 
 infection:
