@@ -15,7 +15,6 @@ return new class() extends Migration {
         Schema::table('gitlab_tags', static function (Blueprint $table): void {
             $table->unsignedBigInteger('project_id')->index()->change();
             $table->string('ref')->index()->change();
-            $table->softDeletes()->index()->change();
         });
     }
 
@@ -25,7 +24,6 @@ return new class() extends Migration {
     public function down(): void
     {
         Schema::table('gitlab_tags', static function (Blueprint $table): void {
-            $table->dropIndex(['deleted_at']);
             $table->dropIndex(['ref']);
             $table->dropIndex(['project_id']);
         });

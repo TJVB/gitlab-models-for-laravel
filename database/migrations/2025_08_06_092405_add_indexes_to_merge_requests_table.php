@@ -14,7 +14,6 @@ return new class() extends Migration {
     {
         Schema::table('gitlab_merge_requests', static function (Blueprint $table): void {
             $table->unsignedBigInteger('merge_request_id')->index()->change();
-            $table->softDeletes()->index()->change();
         });
     }
 
@@ -24,7 +23,6 @@ return new class() extends Migration {
     public function down(): void
     {
         Schema::table('gitlab_merge_requests', static function (Blueprint $table): void {
-            $table->dropIndex(['deleted_at']);
             $table->dropIndex(['merge_request_id']);
         });
     }
