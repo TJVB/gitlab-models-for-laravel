@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- Add indexes to the fields in the tables that are used in the repository to find the records if they exist.
 
 ## 0.6.0 - 2024-11-21
 
