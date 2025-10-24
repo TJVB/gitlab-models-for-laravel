@@ -6,12 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+
+## 0.8.0 - 2025-10-24
 ### Added
-- Add indexes to the fields in the tables that are used in the repository to find the records if they exist.
 - Add Laravel 12 support.
 
 ### Fixed
 - Make the deployable_url nullable on the deployments table because it can be null
+
+
+## 0.7.0 - 2025-08-11
+
+### Added
+- Add indexes to the fields in the tables that are used in the repository to find the records if they exist.
+
 
 ## 0.6.0 - 2024-11-21
 
