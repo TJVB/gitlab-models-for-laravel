@@ -12,7 +12,7 @@ use TJVB\GitlabModelsForLaravel\Contracts\Models\Deployment as DeploymentContrac
 /**
  * @property integer $deployment_id
  * @property integer $deployable_id
- * @property string $deployable_url
+ * @property ?string $deployable_url
  * @property string $environment
  * @property string $status
  * @property CarbonImmutable $status_changed_at
