@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Integrations;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Models\MergeRequest;
 use TJVB\GitlabModelsForLaravel\Models\Pipeline;
 use TJVB\GitlabModelsForLaravel\Models\Project;
@@ -22,6 +23,7 @@ final class PipelineTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weStoreTheDataFromThePipelineEvent(): void
     {
         // setup / mock

@@ -7,6 +7,8 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Event;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\UserWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\UserUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\UserDataReceived;
@@ -24,6 +26,7 @@ final class UserUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -37,6 +40,8 @@ final class UserUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weUseTheRepositoryToUpdateOrCreateAUser(bool $enabled): void
     {
         // setup / mock
@@ -83,6 +88,8 @@ final class UserUpdateServiceTest extends TestCase
      * @test
      * @dataProvider neededUserDataProvider
      */
+    #[Test]
+    #[DataProvider('neededUserDataProvider')]
     public function weGenerateAnErrorIfWeUpdateOrCreateATagWithoutTheNeededData(array $data): void
     {
         // setup / mock

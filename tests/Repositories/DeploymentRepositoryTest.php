@@ -6,6 +6,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Repositories;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\DeploymentWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\Deployment;
 use TJVB\GitlabModelsForLaravel\Repositories\DeploymentRepository;
@@ -18,6 +19,7 @@ final class DeploymentRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContracts(): void
     {
         // run
@@ -30,6 +32,7 @@ final class DeploymentRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateADeployment(): void
     {
         // setup / mock
@@ -71,6 +74,7 @@ final class DeploymentRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanUpdateADeployment(): void
     {
         // setup / mock

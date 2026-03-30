@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Repositories;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\TagWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\Tag;
 use TJVB\GitlabModelsForLaravel\Repositories\TagRepository;
@@ -17,6 +18,7 @@ final class TagRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContracts(): void
     {
         // run
@@ -29,6 +31,7 @@ final class TagRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateATag(): void
     {
         // setup / mock
@@ -56,6 +59,7 @@ final class TagRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateATagWithOnlyAProjectIDAndRef(): void
     {
         // setup / mock
@@ -75,6 +79,7 @@ final class TagRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanUpdateATag(): void
     {
         // setup / mock

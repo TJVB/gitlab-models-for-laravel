@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Integrations;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\UserWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\Issue;
 use TJVB\GitlabModelsForLaravel\Models\Project;
@@ -22,6 +23,7 @@ final class IssueTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanStoreDataFromAnIssueEvent(): void
     {
         // setup / mock

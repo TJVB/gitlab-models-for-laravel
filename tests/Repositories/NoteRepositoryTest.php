@@ -6,6 +6,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Repositories;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\NoteWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\MergeRequest;
 use TJVB\GitlabModelsForLaravel\Repositories\MergeRequestRepository;
@@ -19,6 +20,7 @@ final class NoteRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContracts(): void
     {
         // run
@@ -31,6 +33,7 @@ final class NoteRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateANoteWithMinimalData(): void
     {
         // setup / mock
@@ -70,6 +73,7 @@ final class NoteRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateANoteWithAllData(): void
     {
         // setup / mock
@@ -111,6 +115,7 @@ final class NoteRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanUpdateANote(): void
     {
         // setup / mock

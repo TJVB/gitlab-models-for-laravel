@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Services\BuildHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
@@ -17,6 +18,7 @@ final class BuildHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // setup / mock
@@ -32,6 +34,7 @@ final class BuildHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weStoreTheBuildData(): void
     {
         // setup / mock

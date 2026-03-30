@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Repositories;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectReadRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\ProjectWriteRepository;
 use TJVB\GitlabModelsForLaravel\Exceptions\DataNotFound;
@@ -19,6 +20,7 @@ final class ProjectRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContracts(): void
     {
         // run
@@ -32,6 +34,7 @@ final class ProjectRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateAProject(): void
     {
         // setup / mock
@@ -61,6 +64,7 @@ final class ProjectRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateAProjectWithOnlyAnId(): void
     {
         // setup / mock
@@ -78,6 +82,7 @@ final class ProjectRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanUpdateAProject(): void
     {
         // setup / mock
@@ -120,6 +125,7 @@ final class ProjectRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanFindAProject(): void
     {
         // setup / mock
@@ -153,6 +159,7 @@ final class ProjectRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weGetTheExpectedExceptionIfWeCanNotFindAProject(): void
     {
         // setup / mock

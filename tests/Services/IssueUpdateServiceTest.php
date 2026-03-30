@@ -7,6 +7,8 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\LabelUpdateServiceContract;
@@ -26,6 +28,7 @@ final class IssueUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -39,6 +42,8 @@ final class IssueUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weUseTheRepositoryToUpdateOrCreateAnIssue(bool $enabled): void
     {
         // setup / mock
@@ -86,6 +91,7 @@ final class IssueUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weGenerateAnErrorIfWeUpdateOrCreateAnIssueWithoutID(): void
     {
         // setup / mock
@@ -100,6 +106,8 @@ final class IssueUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weStoreTheLabelsIfProvided(bool $enabled): void
     {
         // setup / mock
@@ -168,6 +176,8 @@ final class IssueUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weStoreTheAllAssigneesIfEnabled(bool $enabled): void
     {
         // setup / mock
@@ -217,6 +227,8 @@ final class IssueUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weStoreTheAssigneeIfEnabled(bool $enabled): void
     {
         // setup / mock
@@ -260,6 +272,8 @@ final class IssueUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weStoreTheAssigneesIfEnabled(bool $enabled): void
     {
         // setup / mock

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Services\DeploymentHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
@@ -18,6 +19,7 @@ final class DeploymentHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -31,6 +33,7 @@ final class DeploymentHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weStoreTheDeploymentData(): void
     {
         // setup / mock
@@ -52,6 +55,7 @@ final class DeploymentHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDoNotCrashOnInvalidData(): void
     {
         // setup / mock

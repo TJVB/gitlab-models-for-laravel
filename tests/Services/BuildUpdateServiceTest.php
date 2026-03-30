@@ -7,6 +7,8 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\BuildWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\BuildUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\DTOs\BuildDTO;
@@ -23,6 +25,7 @@ final class BuildUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -36,6 +39,8 @@ final class BuildUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weUseTheRepositoryToUpdateOrCreateABuild(bool $enabled): void
     {
         // setup / mock

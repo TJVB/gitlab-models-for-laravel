@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Integrations;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Models\Project;
 use TJVB\GitlabModelsForLaravel\Models\Tag;
 use TJVB\GitlabModelsForLaravel\Services\TagPushHookHandler;
@@ -20,6 +21,7 @@ final class TagTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanStoreDataFromATagEvent(): void
     {
         // setup / mock

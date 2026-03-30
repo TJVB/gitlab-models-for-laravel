@@ -6,6 +6,8 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\PipelineWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\PipelineDataReceived;
@@ -22,6 +24,7 @@ final class PipelineUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -35,6 +38,8 @@ final class PipelineUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weUseTheRepositoryToUpdateOrCreateAMergeRequest(bool $enabled): void
     {
         // setup / mock
@@ -85,6 +90,7 @@ final class PipelineUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weGenerateAnErrorIfWeUpdateOrCreateAMergeRequestWithoutID(): void
     {
         // setup / mock

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Providers;
 
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Providers\GitlabModelsProvider;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
@@ -12,6 +13,7 @@ final class GitlabModelsProviderTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weProviderEveryItemFromTheProvidesArray(): void
     {
         // setup / mock

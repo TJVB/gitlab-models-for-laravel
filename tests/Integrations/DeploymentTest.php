@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Integrations;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Models\Deployment;
 use TJVB\GitlabModelsForLaravel\Models\Project;
 use TJVB\GitlabModelsForLaravel\Services\DeploymentHookHandler;
@@ -20,6 +21,7 @@ final class DeploymentTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanStoreDataFromADeploymentEvent(): void
     {
         // setup / mock

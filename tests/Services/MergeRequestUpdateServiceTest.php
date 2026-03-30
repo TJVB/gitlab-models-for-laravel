@@ -7,6 +7,8 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\LabelUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestUpdateServiceContract;
@@ -26,6 +28,7 @@ final class MergeRequestUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -40,6 +43,8 @@ final class MergeRequestUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weUseTheRepositoryToUpdateOrCreateAMergeRequest(bool $enabled): void
     {
         // setup / mock
@@ -90,6 +95,7 @@ final class MergeRequestUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weGenerateAnErrorIfWeUpdateOrCreateAMergeRequestWithoutID(): void
     {
         // setup / mock
@@ -104,6 +110,8 @@ final class MergeRequestUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weCanStoreTheLabelsIfProvided(bool $enabled): void
     {
         // setup / mock
@@ -175,6 +183,8 @@ final class MergeRequestUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weSyncTheAssignee(bool $enabled): void
     {
         // setup / mock
@@ -227,6 +237,8 @@ final class MergeRequestUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weSyncTheAssignees(bool $enabled): void
     {
         // setup / mock
@@ -283,6 +295,8 @@ final class MergeRequestUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weSyncTheReviewers(bool $enabled): void
     {
         // setup / mock

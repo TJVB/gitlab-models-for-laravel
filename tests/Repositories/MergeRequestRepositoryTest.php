@@ -7,6 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Repositories;
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\MergeRequestWriteRepository;
 use TJVB\GitlabModelsForLaravel\DTOs\LabelDTO;
 use TJVB\GitlabModelsForLaravel\Models\Label;
@@ -23,6 +24,7 @@ final class MergeRequestRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContracts(): void
     {
         // run
@@ -35,6 +37,7 @@ final class MergeRequestRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateAMergeRequest(): void
     {
         // setup / mock
@@ -105,6 +108,7 @@ final class MergeRequestRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanUpdateAMergeRequest(): void
     {
         // setup / mock
@@ -162,6 +166,7 @@ final class MergeRequestRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanSyncTheLabels(): void
     {
         // setup / mock
@@ -215,6 +220,7 @@ final class MergeRequestRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDonNotCrashIfWeTryToSyncLabelsForAnIssueThatIsNotStored(): void
     {
         // setup / mock
@@ -242,6 +248,7 @@ final class MergeRequestRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanSyncTheAssignees(): void
     {
         // setup / mock
@@ -287,6 +294,7 @@ final class MergeRequestRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDonNotCrashIfWeTryToSyncAssigneesForAnMergeRequestThatIsNotStored(): void
     {
         // setup / mock
@@ -308,6 +316,7 @@ final class MergeRequestRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanSyncTheReviewers(): void
     {
         // setup / mock
@@ -353,6 +362,7 @@ final class MergeRequestRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDonNotCrashIfWeTryToSyncReviewersForAnMergeRequestThatIsNotStored(): void
     {
         // setup / mock
