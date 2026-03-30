@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Integrations;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Models\Build;
 use TJVB\GitlabModelsForLaravel\Services\BuildHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
@@ -19,6 +20,7 @@ final class JobTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanStoreDataFromAJobEvent(): void
     {
         // setup / mock

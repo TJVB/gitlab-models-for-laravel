@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Integrations;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Models\Issue;
 use TJVB\GitlabModelsForLaravel\Models\MergeRequest;
 use TJVB\GitlabModelsForLaravel\Models\Note;
@@ -22,6 +23,7 @@ final class NoteTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanStoreTheDataForACommentOnCodeSnippet(): void
     {
         config(['gitlab-models.comment_types_to_store' => ['Snippet']]);
@@ -62,6 +64,7 @@ final class NoteTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanStoreTheDataForACommentOnACommit(): void
     {
         config(['gitlab-models.comment_types_to_store' => ['Commit']]);
@@ -102,6 +105,7 @@ final class NoteTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanStoreTheDataForACommentOnAnIssue(): void
     {
         config(['gitlab-models.comment_types_to_store' => ['Issue']]);
@@ -150,6 +154,7 @@ final class NoteTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanStoreTheDataForACommentOnAMergeRequest(): void
     {
         config(['gitlab-models.comment_types_to_store' => ['MergeRequest']]);

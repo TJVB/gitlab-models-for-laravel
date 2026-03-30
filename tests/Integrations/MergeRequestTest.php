@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TJVB\GitlabModelsForLaravel\Tests\Integrations;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Models\MergeRequest;
 use TJVB\GitlabModelsForLaravel\Models\Project;
 use TJVB\GitlabModelsForLaravel\Models\User;
@@ -21,6 +22,7 @@ final class MergeRequestTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanStoreDataFromTheMergeRequestEvent(): void
     {
         // setup / mock
