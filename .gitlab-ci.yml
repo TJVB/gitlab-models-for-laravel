@@ -125,6 +125,11 @@ test:
           - 82
           - 83
           - 84
+      - LARAVEL: 13
+        TESTBENCH: 11
+        PHP:
+          - 83
+          - 84
   extends: .test_base
   image: registry.gitlab.com/tjvb/phpimages:php$PHP
   script:
