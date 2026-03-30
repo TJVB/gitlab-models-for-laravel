@@ -6,6 +6,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Listeners;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Listeners\GitLabHookStoredListener;
 use TJVB\GitlabModelsForLaravel\Listeners\HookStoredListener;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
@@ -29,6 +30,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -41,6 +43,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanHandleAPushWebhook(): void
     {
         // setup / mock
@@ -65,6 +68,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanHandleATagEvent(): void
     {
         // setup / mock
@@ -89,6 +93,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanHandleAnIssueEvent(): void
     {
         // setup / mock
@@ -113,6 +118,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanHandleACommentEventOnACommit(): void
     {
         // setup / mock
@@ -139,6 +145,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanHandleACommentEventOnAMergeRequest(): void
     {
         // setup / mock
@@ -165,6 +172,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanHandleACommentEventOnAnIssue(): void
     {
         // setup / mock
@@ -191,6 +199,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanHandleACommentEventOnACodeSnippet(): void
     {
         // setup / mock
@@ -217,6 +226,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanHandleAMergeRequestEvent(): void
     {
         // setup / mock
@@ -244,6 +254,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanHandleAPipelineEvent(): void
     {
         // setup / mock
@@ -268,6 +279,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanHandleAJobEvent(): void
     {
         // setup / mock
@@ -292,6 +304,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanHandleADeploymentEvent(): void
     {
         // setup / mock
@@ -316,6 +329,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDontCrashOnAnUnknownHookObjectKind(): void
     {
         // setup / mock
@@ -362,6 +376,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weGetTheQueueConnection(): void
     {
         // setup / mock
@@ -385,6 +400,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weGetNullAsTheQueueConnection(): void
     {
         // setup / mock
@@ -406,6 +422,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weGetTheQueueQueue(): void
     {
         // setup / mock
@@ -429,6 +446,7 @@ final class HookStoredListenerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weGetNullAsTheQueueQueue(): void
     {
         // setup / mock
