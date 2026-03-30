@@ -6,6 +6,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Repositories;
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\UserWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\User;
 use TJVB\GitlabModelsForLaravel\Repositories\UserRepository;
@@ -19,6 +20,7 @@ final class UserRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -31,6 +33,7 @@ final class UserRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateAnUser(): void
     {
         // setup / mock
@@ -54,6 +57,7 @@ final class UserRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateAnUserWithOnlyAnId(): void
     {
         // setup / mock
@@ -70,6 +74,7 @@ final class UserRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanUpdateAnUser(): void
     {
         // setup / mock
@@ -94,6 +99,7 @@ final class UserRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanUpdateAnUserWithOnlyAnId(): void
     {
         // setup / mock

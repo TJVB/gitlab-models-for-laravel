@@ -6,6 +6,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Repositories;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\PipelineWriteRepository;
 use TJVB\GitlabModelsForLaravel\Models\Pipeline;
 use TJVB\GitlabModelsForLaravel\Repositories\PipelineRepository;
@@ -19,6 +20,7 @@ final class PipelineRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContracts(): void
     {
         // run
@@ -31,6 +33,7 @@ final class PipelineRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateAPipeline(): void
     {
         // setup / mock
@@ -82,6 +85,7 @@ final class PipelineRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanUpdateAPipeline(): void
     {
         // setup / mock

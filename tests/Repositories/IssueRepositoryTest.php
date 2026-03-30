@@ -7,6 +7,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Repositories;
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\IssueWriteRepository;
 use TJVB\GitlabModelsForLaravel\DTOs\LabelDTO;
 use TJVB\GitlabModelsForLaravel\Models\Issue;
@@ -23,6 +24,7 @@ final class IssueRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContracts(): void
     {
         // run
@@ -35,6 +37,7 @@ final class IssueRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateAnIssue(): void
     {
         // setup / mock
@@ -83,6 +86,7 @@ final class IssueRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateAnIssueWithOnlyAnID(): void
     {
         // setup / mock
@@ -109,6 +113,7 @@ final class IssueRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanUpdateAnIssue(): void
     {
         // setup / mock
@@ -156,6 +161,7 @@ final class IssueRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanSyncTheLabels(): void
     {
         // setup / mock
@@ -204,6 +210,7 @@ final class IssueRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDonNotCrashIfWeTryToSyncForAnIssueThatIsNotStored(): void
     {
         // setup / mock
@@ -231,6 +238,7 @@ final class IssueRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanSyncTheAssignees(): void
     {
         // setup / mock
@@ -271,6 +279,7 @@ final class IssueRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDonNotCrashIfWeTryToSyncAssigneesForAnMergeRequestThatIsNotStored(): void
     {
         // setup / mock

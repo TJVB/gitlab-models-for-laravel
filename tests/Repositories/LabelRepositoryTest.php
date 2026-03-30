@@ -6,6 +6,7 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Repositories;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\LabelWriteRepository;
 use TJVB\GitlabModelsForLaravel\Repositories\LabelRepository;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
@@ -15,9 +16,9 @@ final class LabelRepositoryTest extends TestCase
     use DatabaseMigrations;
 
     /**
-         * @test
-         */
-
+     * @test
+     */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -29,6 +30,7 @@ final class LabelRepositoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCanCreateALabel(): void
     {
         // setup / mock
