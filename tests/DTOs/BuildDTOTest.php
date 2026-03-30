@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\DTOs;
 
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\DTOs\BuildDTO;
 use TJVB\GitlabModelsForLaravel\Tests\TestCase;
 
@@ -12,6 +13,7 @@ final class BuildDTOTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCastTheIdValuesToIntInBuildEventData(): void
     {
         // setup / mock
@@ -36,6 +38,7 @@ final class BuildDTOTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weCastTheIdValuesToIntInPipelineEventData(): void
     {
         // setup / mock
