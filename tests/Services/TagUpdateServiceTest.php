@@ -6,6 +6,8 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\TagWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\TagDataReceived;
@@ -22,6 +24,7 @@ final class TagUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -35,6 +38,8 @@ final class TagUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weUseTheRepositoryToUpdateOrCreateATag(bool $enabled): void
     {
         // setup / mock
@@ -87,6 +92,8 @@ final class TagUpdateServiceTest extends TestCase
      * @test
      * @dataProvider neededTagDataProvider
      */
+    #[Test]
+    #[DataProvider('neededTagDataProvider')]
     public function weGenerateAnErrorIfWeUpdateOrCreateATagWithoutTheNeededData(array $data): void
     {
         // setup / mock

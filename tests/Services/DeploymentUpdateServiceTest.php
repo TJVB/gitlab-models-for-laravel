@@ -6,6 +6,8 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\DeploymentWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\DeploymentUpdateService as DeploymentUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\DeploymentDataReceived;
@@ -22,6 +24,7 @@ final class DeploymentUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -37,6 +40,8 @@ final class DeploymentUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weUseTheRepositoryToUpdateOrCreateADeployment(bool $enabled): void
     {
         // setup / mock
@@ -79,6 +84,7 @@ final class DeploymentUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weGenerateAnErrorIfWeUpdateOrCreateADeploymentWithoutID(): void
     {
         // setup / mock

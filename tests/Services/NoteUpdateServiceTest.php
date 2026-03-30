@@ -6,6 +6,8 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\NoteWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\NoteDataReceived;
@@ -22,6 +24,7 @@ final class NoteUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -35,6 +38,8 @@ final class NoteUpdateServiceTest extends TestCase
      * @test
      * @dataProvider shouldHandleProvider
      */
+    #[Test]
+    #[DataProvider('shouldHandleProvider')]
     public function weUseTheRepositoryToUpdateTheNoteAndDispatchAnEvent(
         bool $enabled,
         string $noteableType,
@@ -119,6 +124,7 @@ final class NoteUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weGenerateAnErrorIfWeUpdateOrCreateAProjectWithoutID(): void
     {
         // setup / mock
@@ -134,6 +140,7 @@ final class NoteUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weGenerateAnErrorIfWeUpdateOrCreateAProjectWithoutANoteableType(): void
     {
         // setup / mock
@@ -150,6 +157,8 @@ final class NoteUpdateServiceTest extends TestCase
      * @test
      * @dataProvider noteIdProvider
      */
+    #[Test]
+    #[DataProvider('noteIdProvider')]
     public function weHandleTheDifferentIdValues(mixed $id, bool $valid): void
     {
         // setup / mock

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\TagPushHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Services\TagPushHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
@@ -18,6 +19,7 @@ final class TagPushHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -31,6 +33,7 @@ final class TagPushHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weStoreTheTagData(): void
     {
         // setup / mock
@@ -56,6 +59,7 @@ final class TagPushHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDoNotStoreInvalidProjectData(): void
     {
         // setup / mock

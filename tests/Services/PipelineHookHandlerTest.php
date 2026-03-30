@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\PipelineHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Services\PipelineHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
@@ -20,6 +21,7 @@ final class PipelineHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -33,6 +35,7 @@ final class PipelineHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weStoreThePipelineData(): void
     {
         // setup / mock
@@ -63,6 +66,7 @@ final class PipelineHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDontStoreInvalidPipelineData(): void
     {
         // setup / mock
@@ -94,6 +98,7 @@ final class PipelineHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDoNotStoreInvalidProjectData(): void
     {
         // setup / mock
@@ -125,6 +130,7 @@ final class PipelineHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDoNotStoreInvalidMergeRequestData(): void
     {
         // setup / mock
@@ -156,6 +162,7 @@ final class PipelineHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDoNotStoreInvalidBuildData(): void
     {
         // setup / mock
@@ -187,6 +194,7 @@ final class PipelineHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDoNotStopForInvalidBuildData(): void
     {
         // setup / mock
@@ -219,6 +227,7 @@ final class PipelineHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDoNotStoreInvalidBuildsData(): void
     {
         // setup / mock

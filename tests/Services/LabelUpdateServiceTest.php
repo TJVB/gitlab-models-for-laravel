@@ -6,6 +6,8 @@ namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Facades\Event;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Repositories\LabelWriteRepository;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\LabelUpdateServiceContract;
 use TJVB\GitlabModelsForLaravel\Events\LabelDataReceived;
@@ -22,6 +24,7 @@ final class LabelUpdateServiceTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -35,6 +38,8 @@ final class LabelUpdateServiceTest extends TestCase
      * @test
      * @dataProvider trueFalseProvider
      */
+    #[Test]
+    #[DataProvider('trueFalseProvider')]
     public function weUseTheRepositoryToUpdateOrCreateALabel(bool $enabled): void
     {
         // setup / mock

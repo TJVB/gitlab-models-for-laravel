@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
+use PHPUnit\Framework\Attributes\Test;
 use stdClass;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\IssueHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Services\IssueHookHandler;
@@ -19,6 +20,7 @@ final class IssueHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -32,6 +34,7 @@ final class IssueHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weStoreTheIssueData(): void
     {
         // setup / mock
@@ -54,6 +57,7 @@ final class IssueHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDoNotCrashOnInvalidData(): void
     {
         // setup / mock

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\NoteHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Services\NoteHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
@@ -20,6 +22,7 @@ final class NoteHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -34,6 +37,8 @@ final class NoteHookHandlerTest extends TestCase
      * @test
      * @dataProvider noteTypesDataProvider
      */
+    #[Test]
+    #[DataProvider('noteTypesDataProvider')]
     public function weStoreTheNoteData(
         string $type,
         int $noteCount,
@@ -70,6 +75,7 @@ final class NoteHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDontCrashOnInvalidNoteData(): void
     {
         // setup / mock

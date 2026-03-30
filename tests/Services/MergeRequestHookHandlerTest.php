@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TJVB\GitlabModelsForLaravel\Tests\Services;
 
+use PHPUnit\Framework\Attributes\Test;
 use TJVB\GitlabModelsForLaravel\Contracts\Services\MergeRequestHookHandlerContract;
 use TJVB\GitlabModelsForLaravel\Services\MergeRequestHookHandler;
 use TJVB\GitlabModelsForLaravel\Tests\Fakes\FakeGitLabHookModel;
@@ -19,6 +20,7 @@ final class MergeRequestHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weImplementTheContract(): void
     {
         // run
@@ -32,6 +34,7 @@ final class MergeRequestHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weStoreTheMergeRequestData(): void
     {
         // setup / mock
@@ -58,6 +61,7 @@ final class MergeRequestHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDontStoreInvalidMergeRequestData(): void
     {
         // setup / mock
@@ -85,6 +89,7 @@ final class MergeRequestHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDontStoreInvalidProjectData(): void
     {
         // setup / mock
@@ -112,6 +117,7 @@ final class MergeRequestHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weStoreTheAssignees(): void
     {
         // setup / mock
@@ -150,6 +156,7 @@ final class MergeRequestHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDontStoreAssigneesIfTheyArentSet(): void
     {
         // setup / mock
@@ -179,6 +186,7 @@ final class MergeRequestHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weIgnoreInvalidAssignees(): void
     {
         // setup / mock
@@ -208,6 +216,7 @@ final class MergeRequestHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weStoreTheReviewers(): void
     {
         // setup / mock
@@ -246,6 +255,7 @@ final class MergeRequestHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weDontStoreReviewersIfTheyArentSet(): void
     {
         // setup / mock
@@ -275,6 +285,7 @@ final class MergeRequestHookHandlerTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function weIgnoreInvalidReviewers(): void
     {
         // setup / mock
